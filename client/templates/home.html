@@ -1,7 +1,34 @@
 <template name="home">
-  <div class="row">
-    <div class="small-3 small-centered columns">
-      {{> loginButtons}}
-    </div>
+  {{#if session "meteor_loggedin"}}
+    {{> home_logged_in}}
+  {{else}}
+    {{> home_portal}}
+  {{/if}}
+</template>
+
+<template name="home_logged_in">
+  <div class="small-3">
+    <a class="download button expand" id="add-circle" href="/circles/add">
+      <i class="fa fa-plus-square"></i> Circle
+    </a>
+  </div>
+
+  <ul class="stack button-group">
+    {{#each circles}}
+      <li>
+        <a href="/circles/{{slug}}" class="button">
+          {{name}}
+          &nbsp;
+          {{number_of_upcoming_meetups_for_circle this}}
+        </a>
+      </li>
+    {{/each}}
+  </ul>
+
+</template>
+
+<template name="home_portal">
+  <div class="small-3 small-centered columns">
+    {{> loginButtons}}
   </div>
 </template>

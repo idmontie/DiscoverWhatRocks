@@ -61,10 +61,12 @@
       </aside>
 
       <section class="main-section {{current_route_name}}-page">
-        {{> yield}}
+        <div class="row">
+          {{> yield}}
+        </div>
       </section>
 
-    <a class="exit-off-canvas"></a>
+      <a class="exit-off-canvas"></a>
 
     </div>
   </div>

@@ -13,3 +13,12 @@ Router.route('/', function () {
 }, {
   name : 'home'
 });
+
+
+Router.route('/circles/add', function () {
+  'use strict';
+  this.render('circles-form');
+}, {
+  name : 'circles-form'
+});
+

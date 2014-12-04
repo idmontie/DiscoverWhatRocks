@@ -10,3 +10,12 @@ Template.registerHelper( 'current_route_name', function () {
 
   return 'NA';
 } );
+
+Template.registerHelper( 'session', function ( input ) {
+  return Session.get( input );
+});
+
+Template.registerHelper( 'number_of_upcoming_meetups_for_circle', function ( circle ) {
+  // TODO
+  return 0;
+} );

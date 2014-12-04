@@ -4,13 +4,11 @@
 # but you can also edit it by hand.
 
 meteor-platform
-accounts-ui
 iron:router
 email
 aldeed:autoform
 jquery
 accounts-password
-accounts-facebook
-accounts-google
-accounts-twitter
+accounts-ui-unstyled
+aldeed:collection2
 
