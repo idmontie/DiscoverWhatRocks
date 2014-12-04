@@ -1,0 +1,71 @@
+<template name="navigation">
+  <div class="off-canvas-wrap" data-offcanvas>
+    <div class="inner-wrap">
+      <!-- Navigation -->
+      <nav class="top-bar docs-bar hide-for-small" data-topbar="">
+        <ul class="title-area">
+          <li class="name">
+            <h1><a href="/">Discover What Rocks</a></h1>
+          </li>
+        </ul>
+
+        <section class="top-bar-section">
+          <ul class="right">
+            <li class="divider"></li>
+            <li>
+              <a href="/circles">Circles</a>
+            </li>
+            <li class="divider"></li>
+            <li class="has-dropdown not-click">
+              <a href="#" class="">Groups</a>
+              <ul class="dropdown">
+                {{#each circles}}
+                <li>
+                  <a href="/circle/{{slug}}">{{name}}</a>
+                </li>
+                {{/each}}
+              </ul>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="#" id="logout">Logout</a>
+            </li>
+          </ul>
+        </section>
+      </nav>
+
+      <nav class="tab-bar show-for-small">
+        <section class="left-small">
+          <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+        </section>
+
+        <section class="middle tab-bar-section">
+          <h1 class="title">Discover What Rocks</h1>
+
+
+        </section>
+      </nav>
+      <!--/Navigation -->
+
+      <aside class="left-off-canvas-menu">
+        <ul class="off-canvas-list">
+          <li><label>Discover What Rocks</label></li>
+          <li><a href="#">Logout</a></li>
+          <li>
+            <a href="/circles">Circles</a>
+          </li>
+          <li>
+            <a href="/circle/{{slug}}">{{name}}</a>
+          </li>
+        </ul>
+      </aside>
+
+      <section class="main-section {{current_route_name}}-page">
+        {{> yield}}
+      </section>
+
+    <a class="exit-off-canvas"></a>
+
+    </div>
+  </div>
+</template>
