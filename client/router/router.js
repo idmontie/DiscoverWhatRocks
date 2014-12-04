@@ -22,3 +22,9 @@ Router.route('/circles/add', function () {
   name : 'circles-form'
 });
 
+Router.route('/circles/:slug', function () {
+  'use strict';
+  this.render('circle');
+}, {
+  name : 'circle'
+});

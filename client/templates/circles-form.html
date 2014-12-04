@@ -1,6 +1,6 @@
 <template name="circles-form">
-  {{> quickForm id="circle-form" collection="Circles" type="insert"}}
+  {{> quickForm id="circle-form" collection="Circles" type="insert" omitFields="slug,owner_id"}}
 
   {{! TODO form update}}
-  {{! quickForm id="circle-form" collection="Circles" type="update" doc=this }}
+  {{! quickForm id="circle-form" collection="Circles" type="update" omitFields="slug,owner_id" doc=this }}
 </template>
