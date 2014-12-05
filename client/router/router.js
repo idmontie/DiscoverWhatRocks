@@ -28,3 +28,17 @@ Router.route('/circles/:slug', function () {
 }, {
   name : 'circle'
 });
+
+Router.route('/circles/hangout/add', function () {
+  'use strict';
+  this.render('meetups-form');
+}, {
+  name : 'meetups-form'
+});
+
+Router.route('/circles/hangout/:slug', function () {
+  'use strict';
+  this.render('meetup');
+}, {
+  name : 'meetup'
+});

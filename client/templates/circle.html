@@ -1,3 +1,19 @@
 <template name="circle">
-  TODO
+  <div class="small-3">
+    <a class="download button expand" id="add-friend" href="/circles/hangout/add">
+      <i class="fa fa-plus-circle"></i> Meetups
+    </a>
+  </div>
+
+  <ul class="stack button-group">
+    {{#each meetups}}
+      <li>
+        <a href="/circles/meetups/{{slug}}" class="button">
+          {{name}}
+          &nbsp;
+          {{number_of_upcoming_meetups_for_circle this}}
+        </a>
+      </li>
+    {{/each}}
+  </ul>
 </template>

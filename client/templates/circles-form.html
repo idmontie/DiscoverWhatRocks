@@ -1,4 +1,29 @@
 <template name="circles-form">
+{{#autoForm id="circle-form" type="insert" collection="Circles"}}
+  <div class="row">
+    <div class="large-12 columns">
+      <label class="{{#if afFieldIsInvalid name='name'}}error{{/if}}">
+        {{afFieldLabelText name='name'}}
+        {{> afFieldInput name='name'}}
+      </label>
+      {{#if afFieldIsInvalid name='name'}}
+        <small class="error">{{{afFieldMessage name='name'}}}</small>
+      {{/if}}
+    </div>
+  </div>
+
+
+  <fieldset>
+    <legend>{{afFieldLabelText name='users'}}</legend>
+
+    
+  </fieldset>
+  Add Friends
+  Give their email
+  Email gets mapped to id
+
+{{/autoForm}}
+
   {{> quickForm id="circle-form" collection="Circles" type="insert" omitFields="slug,owner_id"}}
 
   {{! TODO form update}}
