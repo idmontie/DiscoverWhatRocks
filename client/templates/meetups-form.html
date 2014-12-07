@@ -28,21 +28,36 @@
         {{/if}}
       </div>
     </div>
-  </form>
-    <script>
-      /**
-       * @see http://xdsoft.net/jqplugins/datetimepicker/
-       */
-      jQuery( function ($) {
-        $( document ).ready( function () {
-          $('input[name="date_to_meet"]').datetimepicker();
-        } );
-      });
 
-      function current_position_callback( position ) {
-        console.log ( position );
-      }
-    </script>
+    <div id="map-canvas" style="width:100%;height:350px;"></div>
+  </form>
+  <script>
+    // TODO
+    var Coords = {
+      latitude: 33.388855899999996, 
+      longitude: -111.9638609
+    }
+
+    /**
+     * @see http://xdsoft.net/jqplugins/datetimepicker/
+     */
+    jQuery( function ( $ ) {
+      $( document ).ready( function () {
+        $( 'input[name="date_to_meet"]' ).datetimepicker();
+
+          var map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
+            center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
+            zoom: 13
+          } );
+      } );
+    });
+
+    function current_position_callback( position ) {
+      var location = position.coords.latitude + ', ' + position.coords.longitude;
+
+      $( '#map_center' ).val( location );
+    }
+  </script>
 </template>
 
 <template name="meetups-update-form">
