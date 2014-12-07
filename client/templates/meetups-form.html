@@ -10,14 +10,39 @@
           <small class="error">{{{date_error_message}}}</small>
         {{/if}}
       </div>
+
+      <div class="large-12 columns">
+        <label class="{{#if map_center_is_not_valid}}error{{/if}}">
+          General Area to Meet
+          <div class="row collapse">
+            <div class="small-10 columns">
+              <input type="text" name="map_center" id="map_center">
+            </div>
+            <div class="small-2 columns">
+              <a href="#" class="button postfix" id="use_current_location"  {{geolocation_enabled}} >Use My Current Location</a>
+            </div>
+          </div>
+        </label>
+        {{#if map_center_is_not_valid}}
+          <small class="error">{{{map_center_error_message}}}</small>
+        {{/if}}
+      </div>
     </div>
   </form>
+    <script>
+      /**
+       * @see http://xdsoft.net/jqplugins/datetimepicker/
+       */
+      jQuery( function ($) {
+        $( document ).ready( function () {
+          $('input[name="date_to_meet"]').datetimepicker();
+        } );
+      });
 
-  <script>
-    jQuery( function ($) {
-      $('input[name="date_to_meet"]').datetimepicker();
-    });
-  </script>
+      function current_position_callback( position ) {
+        console.log ( position );
+      }
+    </script>
 </template>
 
 <template name="meetups-update-form">

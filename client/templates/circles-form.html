@@ -19,16 +19,16 @@
 <template name="circles-update-form">
   <!-- TODO -->
   <div class="row">
-      <div class="large-12 columns">
-        <label class="{{#if name_is_not_valid}}error{{/if}}">
-        Name Your Circle
-          <input type="text" name="name" />
-        </label>
-        {{#if name_is_not_valid}}
-          <small class="error">{{{name_error_message}}}</small>
-        {{/if}}
-      </div>
+    <div class="large-12 columns">
+      <label class="{{#if name_is_not_valid}}error{{/if}}">
+      Name Your Circle
+        <input type="text" name="name" />
+      </label>
+      {{#if name_is_not_valid}}
+        <small class="error">{{{name_error_message}}}</small>
+      {{/if}}
     </div>
+  </div>
 
   <form>
     <fieldset>
