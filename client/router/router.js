@@ -17,6 +17,10 @@ Router.route('/', function () {
 
 Router.route('/circles/add', function () {
   'use strict';
+
+  // Reset the session
+  Session.set( 'invited-friends', [] );
+
   this.render('circles-form');
 }, {
   name : 'circles-form'

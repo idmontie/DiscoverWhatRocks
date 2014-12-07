@@ -19,3 +19,11 @@ Template.registerHelper( 'number_of_upcoming_meetups_for_circle', function ( cir
   // TODO
   return 0;
 } );
+
+Handlebars.registerHelper('key_value', function(context, options) {
+  var result = [];
+  _.each(context, function(value, key, list){
+    result.push({key:key, value:value});
+  })
+  return result;
+});

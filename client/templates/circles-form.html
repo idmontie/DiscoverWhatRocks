@@ -1,5 +1,5 @@
 <template name="circles-form">
-{{#autoForm id="circle-form" type="insert" collection="Circles"}}
+{{#autoForm id="circle-form" type="method" collection="Circles" meteormethod="insert_circle"}}
   <div class="row">
     <div class="large-12 columns">
       <label class="{{#if afFieldIsInvalid name='name'}}error{{/if}}">
@@ -15,17 +15,44 @@
 
   <fieldset>
     <legend>{{afFieldLabelText name='users'}}</legend>
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="row collapse">
+          <div class="small-10 columns">
+            <input type="text" placeholder="Your Friend's Email" id="invited_friend">
+          </div>
+          <div class="small-2 columns">
+            <a href="#" class="button postfix" id='add_invited_friend'>Add</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    
+    <table role="grid">
+      <caption>Invited Friends</caption>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="invited_friends">
+        {{#each key_value invited_friends}}
+        <tr>
+          <td>
+            {{value}}
+            <input type="hidden" name="users.{{key}}.email" data-schema-key="users.{{key}}.email" value="{{value}}" />
+          </td>
+          <td><a href="#" class="button tiny alert remove">Remove</a></td>
+        </tr>
+        {{/each}}
+        
+      </tbody>
+    </table>
+
   </fieldset>
-  Add Friends
-  Give their email
-  Email gets mapped to id
 
+  <button aria-label="submit form" tabindex="0" type="submit" class="btn btn-primary">Create Circle</button>
 {{/autoForm}}
 
-  {{> quickForm id="circle-form" collection="Circles" type="insert" omitFields="slug,owner_id"}}
-
-  {{! TODO form update}}
-  {{! quickForm id="circle-form" collection="Circles" type="update" omitFields="slug,owner_id" doc=this }}
 </template>
