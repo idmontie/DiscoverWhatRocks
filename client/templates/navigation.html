@@ -12,17 +12,17 @@
         <section class="top-bar-section">
           <ul class="right">
             <li class="divider"></li>
-            <li>
-              <a href="/circles">Circles</a>
-            </li>
-            <li class="divider"></li>
             <li class="has-dropdown not-click">
-              <a href="#" class="">Groups</a>
+              <a>Circles</a>
               <ul class="dropdown">
-                {{#each circles}}
                 <li>
-                  <a href="/circle/{{slug}}">{{name}}</a>
+                  <a href="/circles">All Circles</a>
                 </li>
+                <li class="divider"></li>
+                {{#each circles}}
+                  <li>
+                    <a href="/circles/{{slug}}">{{name}}</a>
+                  </li>
                 {{/each}}
               </ul>
             </li>
@@ -54,9 +54,11 @@
           <li>
             <a href="/circles">Circles</a>
           </li>
-          <li>
-            <a href="/circle/{{slug}}">{{name}}</a>
-          </li>
+          {{#each circles}}
+            <li>
+              <a href="/circles/{{slug}}">{{name}}</a>
+            </li>
+          {{/each}}
         </ul>
       </aside>
 

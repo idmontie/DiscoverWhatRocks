@@ -14,30 +14,18 @@ Router.route('/', function () {
   name : 'home'
 });
 
-
-Router.route('/circles/add', function () {
-  'use strict';
-
-  // Reset the session
-  Session.set( 'invited-friends', [] );
-
-  this.render('circles-form');
-}, {
-  name : 'circles-form'
-});
-
-Router.route('/circles/:slug', function () {
-  'use strict';
-  this.render('circle');
-}, {
-  name : 'circle'
-});
-
 Router.route('/circles/hangout/add', function () {
   'use strict';
-  this.render('meetups-form');
+  this.render('meetups-add-form');
 }, {
-  name : 'meetups-form'
+  name : 'meetups-add-form'
+});
+
+Router.route('/circles/hangout/update/:slug', function () {
+  'use strict';
+  this.render('meetups-update-form');
+}, {
+  name : 'meetups-update-form'
 });
 
 Router.route('/circles/hangout/:slug', function () {
@@ -46,3 +34,53 @@ Router.route('/circles/hangout/:slug', function () {
 }, {
   name : 'meetup'
 });
+
+
+// =======
+// Circles
+// =======
+
+Router.route('/circles/add', function () {
+  'use strict';
+
+  // Reset the session
+  Session.set( 'invited-friends', [] );
+
+  this.render( 'circles-add-form' );
+}, {
+  name : 'circles-add-form'
+});
+
+Router.route('/circles/update/:slug', function () {
+  'use strict';
+
+  var circle = Circles.findOne( {
+    slug : this.params.slug
+  } );
+
+  // Reset the session
+  Session.set( 'invited-friends', [] );
+
+  this.render( 'circles-update-form', {
+    data : circle
+  } );
+}, {
+  name : 'circles-update-form'
+});
+
+
+Router.route('/circles/:slug', function () {
+  'use strict';
+
+  var circle = Circles.findOne( {
+    slug : this.params.slug
+  } );
+
+  this.render('circle', {
+    data : circle
+  });
+}, {
+  name : 'circle'
+});
+
+

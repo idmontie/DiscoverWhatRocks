@@ -2,14 +2,22 @@
 // Session gets reset in the router
 Session.setDefault( 'invited-friends', [] );
 
-Template['circles-form'].helpers({
+Template['circles-add-form'].helpers({
   'invited_friends' : function () {
     'use strict';
     return Session.get( 'invited-friends' );
   },
+  'name_is_not_valid' : function () {
+    // TODO
+    return false;
+  },
+  'name_error_message' : function () {
+    // TODO
+    return false;
+  }
 });
 
-Template['circles-form'].events({
+Template['circles-add-form'].events({
   'click #add_invited_friend' : function ( e ) {
     'use strict';
 
@@ -37,16 +45,21 @@ Template['circles-form'].events({
     }
 
     Session.set( 'invited-friends', invited_friends );
+  },
+  'submit #circles_add_form' : function ( e ) {
+    e.preventDefault();
+
+    var name = $('input[name="name"]').val();
+
+    var circle = Schema.circles.clean( {
+      name : name
+    } );
+
+    Circles.insert( circle );
+
+    // redirect to the full view
+    Router.go( 'circle', {
+      slug : circle.slug
+    });
   }
 });
-
-AutoForm.hooks({
-  'circle-form' : {
-    before : {
-      "insert_circle" : function ( doc ) {
-        Schema.circles.clean( doc );
-        return doc;
-      }
-    }
-  }
-})

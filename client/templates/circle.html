@@ -1,9 +1,23 @@
 <template name="circle">
-  <div class="small-3">
-    <a class="download button expand" id="add-friend" href="/circles/hangout/add">
-      <i class="fa fa-plus-circle"></i> Meetups
+  <br/><!-- TODO better padding markup -->
+  <h1>Your Circle: {{name}}</h1>
+  <br/><!-- TODO better padding markup -->
+
+  <div class="icon-bar three-up">
+    <a class="item" href="/circles/hangout/add">
+      <i class="fa fa-plus"></i>
+      <label>Create a Hangout</label>
+    </a>
+    <a class="item">
+      <i class="fa fa-group"></i>
+      <label>Add Friends</label>
+    </a>
+    <a class="item">
+      <i class="fa fa-cogs"></i>
+      <label>Update Settings</label>
     </a>
   </div>
+
 
   <ul class="stack button-group">
     {{#each meetups}}

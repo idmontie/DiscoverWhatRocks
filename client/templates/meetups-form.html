@@ -1,7 +1,25 @@
-<template name="meetups-form">
-  {{> quickForm id="meetups-form" collection="Meetups" type="insert" omitFields="slug,owner_id"}}
+<template name="meetups-add-form">
+  <form id="meetups_add_form">
+    <div class="row">
+      <div class="large-12 columns">
+        <label class="{{#if date_is_not_valid}}error{{/if}}">
+          When To Meet
+          <input type="datetime" name="date_to_meet" />
+        </label>
+        {{#if date_is_not_valid}}
+          <small class="error">{{{date_error_message}}}</small>
+        {{/if}}
+      </div>
+    </div>
+  </form>
 
-  {{! TODO form update}}
-  {{! quickForm id="meetups-form" collection="Meetups" type="update" omitFields="slug,owner_id" doc=this }}
+  <script>
+    jQuery( function ($) {
+      $('input[name="date_to_meet"]').datetimepicker();
+    });
+  </script>
+</template>
 
+<template name="meetups-update-form">
+  <!-- TODO -->
 </template>

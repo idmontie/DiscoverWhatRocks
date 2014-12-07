@@ -6,9 +6,7 @@
 meteor-platform
 iron:router
 email
-aldeed:autoform
 jquery
 accounts-password
 accounts-ui-unstyled
 aldeed:collection2
-
