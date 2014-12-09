@@ -12,31 +12,23 @@
       </div>
 
       <div class="large-12 columns">
-        <label class="{{#if map_center_is_not_valid}}error{{/if}}">
-          General Area to Meet
-          <div class="row collapse">
-            <div class="small-10 columns">
-              <input type="text" name="map_center" id="map_center">
-            </div>
-            <div class="small-2 columns">
-              <a href="#" class="button postfix" id="use_current_location"  {{geolocation_enabled}} >Use My Current Location</a>
-            </div>
-          </div>
-        </label>
-        {{#if map_center_is_not_valid}}
-          <small class="error">{{{map_center_error_message}}}</small>
-        {{/if}}
+        <input type="hidden" id="map_center" />
+        <a href="#" class="button postfix" id="use_current_location"  {{geolocation_enabled}} >Use My Current Location</a>
+
+        <div id="map-canvas" style="width:100%;height:350px;"></div>
       </div>
     </div>
-
-    <div id="map-canvas" style="width:100%;height:350px;"></div>
   </form>
   <script>
-    // TODO
+    // TODO get better starting coordinates
     var Coords = {
-      latitude: 33.388855899999996, 
-      longitude: -111.9638609
+      latitude: 33, 
+      longitude: -112
     }
+
+    var _$ = this;
+    _$.hangout_circle = false;
+    _$.scale = 3;
 
     /**
      * @see http://xdsoft.net/jqplugins/datetimepicker/
@@ -45,17 +37,48 @@
       $( document ).ready( function () {
         $( 'input[name="date_to_meet"]' ).datetimepicker();
 
-          var map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
+          _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
             center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
             zoom: 13
           } );
       } );
     });
 
-    function current_position_callback( position ) {
-      var location = position.coords.latitude + ', ' + position.coords.longitude;
+    function set_scale( scale ) {
+      // TODO
+    }
+
+    function set_center( lat, lon ) {
+      'use strict';
+      var location = lat + ', ' + lon;
 
       $( '#map_center' ).val( location );
+
+      var hangout_location = {
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: _$.map,
+        center: new google.maps.LatLng( lat, lon ),
+        // TODO
+        radius: _$.scale * 100
+      };
+
+      if ( _$.hangout_circle ) {
+        _$.hangout_circle.setMap( null );
+      }
+
+      _$.hangout_circle = new google.maps.Circle( hangout_location );
+      _$.map.panTo( _$.hangout_circle.getCenter() );
+      // TODO rezoom the map according to the radius
+    }
+
+    function current_position_callback( position ) {
+      'use strict';
+
+      set_center( position.coords.latitude,  position.coords.longitude );
     }
   </script>
 </template>
