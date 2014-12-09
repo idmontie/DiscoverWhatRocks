@@ -11,6 +11,17 @@
         {{/if}}
       </div>
 
+      <div class="small-12 medium-12 columns">
+        <label>
+          Meetup Distance (<span id="meetup_slider">1</span> miles)
+          <div id="meetup_slider_foundation" class="range-slider radius" data-slider data-options="display_selector: #meetup_slider; start: 0; end: 10; step: 0.5;">
+            <span class="range-slider-handle" role="slider" tabindex="0"></span>
+            <span class="range-slider-active-segment"></span>
+            <input type="hidden" name="meetup_slider_distance" value="1">
+          </div>
+        </label>
+      </div>
+
       <div class="large-12 columns">
         <input type="hidden" id="map_center" />
         <a href="#" class="button postfix" id="use_current_location"  {{geolocation_enabled}} >Use My Current Location</a>
@@ -27,8 +38,8 @@
     }
 
     var _$ = this;
-    _$.hangout_circle = false;
-    _$.scale = 3;
+    _$.meetup_circle = false;
+    _$.scale = 1;
 
     /**
      * @see http://xdsoft.net/jqplugins/datetimepicker/
@@ -44,8 +55,23 @@
       } );
     });
 
+    $( document ).foundation( {
+      slider: {
+        on_change: function () {
+          set_scale( $( 'input[name="meetup_slider_distance"]' ).val() );
+        }
+      }
+    } );
+
+    $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale );
+
     function set_scale( scale ) {
       // TODO
+      _$.scale = scale;
+
+      if ( _$.meetup_circle ) {
+        _$.meetup_circle.setRadius( _$.scale * 1600 );
+      }
     }
 
     function set_center( lat, lon ) {
@@ -54,7 +80,7 @@
 
       $( '#map_center' ).val( location );
 
-      var hangout_location = {
+      var meetup_location = {
         strokeColor: '#FF0000',
         strokeOpacity: 0.8,
         strokeWeight: 2,
@@ -63,15 +89,15 @@
         map: _$.map,
         center: new google.maps.LatLng( lat, lon ),
         // TODO
-        radius: _$.scale * 100
+        radius: _$.scale * 1600
       };
 
-      if ( _$.hangout_circle ) {
-        _$.hangout_circle.setMap( null );
+      if ( _$.meetup_circle ) {
+        _$.meetup_circle.setMap( null );
       }
 
-      _$.hangout_circle = new google.maps.Circle( hangout_location );
-      _$.map.panTo( _$.hangout_circle.getCenter() );
+      _$.meetup_circle = new google.maps.Circle( meetup_location );
+      _$.map.panTo( _$.meetup_circle.getCenter() );
       // TODO rezoom the map according to the radius
     }
 
