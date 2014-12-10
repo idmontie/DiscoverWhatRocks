@@ -29,9 +29,12 @@
         <div id="map-canvas" style="width:100%;height:350px;"></div>
       </div>
     </div>
+
+    <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Meetup</button>
   </form>
   <script>
     // TODO get better starting coordinates
+    // TODO disable zoom
     var Coords = {
       latitude: 33, 
       longitude: -112
@@ -51,6 +54,11 @@
           _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
             center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
             zoom: 13
+          } );
+
+          // Add click listener
+          google.maps.event.addListener( _$.map, 'click', function ( np ) {
+            set_center( np.latLng.lat(), np.latLng.lng() );
           } );
       } );
     });

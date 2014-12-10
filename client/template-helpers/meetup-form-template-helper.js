@@ -15,5 +15,8 @@ Template['meetups-add-form'].events( {
     e.preventDefault();
 
     navigator.geolocation.getCurrentPosition( current_position_callback );
+  },
+  'submit form' : function ( e ) {
+    // TODO
   }
 } );
