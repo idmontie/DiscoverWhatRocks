@@ -33,6 +33,8 @@
     <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Meetup</button>
   </form>
   <script>
+    // TODO clicking in the circle should move the circle
+    // TODO clicking on a location should move the circle
     // TODO get better starting coordinates
     // TODO disable zoom
     var Coords = {
@@ -42,7 +44,7 @@
 
     var _$ = this;
     _$.meetup_circle = false;
-    _$.scale = 1;
+    _$.scale = 1 * 1600;
 
     /**
      * @see http://xdsoft.net/jqplugins/datetimepicker/
@@ -71,14 +73,15 @@
       }
     } );
 
-    $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale );
+    // Initialize scale
+    $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale / 1600);
 
     function set_scale( scale ) {
       // TODO
-      _$.scale = scale;
+      _$.scale = scale * 1600;
 
       if ( _$.meetup_circle ) {
-        _$.meetup_circle.setRadius( _$.scale * 1600 );
+        _$.meetup_circle.setRadius( _$.scale );
       }
     }
 
@@ -97,7 +100,7 @@
         map: _$.map,
         center: new google.maps.LatLng( lat, lon ),
         // TODO
-        radius: _$.scale * 1600
+        radius: _$.scale
       };
 
       if ( _$.meetup_circle ) {

@@ -14,9 +14,16 @@ Router.route('/', function () {
   name : 'home'
 });
 
-Router.route('/circles/hangout/add', function () {
+Router.route('/circles/hangout/add/:slug', function () {
   'use strict';
-  this.render('meetups-add-form');
+
+  var circle = Circles.findOne( {
+    slug : this.params.slug
+  } );
+
+  this.render('meetups-add-form', {
+    data : circle
+  });
 }, {
   name : 'meetups-add-form'
 });
@@ -30,7 +37,14 @@ Router.route('/circles/hangout/update/:slug', function () {
 
 Router.route('/circles/hangout/:slug', function () {
   'use strict';
-  this.render('meetup');
+
+  var meetup = Meetups.findOne( {
+    slug : this.params.slug
+  } );
+
+  this.render('meetup', {
+    data : meetup
+  } );
 }, {
   name : 'meetup'
 });
@@ -76,8 +90,17 @@ Router.route('/circles/:slug', function () {
     slug : this.params.slug
   } );
 
+  var meetups = Meetups.find( {
+    circle_id : circle._id
+  } );
+
+  console.log( meetups );
+
   this.render('circle', {
-    data : circle
+    data : {
+      circle: circle,
+      meetups : meetups
+    }
   });
 }, {
   name : 'circle'

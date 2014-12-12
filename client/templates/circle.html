@@ -1,10 +1,10 @@
 <template name="circle">
   <br/><!-- TODO better padding markup -->
-  <h1>Your Circle: {{name}}</h1>
+  <h1>Your Circle: {{circle.name}}</h1>
   <br/><!-- TODO better padding markup -->
 
   <div class="icon-bar three-up">
-    <a class="item" href="/circles/hangout/add">
+    <a class="item" href="/circles/hangout/add/{{circle.slug}}">
       <i class="fa fa-plus"></i>
       <label>Create a Hangout</label>
     </a>
@@ -22,10 +22,8 @@
   <ul class="stack button-group">
     {{#each meetups}}
       <li>
-        <a href="/circles/meetups/{{slug}}" class="button">
-          {{name}}
-          &nbsp;
-          {{number_of_upcoming_meetups_for_circle this}}
+        <a href="/circles/hangout/{{slug}}" class="button">
+          {{date_to_meet}}
         </a>
       </li>
     {{/each}}
