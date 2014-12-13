@@ -11,8 +11,12 @@ Template.navigation.helpers( {
 } );
 
 Template.navigation.events( {
-  'click ' : function ( e ) {
-    // TODO close the navigation
+  /**
+   * Close the navigation
+   */
+  'click .left-off-canvas-menu li a' : function ( e ) {
+    'use strict';
+    $('.off-canvas-wrap').removeClass('move-right')
   },
   'click .logout' : function ( e ) {
     'use strict';

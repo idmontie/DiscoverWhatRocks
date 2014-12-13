@@ -12,7 +12,11 @@
       </div>
     </div>
 
-    <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Circle</button>
+    {{#if is_valid_form}}
+      <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Circle</button>
+    {{else}}
+      <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand" disabled="disabled">Create Circle</button>
+    {{/if}}
   </form>
 </template>
 
