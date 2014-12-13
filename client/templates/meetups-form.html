@@ -1,7 +1,125 @@
-<template name="meetups-form">
-  {{> quickForm id="meetups-form" collection="Meetups" type="insert" omitFields="slug,owner_id"}}
+<template name="meetups-add-form">
+  <form id="meetups_add_form">
+    <div class="row">
+      <div class="large-12 columns">
+        <label class="{{#if date_is_not_valid}}error{{/if}}">
+          When To Meet
+          <input type="datetime" name="date_to_meet" />
+        </label>
+        {{#if date_is_not_valid}}
+          <small class="error">{{{date_error_message}}}</small>
+        {{/if}}
+      </div>
 
-  {{! TODO form update}}
-  {{! quickForm id="meetups-form" collection="Meetups" type="update" omitFields="slug,owner_id" doc=this }}
+      <div class="small-12 medium-12 columns">
+        <label>
+          Meetup Distance (<span id="meetup_slider">1</span> miles)
+          <div id="meetup_slider_foundation" class="range-slider radius" data-slider data-options="display_selector: #meetup_slider; start: 0; end: 10; step: 0.5;">
+            <span class="range-slider-handle" role="slider" tabindex="0"></span>
+            <span class="range-slider-active-segment"></span>
+            <input type="hidden" name="meetup_slider_distance" value="1">
+          </div>
+        </label>
+      </div>
 
+      <div class="large-12 columns">
+        <input type="hidden" id="map_center" />
+        <a href="#" class="button postfix" id="use_current_location"  {{geolocation_enabled}} >Use My Current Location</a>
+
+        <div id="map-canvas" style="width:100%;height:350px;"></div>
+      </div>
+    </div>
+
+    <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Meetup</button>
+  </form>
+  <script>
+    // TODO clicking in the circle should move the circle
+    // TODO clicking on a location should move the circle
+    // TODO get better starting coordinates
+    // TODO disable zoom
+    var Coords = {
+      latitude: 33, 
+      longitude: -112
+    }
+
+    var _$ = this;
+    _$.meetup_circle = false;
+    _$.scale = 1 * 1600;
+
+    /**
+     * @see http://xdsoft.net/jqplugins/datetimepicker/
+     */
+    jQuery( function ( $ ) {
+      $( document ).ready( function () {
+        $( 'input[name="date_to_meet"]' ).datetimepicker();
+
+          _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
+            center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
+            zoom: 13
+          } );
+
+          // Add click listener
+          google.maps.event.addListener( _$.map, 'click', function ( np ) {
+            set_center( np.latLng.lat(), np.latLng.lng() );
+          } );
+      } );
+    });
+
+    $( document ).foundation( {
+      slider: {
+        on_change: function () {
+          set_scale( $( 'input[name="meetup_slider_distance"]' ).val() );
+        }
+      }
+    } );
+
+    // Initialize scale
+    $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale / 1600);
+
+    function set_scale( scale ) {
+      // TODO
+      _$.scale = scale * 1600;
+
+      if ( _$.meetup_circle ) {
+        _$.meetup_circle.setRadius( _$.scale );
+      }
+    }
+
+    function set_center( lat, lon ) {
+      'use strict';
+      var location = lat + ', ' + lon;
+
+      $( '#map_center' ).val( location );
+
+      var meetup_location = {
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: _$.map,
+        center: new google.maps.LatLng( lat, lon ),
+        // TODO
+        radius: _$.scale
+      };
+
+      if ( _$.meetup_circle ) {
+        _$.meetup_circle.setMap( null );
+      }
+
+      _$.meetup_circle = new google.maps.Circle( meetup_location );
+      _$.map.panTo( _$.meetup_circle.getCenter() );
+      // TODO rezoom the map according to the radius
+    }
+
+    function current_position_callback( position ) {
+      'use strict';
+
+      set_center( position.coords.latitude,  position.coords.longitude );
+    }
+  </script>
+</template>
+
+<template name="meetups-update-form">
+  <!-- TODO -->
 </template>

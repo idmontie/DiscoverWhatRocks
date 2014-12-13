@@ -1,58 +1,79 @@
-<template name="circles-form">
-{{#autoForm id="circle-form" type="method" collection="Circles" meteormethod="insert_circle"}}
+<template name="circles-add-form">
+  <form id="circles_add_form">
+    <div class="row">
+      <div class="large-12 columns">
+        <label class="{{#if name_is_not_valid}}error{{/if}}">
+        Name Your Circle
+          <input type="text" name="name" />
+        </label>
+        {{#if name_is_not_valid}}
+          <small class="error">{{{name_error_message}}}</small>
+        {{/if}}
+      </div>
+    </div>
+
+    {{#if is_valid_form}}
+      <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Circle</button>
+    {{else}}
+      <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand" disabled="disabled">Create Circle</button>
+    {{/if}}
+  </form>
+</template>
+
+<template name="circles-update-form">
+  <!-- TODO -->
   <div class="row">
     <div class="large-12 columns">
-      <label class="{{#if afFieldIsInvalid name='name'}}error{{/if}}">
-        {{afFieldLabelText name='name'}}
-        {{> afFieldInput name='name'}}
+      <label class="{{#if name_is_not_valid}}error{{/if}}">
+      Name Your Circle
+        <input type="text" name="name" />
       </label>
-      {{#if afFieldIsInvalid name='name'}}
-        <small class="error">{{{afFieldMessage name='name'}}}</small>
+      {{#if name_is_not_valid}}
+        <small class="error">{{{name_error_message}}}</small>
       {{/if}}
     </div>
   </div>
 
-
-  <fieldset>
-    <legend>{{afFieldLabelText name='users'}}</legend>
-    <div class="row">
-      <div class="large-12 columns">
-        <div class="row collapse">
-          <div class="small-10 columns">
-            <input type="text" placeholder="Your Friend's Email" id="invited_friend">
-          </div>
-          <div class="small-2 columns">
-            <a href="#" class="button postfix" id='add_invited_friend'>Add</a>
+  <form>
+    <fieldset>
+      <legend>Add Friends to Your Circle</legend>
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="row collapse">
+            <div class="small-10 columns">
+              <input type="text" placeholder="Your Friend's Email" id="invited_friend">
+            </div>
+            <div class="small-2 columns">
+              <a href="#" class="button postfix" id='add_invited_friend'>Add</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <table role="grid">
-      <caption>Invited Friends</caption>
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="invited_friends">
-        {{#each key_value invited_friends}}
-        <tr>
-          <td>
-            {{value}}
-            <input type="hidden" name="users.{{key}}.email" data-schema-key="users.{{key}}.email" value="{{value}}" />
-          </td>
-          <td><a href="#" class="button tiny alert remove">Remove</a></td>
-        </tr>
-        {{/each}}
-        
-      </tbody>
-    </table>
+      <table role="grid">
+        <caption>Invited Friends</caption>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="invited_friends">
+          {{#each key_value invited_friends}}
+          <tr>
+            <td>
+              {{value}}
+              <input type="hidden" name="users.{{key}}.email" data-schema-key="users.{{key}}.email" value="{{value}}" />
+            </td>
+            <td><a href="#" class="button tiny alert remove">Remove</a></td>
+          </tr>
+          {{/each}}
+          
+        </tbody>
+      </table>
 
-  </fieldset>
-
-  <button aria-label="submit form" tabindex="0" type="submit" class="btn btn-primary">Create Circle</button>
-{{/autoForm}}
+    </fieldset>
+    <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Update Circle</button>
+  </form>
 
 </template>

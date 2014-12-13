@@ -1,7 +1,6 @@
 accounts-base@1.1.2
 accounts-password@1.0.4
 accounts-ui-unstyled@1.1.4
-aldeed:autoform@4.0.7
 aldeed:collection2@2.2.0
 aldeed:simple-schema@1.1.0
 application-configuration@1.0.3
@@ -15,12 +14,13 @@ callback-hook@1.0.1
 check@1.0.2
 ctl-helper@1.0.4
 ctl@1.0.2
-ddp@1.0.11
+ddp@1.0.12
 deps@1.0.5
 ejson@1.0.4
 email@1.0.4
 fastclick@1.0.1
 follower-livedata@1.0.2
+fourseven:scss@1.0.0
 geojson-utils@1.0.1
 html-tools@1.0.2
 htmljs@1.0.2
@@ -46,8 +46,7 @@ minifiers@1.1.2
 minimongo@1.0.5
 mobile-status-bar@1.0.1
 mongo-livedata@1.0.6
-mongo@1.0.8
-mrt:moment@2.6.0
+mongo@1.0.9
 npm-bcrypt@0.7.7
 observe-sequence@1.0.3
 ordered-dict@1.0.1

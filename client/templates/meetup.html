@@ -1,0 +1,51 @@
+<template name="meetup">
+  {{date_to_meet}}
+
+  <div id="map-canvas" style="width:100%;height:350px;"></div>
+
+  <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand disabled">Click on the Map to Vote Where You'd Like to Meet</button>
+
+  <script>
+  var _$ = this;
+  _$.data = window.Template.currentData($('#map-canvas')[0]);
+
+  var selfInterval = setInterval( function () {
+    if ( _$.data !== null) {
+      clearInterval( selfInterval );
+
+      run();
+    } else {
+      _$.data = window.Template.currentData($('#map-canvas')[0]);
+    }
+  }, 100 );
+
+  function run() {
+
+    var Coords = {
+      latitude: data.map_center.latitude,
+      longitude: data.map_center.longitude
+    }
+    
+    _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
+      center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
+      zoom: 13
+    } );
+    _$.scale = parseFloat( data.map_center.radius );
+
+    var meetup_location = {
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: _$.map,
+      center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
+      radius: _$.scale
+    };
+
+    _$.meetup_circle = new google.maps.Circle( meetup_location );
+
+    // TODO mark votes
+  }
+  </script>
+</template>

@@ -12,17 +12,17 @@
         <section class="top-bar-section">
           <ul class="right">
             <li class="divider"></li>
-            <li>
-              <a href="/circles">Circles</a>
-            </li>
-            <li class="divider"></li>
             <li class="has-dropdown not-click">
-              <a href="#" class="">Groups</a>
+              <a>Circles</a>
               <ul class="dropdown">
-                {{#each circles}}
                 <li>
-                  <a href="/circle/{{slug}}">{{name}}</a>
+                  <a href="/circles">All Circles</a>
                 </li>
+                <li class="divider"></li>
+                {{#each circles}}
+                  <li>
+                    <a href="/circles/{{slug}}">{{name}}</a>
+                  </li>
                 {{/each}}
               </ul>
             </li>
@@ -40,7 +40,7 @@
         </section>
 
         <section class="middle tab-bar-section">
-          <h1 class="title">Discover What Rocks</h1>
+          <h1 class="title"><a href="/">Discover What Rocks</a></h1>
 
 
         </section>
@@ -50,20 +50,28 @@
       <aside class="left-off-canvas-menu">
         <ul class="off-canvas-list">
           <li><label>Discover What Rocks</label></li>
-          <li><a href="#">Logout</a></li>
           <li>
-            <a href="/circles">Circles</a>
+            <a href="/">Home</a>
           </li>
-          <li>
-            <a href="/circle/{{slug}}">{{name}}</a>
-          </li>
+          <li><label>Your Circles</label></li>
+          {{#each circles}}
+            <li>
+              <a href="/circles/{{slug}}">{{name}}</a>
+            </li>
+          {{/each}}
+          <li><label>Your Account</label></li>
+          <li><a href="#" class="logout">Logout</a></li>
         </ul>
       </aside>
 
       <section class="main-section {{current_route_name}}-page">
-        <div class="row">
+        {{#if meteor_loggedin}}
+          <div class="row">
+            {{> yield}}
+          </div>
+        {{else}}
           {{> yield}}
-        </div>
+        {{/if}}
       </section>
 
       <a class="exit-off-canvas"></a>

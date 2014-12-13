@@ -1,0 +1,25 @@
+// ==========================
+// Home Page: v0.0.1
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
+
+.home-page {
+  .heading {
+    background: url('/images/hero_1.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: \250px;
+    min-height: 250px;
+    min-height: 80vh;
+    width: 100%;
+  }
+
+  .heading-push {
+    height: 120px;
+    height: 35vh;
+  }
+}
