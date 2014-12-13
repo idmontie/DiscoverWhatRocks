@@ -1,0 +1,148 @@
+// ==========================
+// Accounts Core: v0.0.1
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
+
+// TODO factor out colors
+
+.login-link-text {
+  background-color: rgb(67, 172, 106);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  margin-bottom: 17.777759552002px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  outline-color: rgb(255, 255, 255);
+  outline-style: none;
+  outline-width: 0px;
+  padding-bottom: 16.8889598846436px;
+  padding-left: 32px;
+  padding-right: 51.5555191040039px;
+  padding-top: 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition-delay: 0s;
+  transition-duration: 0.3s;
+  transition-property: background-color;
+  transition-timing-function: ease-out;
+  width: 100%;
+
+  &:hover {
+    background-color: #368a55;
+    color: white;
+  }
+}
+
+.accounts-dialog {
+  -webkit-font-smoothing: antialiased;
+  -webkit-transition-delay: 0s;
+  -webkit-transition-duration: 0.3s;
+  -webkit-transition-property: opacity;
+  -webkit-transition-timing-function: ease-out;
+  background-color: rgb(231, 231, 231);
+  border-bottom-color: rgb(199, 199, 199);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-left-color: rgb(199, 199, 199);
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-right-color: rgb(199, 199, 199);
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-top-color: rgb(199, 199, 199);
+  border-top-style: solid;
+  border-top-width: 1px;
+  box-sizing: border-box;
+  color: rgb(79, 79, 79);
+  cursor: auto;
+  display: block;
+  font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 17.3332805633545px;
+  margin-bottom: 10px;
+  padding: 13px;
+  position: relative;
+  transition-delay: 0s;
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease-out;
+
+  .error-message {
+    display: block;
+    padding: 0.33333rem 0.5rem 0.5rem;
+    margin-top: -1px;
+    font-size: 0.66667rem;
+    font-weight: normal;
+    font-style: italic;
+    background: #f04124;
+    color: #FFFFFF;
+  }
+}
+
+.login-close-text {
+  float: right;
+}
+
+.login-button {
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-transition-delay: 0s;
+  -webkit-transition-duration: 0.3s;
+  -webkit-transition-property: background-color;
+  -webkit-transition-timing-function: ease-out;
+  background-color: rgb(0, 112, 149);
+  border-bottom-color: rgb(0, 112, 149);
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-style: solid;
+  border-bottom-width: 0px;
+  border-left-color: rgb(0, 112, 149);
+  border-left-style: solid;
+  border-left-width: 0px;
+  border-right-color: rgb(0, 112, 149);
+  border-right-style: solid;
+  border-right-width: 0px;
+  border-top-color: rgb(0, 112, 149);
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-top-style: solid;
+  border-top-width: 0px;
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  height: 45.328125px;
+  line-height: normal;
+  margin-bottom: 17.777759552002px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  padding-bottom: 15.1110401153564px;
+  padding-left: 28.4444808959961px;
+  padding-right: 28.4444808959961px;
+  padding-top: 14.222240447998px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition-delay: 0s;
+  transition-duration: 0.3s;
+  transition-property: background-color;
+  transition-timing-function: ease-out;
+  width: 100%;
+}

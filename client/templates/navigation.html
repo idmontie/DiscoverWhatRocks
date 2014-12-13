@@ -40,7 +40,7 @@
         </section>
 
         <section class="middle tab-bar-section">
-          <h1 class="title">Discover What Rocks</h1>
+          <h1 class="title"><a href="/">Discover What Rocks</a></h1>
 
 
         </section>
@@ -50,7 +50,7 @@
       <aside class="left-off-canvas-menu">
         <ul class="off-canvas-list">
           <li><label>Discover What Rocks</label></li>
-          <li><a href="#">Logout</a></li>
+          <li><a href="#" class="logout">Logout</a></li>
           <li>
             <a href="/circles">Circles</a>
           </li>
@@ -63,9 +63,13 @@
       </aside>
 
       <section class="main-section {{current_route_name}}-page">
-        <div class="row">
+        {{#if meteor_loggedin}}
+          <div class="row">
+            {{> yield}}
+          </div>
+        {{else}}
           {{> yield}}
-        </div>
+        {{/if}}
       </section>
 
       <a class="exit-off-canvas"></a>
