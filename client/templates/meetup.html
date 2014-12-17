@@ -3,19 +3,27 @@
 
   <div id="map-canvas" style="width:100%;height:350px;"></div>
 
+  <form>
+    <input name="vote_location" id="vote_location" />
+  </form>
+
   <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand disabled">Click on the Map to Vote Where You'd Like to Meet</button>
 
   <script>
   var _$ = this;
   _$.data = window.Template.currentData($('#map-canvas')[0]);
+  _$.vote_marker = false;
+  // Hack to make sure no infinite map refreshes happen
+  _$.selfInterval = _$.selfInterval || -1;
+  clearInterval( _$.selfInterval );
 
-  var selfInterval = setInterval( function () {
+  _$.selfInterval = setInterval( function () {
     if ( _$.data !== null) {
       clearInterval( selfInterval );
 
       run();
     } else {
-      _$.data = window.Template.currentData($('#map-canvas')[0]);
+      _$.data = window.Template.currentData( $('#map-canvas')[0] );
     }
   }, 100 );
 
@@ -46,6 +54,37 @@
     _$.meetup_circle = new google.maps.Circle( meetup_location );
 
     // TODO mark votes
+
+    // Add click listener
+    google.maps.event.addListener( _$.map, 'click', function ( np ) {
+      set_center( np.latLng.lat(), np.latLng.lng() );
+    } )
+
+    google.maps.event.addListener( _$.meetup_circle, 'click', function ( np ) {
+      set_center( np.latLng.lat(), np.latLng.lng() );
+    } )
+
   }
+
+  function set_center( lat, lon ) {
+    'use strict';
+    var location = lat + ', ' + lon
+    var lat_long = new google.maps.LatLng( lat, lon )
+
+    $( '#vote_location' ).val( location )
+
+    var vote_location = {
+      position: lat_long,
+      map: _$.map,
+      title: "TODO's vote"
+    }
+
+    if ( _$.vote_marker ) {
+      _$.vote_marker.setMap( null )
+    }
+
+    _$.vote_marker = new google.maps.Marker( vote_location )
+  }
+
   </script>
 </template>
