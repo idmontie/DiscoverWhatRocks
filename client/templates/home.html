@@ -7,28 +7,32 @@
 </template>
 
 <template name="home_logged_in">
-   <br/><!-- TODO better padding markup -->
-   <h1>Your Circles</h1>
-  <br/><!-- TODO better padding markup -->
-
-  <div class="icon-bar one-up">
-    <a class="item" href="/circles/add">
-      <i class="fa fa-plus"></i>
-      <label>Create a Circle</label>
-    </a>
+  <div class="icon-bar one-up box-bar">
+    <div class="row">
+      <a class="item" href="/circles/add">
+        <i class="fa fa-plus"></i>
+        <label>Create a Circle</label>
+      </a>
+    </div>
   </div>
 
-  <ul class="stack button-group">
-    {{#each circles}}
-      <li>
-        <a href="/circles/{{slug}}" class="button">
-          {{name}}
-          &nbsp;
-          {{number_of_upcoming_meetups_for_circle this}}
-        </a>
-      </li>
-    {{/each}}
-  </ul>
+  <div class="row">
+    <div class="large-offset-1 large-10 columns">
+      <h1 class="lead">Your Circles</h1>
+
+      <ul class="stack button-group">
+        {{#each circles}}
+          <li>
+            <a href="/circles/{{slug}}" class="button">
+              {{name}}
+              &nbsp;
+              {{number_of_upcoming_meetups_for_circle this}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
 
 </template>
 

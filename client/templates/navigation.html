@@ -65,13 +65,7 @@
       </aside>
 
       <section class="main-section {{current_route_name}}-page">
-        {{#if meteor_loggedin}}
-          <div class="row">
-            {{> yield}}
-          </div>
-        {{else}}
-          {{> yield}}
-        {{/if}}
+        {{> yield}}
       </section>
 
       <a class="exit-off-canvas"></a>

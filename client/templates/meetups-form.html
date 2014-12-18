@@ -26,7 +26,7 @@
         <input type="hidden" id="map_center" />
         <a href="#" class="button postfix" id="use_current_location"  {{geolocation_enabled}} >Use My Current Location</a>
 
-        <div id="map-canvas" style="width:100%;height:350px;"></div>
+        <div id="map-canvas" class="map-canvas"></div>
       </div>
     </div>
 
@@ -87,9 +87,9 @@
 
     function set_center( lat, lon ) {
       'use strict';
-      var location = lat + ', ' + lon;
+      var location = lat + ', ' + lon
 
-      $( '#map_center' ).val( location );
+      $( '#map_center' ).val( location )
 
       var meetup_location = {
         strokeColor: '#FF0000',
@@ -101,7 +101,7 @@
         center: new google.maps.LatLng( lat, lon ),
         // TODO
         radius: _$.scale
-      };
+      }
 
       if ( _$.meetup_circle ) {
         _$.meetup_circle.setMap( null );
