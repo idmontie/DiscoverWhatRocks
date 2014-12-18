@@ -14,6 +14,17 @@ Router.route('/', function () {
   name : 'home'
 });
 
+Router.route('/about', function () {
+  'use strict';
+  this.render('about');
+}, {
+  name : 'about'
+});
+
+// =======
+// Meetups
+// =======
+
 Router.route('/circles/hangout/add/:slug', function () {
   'use strict';
 
