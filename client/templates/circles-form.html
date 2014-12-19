@@ -2,17 +2,17 @@
   <form id="circles_add_form">
     <div class="row">
       <div class="large-12 columns">
-        <label class="{{#if name_is_not_valid}}error{{/if}}">
+        <label class="{{#if nameIsNotValid}}error{{/if}}">
         Name Your Circle
           <input type="text" name="name" />
         </label>
-        {{#if name_is_not_valid}}
-          <small class="error">{{{name_error_message}}}</small>
+        {{#if nameIsNotValid}}
+          <small class="error">{{{nameErrorMessage}}}</small>
         {{/if}}
       </div>
     </div>
 
-    {{#if is_valid_form}}
+    {{#if isValidForm}}
       <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Circle</button>
     {{else}}
       <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand" disabled="disabled">Create Circle</button>
@@ -24,12 +24,12 @@
   <!-- TODO -->
   <div class="row">
     <div class="large-12 columns">
-      <label class="{{#if name_is_not_valid}}error{{/if}}">
+      <label class="{{#if nameIsNotValid}}error{{/if}}">
       Name Your Circle
         <input type="text" name="name" />
       </label>
-      {{#if name_is_not_valid}}
-        <small class="error">{{{name_error_message}}}</small>
+      {{#if nameIsNotValid}}
+        <small class="error">{{{nameErrorMessage}}}</small>
       {{/if}}
     </div>
   </div>

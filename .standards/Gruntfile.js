@@ -37,16 +37,25 @@ module.exports = function (grunt) {
           ]
         }
       },
-      // // JS Coding Style
-      // // ===============
-      // jscs: {
-      //     options: {
-      //         config: 'js/.jscsrc'
-      //     },
-      //     core: {
-      //         src: '<%= jshint.core.src %>'
-      //     }
-      // },
+      // JS Coding Style
+      // ===============
+      jscs: {
+        options: {
+          config: '.jscsrc'
+        },
+        core: {
+          src: '<%= jshint.core.src %>'
+        },
+        client: {
+          src: '<%= jshint.client.src %>'
+        },
+        server: {
+          src: '<%= jshint.server.src %>'
+        },
+        lib: {
+          src: '<%= jshint.lib.src %>'
+        }
+      },
       // // QUnit
       // // =====
       // qunit: {
@@ -136,7 +145,7 @@ module.exports = function (grunt) {
 
     // These plugins provide necessary tasks
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    // grunt.loadNpmTasks('grunt-jscs');
+    grunt.loadNpmTasks('grunt-jscs');
     // grunt.loadNpmTasks('grunt-contrib-watch');
     // grunt.loadNpmTasks('grunt-scss-lint');
     // grunt.loadNpmTasks('grunt-contrib-sass');
@@ -147,8 +156,8 @@ module.exports = function (grunt) {
     // Default task
     grunt.registerTask('default', [
         'jshint', 
-        /*'jscs',
-        'scsslint',
+        'jscs',
+        /*'scsslint',
         'sass:fortesting',
         'qunit',
         'sass:dist',

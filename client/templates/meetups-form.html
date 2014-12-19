@@ -24,7 +24,7 @@
 
       <div class="large-12 columns">
         <input type="hidden" id="map_center" />
-        <a href="#" class="button postfix" id="use_current_location"  {{geolocation_enabled}} >Use My Current Location</a>
+        <a href="#" class="button postfix" id="use_current_location"  {{geolocationEnabled}} >Use My Current Location</a>
 
         <div id="map-canvas" class="map-canvas"></div>
       </div>
@@ -43,7 +43,7 @@
     }
 
     var _$ = this;
-    _$.meetup_circle = false;
+    _$.meetupCircle = false;
     _$.scale = 1 * 1600;
 
     /**
@@ -60,7 +60,7 @@
 
           // Add click listener
           google.maps.event.addListener( _$.map, 'click', function ( np ) {
-            set_center( np.latLng.lat(), np.latLng.lng() );
+            setCenter( np.latLng.lat(), np.latLng.lng() );
           } );
       } );
     });
@@ -68,7 +68,7 @@
     $( document ).foundation( {
       slider: {
         on_change: function () {
-          set_scale( $( 'input[name="meetup_slider_distance"]' ).val() );
+          setScale( $( 'input[name="meetup_slider_distance"]' ).val() );
         }
       }
     } );
@@ -76,16 +76,16 @@
     // Initialize scale
     $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale / 1600);
 
-    function set_scale( scale ) {
+    function setScale( scale ) {
       // TODO
       _$.scale = scale * 1600;
 
-      if ( _$.meetup_circle ) {
-        _$.meetup_circle.setRadius( _$.scale );
+      if ( _$.meetupCircle ) {
+        _$.meetupCircle.setRadius( _$.scale );
       }
     }
 
-    function set_center( lat, lon ) {
+    function setCenter( lat, lon ) {
       'use strict';
       var location = lat + ', ' + lon
 
@@ -103,19 +103,19 @@
         radius: _$.scale
       }
 
-      if ( _$.meetup_circle ) {
-        _$.meetup_circle.setMap( null );
+      if ( _$.meetupCircle ) {
+        _$.meetupCircle.setMap( null );
       }
 
-      _$.meetup_circle = new google.maps.Circle( meetup_location );
-      _$.map.panTo( _$.meetup_circle.getCenter() );
+      _$.meetupCircle = new google.maps.Circle( meetup_location );
+      _$.map.panTo( _$.meetupCircle.getCenter() );
       // TODO rezoom the map according to the radius
     }
 
-    function current_position_callback( position ) {
+    function currentPositionCallback( position ) {
       'use strict';
 
-      set_center( position.coords.latitude,  position.coords.longitude );
+      setCenter( position.coords.latitude,  position.coords.longitude );
     }
   </script>
 </template>

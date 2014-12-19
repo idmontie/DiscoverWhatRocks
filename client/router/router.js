@@ -113,7 +113,7 @@ Router.route('/circles/:slug', function () {
   } );
 
   var meetups = Meetups.find( {
-    circle_id : circle._id
+    circleId : circle._id
   } );
 
   this.render('circle', {

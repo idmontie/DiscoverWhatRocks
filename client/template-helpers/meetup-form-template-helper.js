@@ -8,13 +8,13 @@
 /* global Meetups */
 /* global Schema */
 
-// The `current_position_callback` is defined in the template file
-/* global current_position_callback */
+// The `currentPositionCallback` is defined in the template file
+/* global currentPositionCallback */
 
 Template['meetups-add-form'].helpers( {
-  geolocation_enabled : function () {
+  geolocationEnabled : function () {
     'use strict';
-    
+
     if ( navigator.geolocation ) {
       return '';
     } else {
@@ -28,7 +28,7 @@ Template['meetups-add-form'].events( {
     'use strict';
     e.preventDefault();
 
-    navigator.geolocation.getCurrentPosition( current_position_callback );
+    navigator.geolocation.getCurrentPosition( currentPositionCallback );
   },
   'submit form' : function ( e ) {
     'use strict';
@@ -36,27 +36,27 @@ Template['meetups-add-form'].events( {
 
     // TODO validation
 
-    var meetup_date = $( 'input[name="date_to_meet"]' ).val();
-    var temp_location_parts = $( '#map_center' ).val().split( ',' );
-    var meetup_lat = temp_location_parts[0].trim();
-    var meetup_long = temp_location_parts[1].trim();
-    var meetup_radius = window.scale;
+    var meetupDate        = $( 'input[name="date_to_meet"]' ).val()
+    var tempLocationParts = $( '#map_center' ).val().split( ',' )
+    var meetupLatitude    = tempLocationParts[0].trim()
+    var meetupLongitude   = tempLocationParts[1].trim()
+    var meetupRadius      = window.scale
 
     var meetup = Schema.meetups.clean( {
-      date_to_meet: meetup_date,
-      map_center : {
-        latitude : meetup_lat,
-        longitude : meetup_long,
-        radius : meetup_radius
+      dateToMeet: meetupDate,
+      mapCenter : {
+        latitude : meetupLatitude,
+        longitude : meetupLongitude,
+        radius : meetupRadius
       },
-      circle_id: this._id
-    } );
+      circleId: this._id
+    } )
 
-    Meetups.insert( meetup );
+    Meetups.insert( meetup )
 
     // redirect to the meetup view
     Router.go( 'meetup', {
       slug : meetup.slug
-    });
+    })
   }
 } );

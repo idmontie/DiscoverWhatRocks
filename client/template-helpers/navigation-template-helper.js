@@ -12,9 +12,9 @@ Template.navigation.helpers( {
 
     return Circles.find()
   },
-  meteor_loggedin : function () {
+  meteorLoggedIn : function () {
     'use strict';
-    return !! Meteor.user()
+    return ! ! Meteor.user()
   }
 } );
 
@@ -24,7 +24,7 @@ Template.navigation.events( {
    */
   'click .left-off-canvas-menu li a' : function () {
     'use strict';
-    
+
     $('.off-canvas-wrap').removeClass('move-right')
   },
   'click .logout' : function ( e ) {

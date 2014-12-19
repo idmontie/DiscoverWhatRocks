@@ -13,9 +13,9 @@
 
 // Session gets reset in the router
 Session.setDefault( 'invited-friends', [] );
-var circles_context = Schema.circles.namedContext( 'circle' );
+var circlesContext = Schema.circles.namedContext( 'circle' );
 
-function create_circle_from_form () {
+function createCircleFromForm () {
   'use strict';
   var name = $('input[name="name"]').val()
 
@@ -26,7 +26,7 @@ function create_circle_from_form () {
   return circle
 }
 
-function get_error_message_for_circle ( circle ) {
+function getErrorMessageForCircle ( circle ) {
   'use strict';
 
   try {
@@ -43,29 +43,29 @@ function get_error_message_for_circle ( circle ) {
 // ================
 
 Template['circles-add-form'].helpers({
-  'name_is_not_valid' : function () {
+  nameIsNotValid : function () {
     'use strict';
 
     var errors = Session.get( 'form-errors' )
 
     if ( errors ) {
-      var circle   = create_circle_from_form()
-      var is_valid = circles_context.validateOne(
+      var circle   = createCircleFromForm()
+      var isValid = circlesContext.validateOne(
         circle, 'name'
       )
 
-      return ! is_valid
+      return ! isValid
     } else {
       return false
     }
   },
-  'name_error_message' : function () {
+  nameErrorMessage : function () {
     'use strict';
-    var all_errors = circles_context.invalidKeys()
+    var allErrors = circlesContext.invalidKeys()
 
-    if ( all_errors != null ) {
-      for ( var i = 0; i < all_errors.length; i++ ) {
-        if ( all_errors[i].name == 'name' ) {
+    if ( allErrors != null ) {
+      for ( var i = 0; i < allErrors.length; i++ ) {
+        if ( allErrors[i].name == 'name' ) {
           return 'Name is required'
         }
       }
@@ -73,7 +73,7 @@ Template['circles-add-form'].helpers({
 
     return null;
   },
-  'is_valid_form' : function () {
+  isValidForm : function () {
     'use strict';
 
     return Session.get( 'form-errors' ) == null
@@ -84,8 +84,8 @@ Template['circles-add-form'].events({
   'keyup #circles_add_form input, change #circles_add_form input' : function () {
     'use strict';
 
-    var circle = create_circle_from_form()
-    var errors = get_error_message_for_circle( circle )
+    var circle = createCircleFromForm()
+    var errors = getErrorMessageForCircle( circle )
 
     Session.set( 'form-errors', errors )
   },
@@ -94,7 +94,7 @@ Template['circles-add-form'].events({
 
     e.preventDefault();
 
-    var circle = create_circle_from_form()
+    var circle = createCircleFromForm()
 
     Circles.insert( circle );
 
@@ -112,7 +112,7 @@ Template['circles-add-form'].events({
 // TODO
 
 Template['circles-update-form'].helpers({
-  'invited_friends' : function () {
+  invitedFriends : function () {
     'use strict';
     return Session.get( 'invited-friends' );
   }
@@ -124,33 +124,33 @@ Template['circles-update-form'].events({
 
     e.preventDefault();
 
-    var invited_friend = $('#invited_friend').val();
+    var invitedFriend = $('#invited_friend').val();
 
     // TODO check email
-    var invited_friends = Session.get( 'invited-friends' );
-    invited_friends.push( invited_friend );
+    var invitedFriends = Session.get( 'invited-friends' );
+    invitedFriends.push( invitedFriend );
 
-    Session.set( 'invited-friends', invited_friends );
+    Session.set( 'invited-friends', invitedFriends );
 
     // TODO clear input, close mobile keyboards
   },
   // TODO handle enter
-  'click #invited_friends .remove' : function ( e ) {
+  'click #invitedFriends .remove' : function ( e ) {
     'use strict';
 
     e.preventDefault();
 
     // Force 'this' to be a string
-    var invited_friend = this.value + '';
+    var invitedFriend = this.value + '';
 
-    var invited_friends = Session.get( 'invited-friends' );
+    var invitedFriends = Session.get( 'invited-friends' );
 
-    for ( var i = invited_friends.length - 1; i >= 0; i-- ) {
-      if ( invited_friends[i] === invited_friend ) {
-        invited_friends.splice( i, 1 );
+    for ( var i = invitedFriends.length - 1; i >= 0; i-- ) {
+      if ( invitedFriends[i] === invitedFriend ) {
+        invitedFriends.splice( i, 1 );
       }
     }
 
-    Session.set( 'invited-friends', invited_friends );
+    Session.set( 'invited-friends', invitedFriends );
   }
 });

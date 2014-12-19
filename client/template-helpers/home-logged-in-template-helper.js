@@ -6,16 +6,19 @@
 
 /* global Circles */
 
-Template.home_logged_in.helpers({
-  'circles' : function () {
+// normally the template name will be dashed
+// But this one needs to be used as a partial
+
+Template.homeLoggedIn.helpers({
+  circles : function () {
     'use strict';
 
     return Circles.find( {
       // Nothing for now
     }, {
       sort: {
-        date_created: -1  
+        dateCreated: -1
       }
-    } );
+    } )
   }
-})
+});

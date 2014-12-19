@@ -33,12 +33,12 @@ Template.registerHelper( 'number_of_upcoming_meetups_for_circle', function ( cir
   return 0;
 } );
 
-Handlebars.registerHelper('key_value', function(context) {
+Handlebars.registerHelper('key_value', function ( context ) {
   'use strict';
 
   var result = [];
-  _.each(context, function(value, key){
-    result.push({key:key, value:value})
+  _.each(context, function ( value, key ) {
+    result.push({ key:key, value:value })
   })
 
   return result
