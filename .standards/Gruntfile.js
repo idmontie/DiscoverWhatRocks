@@ -66,99 +66,16 @@ module.exports = function (grunt) {
             config: '.scss-lint.yml'
         }
       },
-
-      // // QUnit
-      // // =====
-      // qunit: {
-      //     options: {
-      //         inject: 'test/qunit/phantom.js',
-      //         // size the viewport for mobile
-      //         page : {
-      //             viewportSize : {
-      //                 width : 766
-      //             }
-      //         }
-      //     },
-      //     files: [
-      //         'test/qunit/index.html',
-      //         'test/qunit/visual-index.html'
-      //     ]
-      // },
-      // // SASS Compile
-      // // ============
-      // sass: {
-      //     options: {
-      //         style: 'expanded',
-      //         sourcemap: 'auto'
-      //     },
-      //     dist: {
-      //         files: {
-      //             'build/css/bootstrap-asu.css' : 'scss/bootstrap-asu.scss',
-      //             'build/css/bootstrap-asu-theme-base.css' : 'scss/bootstrap-asu-theme-base.scss'
-      //         }
-      //     },
-      //     fortesting: {
-      //         files: {
-      //             'test/vendor/css/bootstrap-asu.css' : 'scss/bootstrap-asu.scss',
-      //             'test/vendor/css/bootstrap-asu-theme-base.css' : 'scss/bootstrap-asu-theme-base.scss'
-      //         }
-
-      //     }
-      // },
-      // // JS Compile
-      // // ==========
-      // concat: {
-      //     bootstrapAsu: {
-      //         src: [
-      //             'js/_modernizr.js',
-      //             'js/_smoothscroll.js',
-      //             'js/_smartresize.js',
-      //             'js/_calendar.js',
-      //             'js/_sidebar.js',
-      //             'js/_collapse-footer.js'
-      //         ],
-      //          dest: 'build/js/bootstrap-asu.js'
-      //     }
-      // },
-      // // JS Uglify
-      // // =========
-      // uglify: {
-      //   options: {
-      //     preserveComments: 'some'
-      //   },
-      //   core: {
-      //     src: 'build/js/bootstrap-asu.js',
-      //     dest: 'build/js/bootstrap-asu.min.js'
-      //   }
-      // },
-      // // Watch
-      // // =====
-      // watch: {
-      //     core: {
-      //         files: '<%= jshint.core.src %>',
-      //         tasks: ['jshint:core', 'qunit']
-      //     }
-      // }
     });
 
     // These plugins provide necessary tasks
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-scss-lint');
-    // grunt.loadNpmTasks('grunt-contrib-watch');
-    // grunt.loadNpmTasks('grunt-contrib-sass');
-    // grunt.loadNpmTasks('grunt-contrib-uglify');
-    // grunt.loadNpmTasks('grunt-contrib-concat');
-    // grunt.loadNpmTasks('grunt-contrib-qunit');
 
     // Default task
     grunt.registerTask('default', [
         'jshint', 
         'jscs',
-        'scsslint',
-        /*'sass:fortesting',
-        'qunit',
-        'sass:dist',
-        'concat',
-        'uglify'*/]);
+        'scsslint']);
 };
