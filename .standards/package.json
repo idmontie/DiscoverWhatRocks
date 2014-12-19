@@ -17,6 +17,6 @@
     "grunt-contrib-concat": "~0.5.0"
   },
   "scripts" : {
-    "test": "grunt --gruntfile .standards/Gruntfile.js"
+    "test": "grunt --gruntfile Gruntfile.js"
   }
 }
