@@ -3,6 +3,9 @@
  * Contains routes for Iron Router configuration
  */
 
+// Code coverage complains about Router not being defined
+/* global Router */
+
 /* global Circles */
 /* global Meetups */
 

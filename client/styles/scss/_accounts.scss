@@ -12,13 +12,13 @@
   color: rgb(255, 255, 255);
   display: inline-block;
   font-size: 18px;
-  margin: 0px auto 18px auto;
+  margin: 0 auto 18px;
   padding: 16px 52px 16px 32px;
   position: relative;
   text-align: center;
   text-decoration: none;
   transition-delay: 0s;
-  transition-duration: 0.3s;
+  transition-duration: .3s;
   transition-property: background-color;
   transition-timing-function: ease-out;
   width: 100%;
@@ -30,11 +30,6 @@
 }
 
 .accounts-dialog {
-  -webkit-font-smoothing: antialiased;
-  -webkit-transition-delay: 0s;
-  -webkit-transition-duration: 0.3s;
-  -webkit-transition-property: opacity;
-  -webkit-transition-timing-function: ease-out;
   background-color: rgb(231, 231, 231);
   border: rgb(199, 199, 199) solid 1px;
   box-sizing: border-box;
@@ -43,26 +38,31 @@
   display: block;
   font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
   font-size: 12px;
+  -webkit-font-smoothing: antialiased;
   font-style: normal;
   font-weight: normal;
   line-height: 17.3332805633545px;
   margin-bottom: 10px;
   padding: 13px;
   position: relative;
+  -webkit-transition-delay: 0s;
   transition-delay: 0s;
-  transition-duration: 0.3s;
+  -webkit-transition-duration: .3s;
+  transition-duration: .3s;
+  -webkit-transition-property: opacity;
   transition-property: opacity;
+  -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 
   .error-message {
-    display: block;
-    padding: 0.33333rem 0.5rem 0.5rem;
-    margin-top: -1px;
-    font-size: 0.66667rem;
-    font-weight: normal;
-    font-style: italic;
     background: #f04124;
-    color: #FFFFFF;
+    color: #fff;
+    display: block;
+    font-size: .7rem;
+    font-style: italic;
+    font-weight: normal;
+    margin-top: -1px;
+    padding: .3rem .5rem .5rem;
   }
 }
 
@@ -72,42 +72,20 @@
 
 .login-button {
   -webkit-appearance: none;
-  -webkit-font-smoothing: antialiased;
-  -webkit-transition-delay: 0s;
-  -webkit-transition-duration: 0.3s;
-  -webkit-transition-property: background-color;
-  -webkit-transition-timing-function: ease-out;
   background-color: rgb(0, 112, 149);
-  border-bottom-color: rgb(0, 112, 149);
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-bottom-style: solid;
-  border-bottom-width: 0px;
-  border-left-color: rgb(0, 112, 149);
-  border-left-style: solid;
-  border-left-width: 0px;
-  border-right-color: rgb(0, 112, 149);
-  border-right-style: solid;
-  border-right-width: 0px;
-  border-top-color: rgb(0, 112, 149);
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  border-top-style: solid;
-  border-top-width: 0px;
+  border: 0;
   box-sizing: border-box;
   color: rgb(255, 255, 255);
   cursor: pointer;
   display: inline-block;
   font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
   font-size: 14px;
+  -webkit-font-smoothing: antialiased;
   font-style: normal;
   font-weight: normal;
   height: 45.328125px;
   line-height: normal;
-  margin-bottom: 17.777759552002px;
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-top: 0px;
+  margin-bottom: 0 17.777759552002px 0 0;
   padding-bottom: 15.1110401153564px;
   padding-left: 28.4444808959961px;
   padding-right: 28.4444808959961px;
@@ -115,9 +93,13 @@
   position: relative;
   text-align: center;
   text-decoration: none;
+  -webkit-transition-delay: 0s;
   transition-delay: 0s;
-  transition-duration: 0.3s;
+  -webkit-transition-duration: .3s;
+  transition-duration: .3s;
+  -webkit-transition-property: background-color;
   transition-property: background-color;
+  -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
   width: 100%;
 }

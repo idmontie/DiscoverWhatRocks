@@ -56,6 +56,17 @@ module.exports = function (grunt) {
           src: '<%= jshint.lib.src %>'
         }
       },
+      // SCSS Lint
+      // =========
+      scsslint: {
+          allFiles: [
+              '../client/styles/scss/*.scss'
+          ],
+          options: {
+            config: '.scss-lint.yml'
+        }
+      },
+
       // // QUnit
       // // =====
       // qunit: {
@@ -72,19 +83,6 @@ module.exports = function (grunt) {
       //         'test/qunit/index.html',
       //         'test/qunit/visual-index.html'
       //     ]
-      // },
-      // // SCSS Lint
-      // // =========
-      // scsslint: {
-      //     allFiles: [
-      //         'scss/*.scss',
-      //         'scss/mixins/*.scss',
-      //         'scss/theme/*.scss'
-      //         // Not font_awesome
-      //     ],
-      //     options: {
-      //       config: 'scss/.scss-lint.yml'
-      //   }
       // },
       // // SASS Compile
       // // ============
@@ -146,8 +144,8 @@ module.exports = function (grunt) {
     // These plugins provide necessary tasks
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
+    grunt.loadNpmTasks('grunt-scss-lint');
     // grunt.loadNpmTasks('grunt-contrib-watch');
-    // grunt.loadNpmTasks('grunt-scss-lint');
     // grunt.loadNpmTasks('grunt-contrib-sass');
     // grunt.loadNpmTasks('grunt-contrib-uglify');
     // grunt.loadNpmTasks('grunt-contrib-concat');
@@ -157,8 +155,8 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'jshint', 
         'jscs',
-        /*'scsslint',
-        'sass:fortesting',
+        'scsslint',
+        /*'sass:fortesting',
         'qunit',
         'sass:dist',
         'concat',

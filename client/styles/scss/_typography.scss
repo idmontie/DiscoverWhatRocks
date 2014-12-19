@@ -9,13 +9,13 @@
 // ====
 
 .lead {
-  -webkit-font-smoothing: antialiased;
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 20px;
+  -webkit-font-smoothing: antialiased;
   font-weight: 200;
   line-height: 1.4;
-  max-width: 1000px;
   margin-bottom: 24px;
+  max-width: 1000px;
 }
 
 h1.lead,
