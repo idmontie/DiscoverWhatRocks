@@ -1,3 +1,15 @@
+/**
+ * Circles Form Template Helper
+ *
+ * Template Helper for the circles form, including `circles-add-form` and
+ * `circles-update-form`.
+ */
+
+// A special function defined by Meteor
+/* global check */
+
+/* global Circles */
+/* global Schema */
 
 // Session gets reset in the router
 Session.setDefault( 'invited-friends', [] );
@@ -26,6 +38,7 @@ function get_error_message_for_circle ( circle ) {
   return null
 }
 
+// ================
 // Circles Add Form
 // ================
 
@@ -68,7 +81,8 @@ Template['circles-add-form'].helpers({
 });
 
 Template['circles-add-form'].events({
-  'keyup #circles_add_form input, change #circles_add_form input' : function ( e ) {
+  'keyup #circles_add_form input, change #circles_add_form input' : function () {
+    'use strict';
 
     var circle = create_circle_from_form()
     var errors = get_error_message_for_circle( circle )
@@ -76,6 +90,8 @@ Template['circles-add-form'].events({
     Session.set( 'form-errors', errors )
   },
   'submit #circles_add_form' : function ( e ) {
+    'use strict';
+
     e.preventDefault();
 
     var circle = create_circle_from_form()
@@ -89,19 +105,24 @@ Template['circles-add-form'].events({
   }
 });
 
+// ===================
 // Circles Update Form
 // ===================
+
+// TODO
 
 Template['circles-update-form'].helpers({
   'invited_friends' : function () {
     'use strict';
     return Session.get( 'invited-friends' );
-  },
+  }
 })
 
 Template['circles-update-form'].events({
   'click #add_invited_friend' : function ( e ) {
     'use strict';
+
+    e.preventDefault();
 
     var invited_friend = $('#invited_friend').val();
 
@@ -115,6 +136,10 @@ Template['circles-update-form'].events({
   },
   // TODO handle enter
   'click #invited_friends .remove' : function ( e ) {
+    'use strict';
+
+    e.preventDefault();
+
     // Force 'this' to be a string
     var invited_friend = this.value + '';
 

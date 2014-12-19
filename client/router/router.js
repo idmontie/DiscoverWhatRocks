@@ -1,11 +1,22 @@
 /**
  * Router File
- * Contains routes
+ * Contains routes for Iron Router configuration
  */
+
+/* global Circles */
+/* global Meetups */
+
+// ====================
+// Global Configuration
+// ====================
 
 Router.configure({
   layoutTemplate: 'application-layout'
 });
+
+// ====
+// Home
+// ====
 
 Router.route('/', function () {
   'use strict';
@@ -14,7 +25,11 @@ Router.route('/', function () {
   name : 'home'
 });
 
-Router.route('/circles/hangout/add/:slug', function () {
+// =======
+// Meetups
+// =======
+
+Router.route('/circles/meetups/add/:slug', function () {
   'use strict';
 
   var circle = Circles.findOne( {
@@ -28,14 +43,14 @@ Router.route('/circles/hangout/add/:slug', function () {
   name : 'meetups-add-form'
 });
 
-Router.route('/circles/hangout/update/:slug', function () {
+Router.route('/circles/meetups/update/:slug', function () {
   'use strict';
   this.render('meetups-update-form');
 }, {
   name : 'meetups-update-form'
 });
 
-Router.route('/circles/hangout/:slug', function () {
+Router.route('/circles/meetups/:slug', function () {
   'use strict';
 
   var meetup = Meetups.findOne( {
@@ -93,8 +108,6 @@ Router.route('/circles/:slug', function () {
   var meetups = Meetups.find( {
     circle_id : circle._id
   } );
-
-  console.log( meetups );
 
   this.render('circle', {
     data : {

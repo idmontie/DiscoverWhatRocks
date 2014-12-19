@@ -1,29 +1,45 @@
 /**
  * Global Template Helpers
+ *
+ * Template helpers that are present globally.  Similar to autorun
+ * template helpers, but are normally reactive.
  */
+
+/* global slugify */
+
 // Configure UI helper
 Template.registerHelper( 'current_route_name', function () {
+  'use strict';
+
   if ( Router.current() &&
        Router.current().route.getName() ) {
-    return slugify( Router.current().route.getName() );
+    return slugify( Router.current().route.getName() )
   }
 
-  return 'NA';
+  return 'NA'
 } );
 
 Template.registerHelper( 'session', function ( input ) {
-  return Session.get( input );
+  'use strict';
+
+  return Session.get( input )
 });
 
 Template.registerHelper( 'number_of_upcoming_meetups_for_circle', function ( circle ) {
-  // TODO
+  'use strict';
+
+  // TODO trick to shut grunt up
+  circle = circle
   return 0;
 } );
 
-Handlebars.registerHelper('key_value', function(context, options) {
+Handlebars.registerHelper('key_value', function(context) {
+  'use strict';
+
   var result = [];
-  _.each(context, function(value, key, list){
-    result.push({key:key, value:value});
+  _.each(context, function(value, key){
+    result.push({key:key, value:value})
   })
-  return result;
+
+  return result
 });

@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "0.10"
+before_install: 
+  - npm install -g grunt-cli
+  - gem install sass
+  - gem update --system
+  - gem install scss-lint
+  - cd .standards
+install: npm install

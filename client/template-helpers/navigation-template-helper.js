@@ -1,3 +1,11 @@
+/**
+ * Navigation Template Helpers
+ *
+ * Template helpers for navigation
+ */
+
+/* global Circles */
+
 Template.navigation.helpers( {
   circles : function () {
     'use strict';
@@ -14,8 +22,9 @@ Template.navigation.events( {
   /**
    * Close the navigation
    */
-  'click .left-off-canvas-menu li a' : function ( e ) {
+  'click .left-off-canvas-menu li a' : function () {
     'use strict';
+    
     $('.off-canvas-wrap').removeClass('move-right')
   },
   'click .logout' : function ( e ) {
