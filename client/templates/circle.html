@@ -1,12 +1,13 @@
 <template name="circle">
-  <h1 class="lead">Your Circle: {{circle.name}}</h1>
-
   <div class="icon-bar three-up">
     <a class="item" href="/circles/hangout/add/{{circle.slug}}">
       <i class="fa fa-plus"></i>
       <label>Create a Meetup</label>
     </a>
-    <a class="item">
+    <a class="item" href="TODO">
+      <div class="overlay">
+        <span class="label round overlay-up overlay-right">{{numberOfFriends}}</span>
+      </div>
       <i class="fa fa-group"></i>
       <label>Add Friends</label>
     </a>
@@ -16,14 +17,41 @@
     </a>
   </div>
 
+  <div class="row">
+    <div class="large-offset-1 large-10 columns">
+      <h1 class="lead">Your Circle: {{circle.name}}</h1>
 
-  <ul class="stack button-group">
-    {{#each meetups}}
-      <li>
-        <a href="/circles/hangout/{{slug}}" class="button">
-          {{date_to_meet}}
-        </a>
-      </li>
-    {{/each}}
-  </ul>
+      <ul class="stack button-group">
+        {{#each meetups}}
+          <li>
+            <a href="/circles/hangout/{{slug}}" class="button">
+              {{dateToMeet}}
+            </a>
+          </li>
+        {{/each}}
+
+        {{#if noMeetups}}
+          <div class="row">
+            <div class="large-offset-3 large-6 columns">
+              <div class="panel center">
+                <h5>Get started by creating a Meetup!</h5>
+
+                <a class="button expand" href="/circles/hangout/add/{{circle.slug}}">
+                  <i class="fa fa-plus"></i>&nbsp;Create a Meetup
+                </a>
+
+                {{#if noFriends}}
+                  <p>Or how about addings some friends to this Circle?</p>
+
+                  <a class="button expand" href="TODO">
+                  <i class="fa fa-group"></i>&nbsp;Add Friends
+                </a>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
 </template>

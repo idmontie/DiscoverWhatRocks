@@ -1,0 +1,24 @@
+// ==========================
+// Overlays Core: v0.0.1
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
+
+.overlay {
+  display: inline;
+  position: relative;
+  width: 1px;
+
+  * {
+    position: absolute !important;  
+
+    &.overlay-up {
+      top: -12px;
+    }
+
+    &.overlay-right {
+      left: 12px;
+    }
+  }
+}
