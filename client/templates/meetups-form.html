@@ -1,7 +1,9 @@
 <template name="meetups-add-form">
-  <form id="meetups_add_form">
-    <div class="row">
-      <div class="large-12 columns">
+  <div class="row">
+    <div class="large-offset-1 large-10 columns">
+      <h1 class="lead">Create a Meetup for "{{name}}"</h1>
+
+      <form id="meetups_add_form">
         <label class="{{#if date_is_not_valid}}error{{/if}}">
           When To Meet
           <input type="datetime" name="date_to_meet" />
@@ -9,9 +11,7 @@
         {{#if date_is_not_valid}}
           <small class="error">{{{date_error_message}}}</small>
         {{/if}}
-      </div>
 
-      <div class="small-12 medium-12 columns">
         <label>
           Meetup Distance (<span id="meetup_slider">1</span> miles)
           <div id="meetup_slider_foundation" class="range-slider radius" data-slider data-options="display_selector: #meetup_slider; start: 0; end: 10; step: 0.5;">
@@ -20,18 +20,17 @@
             <input type="hidden" name="meetup_slider_distance" value="1">
           </div>
         </label>
-      </div>
 
-      <div class="large-12 columns">
         <input type="hidden" id="map_center" />
         <a href="#" class="button postfix" id="use_current_location"  {{geolocationEnabled}} >Use My Current Location</a>
 
         <div id="map-canvas" class="map-canvas"></div>
-      </div>
-    </div>
 
-    <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Meetup</button>
-  </form>
+        <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Meetup</button>
+      </form>
+    </div>
+  </div>
+  
   <script>
     // TODO clicking in the circle should move the circle
     // TODO clicking on a location should move the circle

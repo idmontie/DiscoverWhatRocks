@@ -63,12 +63,29 @@ Router.route('/circles/meetups/update/:slug', function () {
 Router.route('/circles/meetups/:slug', function () {
   'use strict';
 
-  var meetup = Meetups.findOne( {
-    slug : this.params.slug
-  } );
-
   this.render('meetup', {
-    data : meetup
+    data : function () {
+      var circle = null
+
+      var meetup = Meetups.findOne( {
+        slug : this.params.slug
+      } )
+
+      if ( meetup ) {
+        circle = Circles.findOne( {
+          _id : meetup.circleId
+        } )
+      } else {
+
+      }
+
+      
+
+      return {
+        meetup : meetup,
+        circle : circle  
+      }
+    }
   } );
 }, {
   name : 'meetup'

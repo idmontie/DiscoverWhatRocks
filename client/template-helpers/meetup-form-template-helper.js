@@ -52,7 +52,11 @@ Template['meetups-add-form'].events( {
       circleId: this._id
     } )
 
-    Meetups.insert( meetup )
+    var newId = Meetups.insert( meetup )
+
+    meetup = Meetups.findOne( {
+      _id : newId
+    } )
 
     // redirect to the meetup view
     Router.go( 'meetup', {

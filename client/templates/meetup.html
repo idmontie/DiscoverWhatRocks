@@ -1,5 +1,5 @@
 <template name="meetup">
-  {{date_to_meet}}
+  {{meetup.dateToMeet}}
 
   <div id="map-canvas" style="width:100%;height:350px;"></div>
 
@@ -11,36 +11,47 @@
 
   <script>
   var _$ = this;
+
+  // Data Defaults
+  // =============
   _$.data = window.Template.currentData($('#map-canvas')[0]);
   _$.vote_marker = false;
   // Hack to make sure no infinite map refreshes happen
   _$.selfInterval = _$.selfInterval || -1;
   clearInterval( _$.selfInterval );
 
+  /**
+   * Wait for circle and meetup context to be ready
+   */
   _$.selfInterval = setInterval( function () {
-    if ( _$.data !== null) {
+    if ( _$.data !== null &&
+         _$.data.circle !== null &&
+         _$.data.meetup !== null) {
       clearInterval( selfInterval );
 
       run();
     } else {
+      // Try again
       _$.data = window.Template.currentData( $('#map-canvas')[0] );
     }
   }, 100 );
 
+  /**
+   * Run after data is set
+   */
   function run() {
-
     var Coords = {
-      latitude: data.map_center.latitude,
-      longitude: data.map_center.longitude
+      latitude: _$.data.meetup.mapCenter.latitude,
+      longitude: _$.data.meetup.mapCenter.longitude
     }
     
     _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
       center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
       zoom: 13
     } );
-    _$.scale = parseFloat( data.map_center.radius );
+    _$.scale = parseFloat( _$.data.meetup.mapCenter.radius );
 
-    var meetup_location = {
+    var meetupLocation = {
       strokeColor: '#FF0000',
       strokeOpacity: 0.8,
       strokeWeight: 2,
@@ -51,7 +62,7 @@
       radius: _$.scale
     };
 
-    _$.meetup_circle = new google.maps.Circle( meetup_location );
+    _$.meetupCircle = new google.maps.Circle( meetupLocation );
 
     // TODO mark votes
 
@@ -60,7 +71,7 @@
       set_center( np.latLng.lat(), np.latLng.lng() );
     } )
 
-    google.maps.event.addListener( _$.meetup_circle, 'click', function ( np ) {
+    google.maps.event.addListener( _$.meetupCircle, 'click', function ( np ) {
       set_center( np.latLng.lat(), np.latLng.lng() );
     } )
 
