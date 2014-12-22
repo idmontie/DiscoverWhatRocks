@@ -2,7 +2,7 @@
   {{#if session "meteorLoggedIn"}}
     {{> homeLoggedIn}}
   {{else}}
-    {{> home_portal}}
+    {{> homePortal}}
   {{/if}}
 </template>
 
@@ -36,11 +36,21 @@
 
 </template>
 
-<template name="home_portal">
+<template name="homePortal">
   <div class="heading">
     <div class="heading-push"></div>
-    <div class="small-8 small-centered columns">
-      {{> loginButtons}}
+    <div class="row">
+      <div class="medium-6 columns">
+        <h1>Discover what rocks</h1>
+        <p class="lead">
+          Want to hang out with your friends but don't know where to go?
+          <br/>
+          Search, invite, and vote.
+        </p>
+      </div>
+      <div class="medium-6 columns">
+        {{> loginCustom}}
+      </div>
     </div>
   </div>  
 </template>

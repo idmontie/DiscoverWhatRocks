@@ -1,6 +1,6 @@
 <template name="circle">
-  <div class="icon-bar three-up">
-    <a class="item" href="/circles/hangout/add/{{circle.slug}}">
+  <div class="icon-bar three-up box-bar">
+    <a class="item" href="/circles/meetups/add/{{circle.slug}}">
       <i class="fa fa-plus"></i>
       <label>Create a Meetup</label>
     </a>
@@ -24,7 +24,7 @@
       <ul class="stack button-group">
         {{#each meetups}}
           <li>
-            <a href="/circles/hangout/{{slug}}" class="button">
+            <a href="/circles/meetups/{{slug}}" class="button">
               {{dateToMeet}}
             </a>
           </li>
@@ -36,7 +36,7 @@
               <div class="panel center">
                 <h5>Get started by creating a Meetup!</h5>
 
-                <a class="button expand" href="/circles/hangout/add/{{circle.slug}}">
+                <a class="button expand" href="/circles/meetups/add/{{circle.slug}}">
                   <i class="fa fa-plus"></i>&nbsp;Create a Meetup
                 </a>
 
