@@ -12,6 +12,9 @@
 /* global currentPositionCallback */
 
 Template['meetups-add-form'].helpers( {
+  /**
+   * Check for geolocation browser capability
+   */
   geolocationEnabled : function () {
     'use strict';
 
@@ -36,14 +39,16 @@ Template['meetups-add-form'].events( {
 
     // TODO validation
 
-    var meetupDate        = $( 'input[name="date_to_meet"]' ).val()
+    var name              = $( 'input[name="name"]' ).val()
+    var meetupDate        = $( 'input[name="dateToMeet"]' ).val()
     var tempLocationParts = $( '#map_center' ).val().split( ',' )
     var meetupLatitude    = tempLocationParts[0].trim()
     var meetupLongitude   = tempLocationParts[1].trim()
     var meetupRadius      = window.scale
 
     var meetup = Schema.meetups.clean( {
-      dateToMeet: meetupDate,
+      name : name,
+      dateToMeet : meetupDate,
       mapCenter : {
         latitude : meetupLatitude,
         longitude : meetupLongitude,

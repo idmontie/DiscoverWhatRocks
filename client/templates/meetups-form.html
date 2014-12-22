@@ -4,9 +4,18 @@
       <h1 class="lead">Create a Meetup for "{{name}}"</h1>
 
       <form id="meetups_add_form">
+      <label class="{{#if name_is_not_valid}}error{{/if}}">
+          Name Your Meetup
+          <input type="text" name="name" />
+        </label>
+        {{#if name_is_not_valid}}
+          <small class="error">{{{name_error_message}}}</small>
+        {{/if}}
+
+
         <label class="{{#if date_is_not_valid}}error{{/if}}">
           When To Meet
-          <input type="datetime" name="date_to_meet" />
+          <input type="datetime" name="dateToMeet" />
         </label>
         {{#if date_is_not_valid}}
           <small class="error">{{{date_error_message}}}</small>

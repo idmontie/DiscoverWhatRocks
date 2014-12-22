@@ -1,13 +1,23 @@
 <template name="meetup">
-  {{meetup.dateToMeet}}
+  <div class="row">
+    <div class="large-offset-1 large-10 columns">
+      <h1 class="lead">{{meetup.name}}</h1>
 
-  <div id="map-canvas" style="width:100%;height:350px;"></div>
+      {{meetup.dateToMeet}}
 
-  <form>
-    <input name="vote_location" id="vote_location" />
-  </form>
+      <div id="map-canvas" style="width:100%;height:350px;"></div>
 
-  <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand disabled">Click on the Map to Vote Where You'd Like to Meet</button>
+      <form>
+        <input name="vote_location" id="vote_location" />
+      </form>
+
+      <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand disabled">Click on the Map to Vote Where You'd Like to Meet</button>
+    </div>
+  </div>
+  
+  {{!
+   Page scripts
+  }}
 
   <script>
   var _$ = this;
