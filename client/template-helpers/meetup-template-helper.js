@@ -26,10 +26,14 @@ Template.meetup.helpers( {
   },
   voteAlreadyCast : function () {
     'use strict';
-    ReactivityHelper.reliesOn( this.meetup )
+    var isSet = ReactivityHelper.reliesOn( this.meetup )
 
-    var index = getPreviouslyCastVote( this.meetup, Meteor.userId() )
-    return index !== -1
+    if ( isSet ) {
+      var index = getPreviouslyCastVote( this.meetup, Meteor.userId() )
+      return index !== -1
+    } else {
+      return false
+    }
   }
 } )
 

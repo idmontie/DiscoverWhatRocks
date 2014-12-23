@@ -67,15 +67,18 @@ Template['meetups-add-form'].events( {
 
     var newId = Meetups.insert( meetup )
 
-    meetup = Meetups.findOne( {
-      _id : newId
+    Meteor.call( 'getRealMeetupSlug', newId, function ( err, data ) {
+      if ( err ) {
+        // TODO
+      }
+
+      // redirect to the meetup view
+      Router.go ( 'meetup', {
+        slug : data
+      } )
     } )
 
-    // redirect to the meetup view
-    // TODO this redirects to the wrong slug
-    Router.go( 'meetup', {
-      slug : meetup.slug
-    })
+    
   }
 } );
 

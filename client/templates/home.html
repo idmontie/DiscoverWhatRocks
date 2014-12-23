@@ -20,17 +20,47 @@
     <div class="large-offset-1 large-10 columns">
       <h1 class="lead">Your Circles</h1>
 
-      <ul class="stack button-group">
-        {{#each circles}}
-          <li>
-            <a href="/circles/{{slug}}" class="button">
-              {{name}}
-              &nbsp;
-              {{number_of_upcoming_meetups_for_circle this}}
-            </a>
-          </li>
-        {{/each}}
-      </ul>
+      {{#if noCircles}}
+        <div class="row">
+          <div class="large-offset-3 large-6 columns">
+            <div class="panel center">
+              <h5>Get started by creating a Circle!</h5>
+
+              <a class="button expand" href="/circles/add">
+                <i class="fa fa-plus"></i>&nbsp;Create a Circle
+              </a>
+            </div>
+          </div>
+        </div>
+      {{else}}
+        <ul class="stack button-group">
+          {{#each circles}}
+            {{>circleBadge this}}
+          {{/each}}
+        </ul>
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-offset-1 large-10 columns">
+      <h1 class="lead">Circles You've Been Invited To</h1>
+
+      {{#if noFriendsCircles}}
+        <div class="row">
+          <div class="large-offset-3 large-6 columns">
+            <div class="panel center">
+              <h5>When your friends invite you to circles, they will show up here</h5>
+            </div>
+          </div>
+        </div>
+      {{else}}
+        <ul class="stack button-group">
+          {{#each circles}}
+            {{> circleBadge this}}
+          {{/each}}
+        </ul>
+      {{/if}}
     </div>
   </div>
 

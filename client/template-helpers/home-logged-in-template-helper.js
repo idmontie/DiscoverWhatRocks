@@ -6,19 +6,41 @@
 
 /* global Circles */
 
-// normally the template name will be dashed
-// But this one needs to be used as a partial
-
 Template.homeLoggedIn.helpers({
   circles : function () {
     'use strict';
 
     return Circles.find( {
-      // Nothing for now
+      ownerId : Meteor.userId()
     }, {
       sort: {
         dateCreated: -1
       }
     } )
+  },
+  noCircles : function () {
+    'use strict';
+
+    return Circles.find( {
+      ownerId : Meteor.userId()
+    } ).fetch().length === 0
+  },
+  friendsCircles : function () {
+    'use strict';
+
+    return Circles.find( {
+      'users.$.userId' : Meteor.userId()
+    }, {
+      sort: {
+        dateCreated: -1
+      }
+    } )
+  },
+  noFriendsCircles : function () {
+    'use strict';
+
+    return Circles.find( {
+      'users.$.userId' : Meteor.userId()
+    } ).fetch().length === 0
   }
 });

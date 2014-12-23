@@ -86,7 +86,12 @@ Router.route('/circles/meetups/:slug', function () {
     }
   } );
 }, {
-  name : 'meetup'
+  name : 'meetup',
+  action : function () {
+    if ( this.ready() ) {
+      this.render()
+    }
+  }
 });
 
 

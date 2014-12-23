@@ -20,38 +20,37 @@
   <div class="row">
     <div class="large-offset-1 large-10 columns">
       <h1 class="lead">Your Circle: {{circle.name}}</h1>
+      {{#if noMeetups}}
+        <div class="row">
+          <div class="large-offset-3 large-6 columns">
+            <div class="panel center">
+              <h5>Get started by creating a Meetup!</h5>
 
-      <ul class="stack button-group">
-        {{#each meetups}}
-          <li>
-            <a href="/circles/meetups/{{slug}}" class="button">
-              {{name}} - {{dateToMeet}}
-            </a>
-          </li>
-        {{/each}}
+              <a class="button expand" href="/circles/meetups/add/{{circle.slug}}">
+                <i class="fa fa-plus"></i>&nbsp;Create a Meetup
+              </a>
 
-        {{#if noMeetups}}
-          <div class="row">
-            <div class="large-offset-3 large-6 columns">
-              <div class="panel center">
-                <h5>Get started by creating a Meetup!</h5>
+              {{#if noFriends}}
+                <p>Or how about addings some friends to this Circle?</p>
 
-                <a class="button expand" href="/circles/meetups/add/{{circle.slug}}">
-                  <i class="fa fa-plus"></i>&nbsp;Create a Meetup
-                </a>
-
-                {{#if noFriends}}
-                  <p>Or how about addings some friends to this Circle?</p>
-
-                  <a class="button expand" href="TODO">
-                  <i class="fa fa-group"></i>&nbsp;Add Friends
-                </a>
-                {{/if}}
-              </div>
+                <a class="button expand" href="TODO">
+                <i class="fa fa-group"></i>&nbsp;Add Friends
+              </a>
+              {{/if}}
             </div>
           </div>
-        {{/if}}
-      </ul>
+        </div>
+      {{else}}
+        <ul class="stack button-group">
+          {{#each meetups}}
+            <li>
+              <a href="/circles/meetups/{{slug}}" class="button">
+                {{name}} - {{dateToMeet}}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      {{/if}}
     </div>
   </div>
 </template>
