@@ -12,47 +12,54 @@
 var loginButtonsSession = Accounts._loginButtonsSession;
 
 Template.loginCustom.events( {
-  'click #login-buttons-password': function () {
-    loginOrSignup();
+  'click #login-buttons-password' : function () {
+    'use strict';
+
+    loginOrSignup()
   },
 
-  'keypress #forgot-password-email': function (event) {
-    if (event.keyCode === 13)
-      forgotPassword();
+  'keypress #forgot-password-email' : function ( event ) {
+    'use strict';
+
+    if ( event.keyCode === 13 )
+      forgotPassword()
   },
 
-  'click #login-buttons-forgot-password': function () {
-    forgotPassword();
+  'click #login-buttons-forgot-password' : function () {
+    'use strict';
+
+    forgotPassword()
   },
 
-  'click #signup-link': function () {
-    loginButtonsSession.resetMessages();
+  'click #signup-link' : function () {
+    'use strict';
+
+    loginButtonsSession.resetMessages()
 
     // store values of fields before swtiching to the signup form
-    var username = trimmedElementValueById('login-username');
-    var email = trimmedElementValueById('login-email');
-    var usernameOrEmail = trimmedElementValueById('login-username-or-email');
-    // notably not trimmed. a password could (?) start or end with a space
-    var password = elementValueById('login-password');
+    var username        = trimmedElementValueById( 'login-username' )
+    var email           = trimmedElementValueById( 'login-email' )
+    var usernameOrEmail = trimmedElementValueById( 'login-username-or-email' )
+    var password        = elementValueById( 'login-password' )
 
-    loginButtonsSession.set('inSignupFlow', true);
-    loginButtonsSession.set('inForgotPasswordFlow', false);
+    loginButtonsSession.set( 'inSignupFlow', true )
+    loginButtonsSession.set( 'inForgotPasswordFlow', false )
     // force the ui to update so that we have the approprate fields to fill in
-    Tracker.flush();
+    Tracker.flush()
 
     // update new fields with appropriate defaults
-    if (username !== null)
-      document.getElementById('login-username').value = username;
-    else if (email !== null)
-      document.getElementById('login-email').value = email;
-    else if (usernameOrEmail !== null)
-      if (usernameOrEmail.indexOf('@') === -1)
-        document.getElementById('login-username').value = usernameOrEmail;
+    if ( username !== null )
+      document.getElementById( 'login-username' ).value = username
+    else if ( email !== null )
+      document.getElementById( 'login-email' ).value = email
+    else if ( usernameOrEmail !== null )
+      if ( usernameOrEmail.indexOf( '@' ) === -1 )
+        document.getElementById( 'login-username' ).value = usernameOrEmail
     else
-      document.getElementById('login-email').value = usernameOrEmail;
+      document.getElementById( 'login-email' ).value = usernameOrEmail
 
     if (password !== null)
-      document.getElementById('login-password').value = password;
+      document.getElementById( 'login-password' ).value = password
 
     // Force redrawing the `login-dropdown-list` element because of
     // a bizarre Chrome bug in which part of the DIV is not redrawn
@@ -67,6 +74,8 @@ Template.loginCustom.events( {
     redraw.style.display = 'block';
   },
   'click #forgot-password-link': function () {
+    'use strict';
+
     loginButtonsSession.resetMessages();
 
     // store values of fields before swtiching to the signup form
@@ -87,6 +96,8 @@ Template.loginCustom.events( {
 
   },
   'click #back-to-login-link': function () {
+    'use strict';
+
     loginButtonsSession.resetMessages();
 
     var username = trimmedElementValueById('login-username');
@@ -108,12 +119,14 @@ Template.loginCustom.events( {
     if (document.getElementById('login-username-or-email'))
       document.getElementById('login-username-or-email').value = email || username;
 
-    if (password !== null)
-      document.getElementById('login-password').value = password;
+    if ( password !== null )
+      document.getElementById( 'login-password' ).value = password;
   },
   'keypress #login-username, keypress #login-email, keypress #login-username-or-email, keypress #login-password, keypress #login-password-again': function (event) {
-    if (event.keyCode === 13)
-      loginOrSignup();
+    'use strict';
+
+    if ( event.keyCode === 13 )
+      loginOrSignup()
   }
 } );
 

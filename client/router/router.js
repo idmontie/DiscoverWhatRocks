@@ -78,9 +78,7 @@ Router.route('/circles/meetups/:slug', function () {
       } else {
 
       }
-
       
-
       return {
         meetup : meetup,
         circle : circle  

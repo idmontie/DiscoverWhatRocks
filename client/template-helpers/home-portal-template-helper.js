@@ -3,5 +3,3 @@
  *
  * Template helper for the home portal template
  */
-
-/* global Circles */
