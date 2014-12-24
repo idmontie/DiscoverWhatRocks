@@ -7,7 +7,7 @@
 
       <p class="lead">{{placeType.readibleName}}</p>
 
-      <div id="map-canvas" style="width:100%;height:350px;"></div>
+      <div id="map-canvas" class="map-canvas"></div>
 
       <form>
         <input name="vote_location" id="vote_location" type="hidden" />
@@ -24,6 +24,34 @@
         {{/if}}
       {{/if}}
       </button>
+      <div class="votes">
+      {{#if hasVotes}} 
+        <h1 class="lead">Votes</h1>
+
+        <ul class="stack button-group votes">
+          {{#each structuredVotes}}
+            <li class="vote-badge panel">
+              <h3 class="lead">{{placeName}}</h3>
+              <div class="right">
+                <button id="vote-premade" class="button success">
+                  {{#if voteAlreadyCast}}
+                    Change Your Vote
+                  {{else}}
+                    Vote
+                  {{/if}}
+                </button>
+              </div>
+              <div class="voters">
+                {{#each voters}}
+                  <img src="{{gravatar}}" />
+                {{/each}}
+              </div>
+              <div class="clearfix"></div>
+            </li>
+          {{/each}}
+        </ul>
+      {{/if}}
+      </div>
     </div>
   </div>
   
