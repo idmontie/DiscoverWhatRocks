@@ -1,0 +1,11 @@
+<template name="loginCustom">
+  <div class="login-link-and-dropdown-list {{additionalClasses}}">
+    <div id="login-dropdown-list" class="accounts-dialog">
+      {{#if loggingIn}}
+        {{> _loginButtonsLoggingIn}}
+      {{/if}}
+      <div class="login-close-text-clear"></div>
+      {{> _loginButtonsLoggedOutAllServices}}
+    </div>
+  </div>
+</template>

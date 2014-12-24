@@ -1,17 +1,34 @@
 <template name="meetups-add-form">
-  <form id="meetups_add_form">
-    <div class="row">
-      <div class="large-12 columns">
+  <div class="row">
+    <div class="large-offset-1 large-10 columns">
+      <h1 class="lead">Create a Meetup for "{{name}}"</h1>
+
+      <form id="meetups_add_form">
+        <label class="{{#if name_is_not_valid}}error{{/if}}">
+          Name Your Meetup
+          <input type="text" name="name" />
+        </label>
+        {{#if name_is_not_valid}}
+          <small class="error">{{{name_error_message}}}</small>
+        {{/if}}
+
         <label class="{{#if date_is_not_valid}}error{{/if}}">
           When To Meet
-          <input type="datetime" name="date_to_meet" />
+          <input type="datetime" name="dateToMeet" />
         </label>
         {{#if date_is_not_valid}}
           <small class="error">{{{date_error_message}}}</small>
         {{/if}}
-      </div>
 
-      <div class="small-12 medium-12 columns">
+        <label>
+          Type of Meetup
+          <select name="meetupType">
+            {{#each placeTypes}}
+              <option value="{{slug}}">{{readibleName}}</option>
+            {{/each}}
+          </select>
+        </label>
+
         <label>
           Meetup Distance (<span id="meetup_slider">1</span> miles)
           <div id="meetup_slider_foundation" class="range-slider radius" data-slider data-options="display_selector: #meetup_slider; start: 0; end: 10; step: 0.5;">
@@ -20,18 +37,17 @@
             <input type="hidden" name="meetup_slider_distance" value="1">
           </div>
         </label>
-      </div>
 
-      <div class="large-12 columns">
         <input type="hidden" id="map_center" />
         <a href="#" class="button postfix" id="use_current_location"  {{geolocationEnabled}} >Use My Current Location</a>
 
         <div id="map-canvas" class="map-canvas"></div>
-      </div>
-    </div>
 
-    <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Meetup</button>
-  </form>
+        <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Meetup</button>
+      </form>
+    </div>
+  </div>
+  
   <script>
     // TODO clicking in the circle should move the circle
     // TODO clicking on a location should move the circle
@@ -41,82 +57,45 @@
       latitude: 33, 
       longitude: -112
     }
+    var scaleFactor = 1600;
 
     var _$ = this;
     _$.meetupCircle = false;
-    _$.scale = 1 * 1600;
+    _$.scale = 1 * scaleFactor;
+    _$.previewMarkers = [];
+    _$.infowindow = new google.maps.InfoWindow();
 
     /**
      * @see http://xdsoft.net/jqplugins/datetimepicker/
      */
     jQuery( function ( $ ) {
       $( document ).ready( function () {
-        $( 'input[name="date_to_meet"]' ).datetimepicker();
+        $( 'input[name="dateToMeet"]' ).datetimepicker();
 
-          _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
-            center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
-            zoom: 13
-          } );
+        _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
+          center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
+          zoom: 13
+        } );
 
-          // Add click listener
-          google.maps.event.addListener( _$.map, 'click', function ( np ) {
-            setCenter( np.latLng.lat(), np.latLng.lng() );
-          } );
+        // Add click listener
+        google.maps.event.addListener( _$.map, 'click', function ( np ) {
+          setCenter( np.latLng.lat(), np.latLng.lng() );
+        } );
       } );
     });
 
     $( document ).foundation( {
       slider: {
         on_change: function () {
+          // TODO throttle
           setScale( $( 'input[name="meetup_slider_distance"]' ).val() );
         }
       }
     } );
 
     // Initialize scale
-    $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale / 1600);
+    $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale / scaleFactor);
 
-    function setScale( scale ) {
-      // TODO
-      _$.scale = scale * 1600;
-
-      if ( _$.meetupCircle ) {
-        _$.meetupCircle.setRadius( _$.scale );
-      }
-    }
-
-    function setCenter( lat, lon ) {
-      'use strict';
-      var location = lat + ', ' + lon
-
-      $( '#map_center' ).val( location )
-
-      var meetup_location = {
-        strokeColor: '#FF0000',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: '#FF0000',
-        fillOpacity: 0.35,
-        map: _$.map,
-        center: new google.maps.LatLng( lat, lon ),
-        // TODO
-        radius: _$.scale
-      }
-
-      if ( _$.meetupCircle ) {
-        _$.meetupCircle.setMap( null );
-      }
-
-      _$.meetupCircle = new google.maps.Circle( meetup_location );
-      _$.map.panTo( _$.meetupCircle.getCenter() );
-      // TODO rezoom the map according to the radius
-    }
-
-    function currentPositionCallback( position ) {
-      'use strict';
-
-      setCenter( position.coords.latitude,  position.coords.longitude );
-    }
   </script>
 </template>
 

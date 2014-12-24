@@ -1,90 +1,65 @@
 <template name="meetup">
-  {{date_to_meet}}
+  <div class="row">
+    <div class="large-offset-1 large-10 columns">
+      <h1 class="lead">{{meetup.name}}</h1>
 
-  <div id="map-canvas" style="width:100%;height:350px;"></div>
+      {{meetup.dateToMeet}}
 
-  <form>
-    <input name="vote_location" id="vote_location" />
-  </form>
+      <p class="lead">{{placeType.readibleName}}</p>
 
-  <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand disabled">Click on the Map to Vote Where You'd Like to Meet</button>
+      <div id="map-canvas" style="width:100%;height:350px;"></div>
+
+      <form>
+        <input name="vote_location" id="vote_location" type="hidden" />
+      </form>
+
+      <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand {{#if voteNotCast}}disabled{{/if}}" id="vote">
+      {{#if voteNotCast}}
+        Click on the Map to Vote Where You'd Like to Meet
+      {{else}}
+        {{#if voteAlreadyCast}}
+          Change Your Vote!
+        {{else}}
+          Cast Your Vote!
+        {{/if}}
+      {{/if}}
+      </button>
+    </div>
+  </div>
+  
+  {{!
+   Page scripts
+  }}
 
   <script>
   var _$ = this;
+
+  // Data Defaults
+  // =============
   _$.data = window.Template.currentData($('#map-canvas')[0]);
-  _$.vote_marker = false;
+  _$.voteMarker = false;
+  _$.meetupCircle = null;
+  _$.previewMarkers = [];
+  _$.infowindow = new google.maps.InfoWindow();
   // Hack to make sure no infinite map refreshes happen
   _$.selfInterval = _$.selfInterval || -1;
   clearInterval( _$.selfInterval );
 
+  /**
+   * Wait for circle and meetup context to be ready
+   */
   _$.selfInterval = setInterval( function () {
-    if ( _$.data !== null) {
+    if ( _$.data !== null &&
+         _$.data.circle !== null &&
+         _$.data.meetup !== null) {
       clearInterval( selfInterval );
 
       run();
     } else {
+      // Try again
       _$.data = window.Template.currentData( $('#map-canvas')[0] );
     }
   }, 100 );
-
-  function run() {
-
-    var Coords = {
-      latitude: data.map_center.latitude,
-      longitude: data.map_center.longitude
-    }
-    
-    _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
-      center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
-      zoom: 13
-    } );
-    _$.scale = parseFloat( data.map_center.radius );
-
-    var meetup_location = {
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      map: _$.map,
-      center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
-      radius: _$.scale
-    };
-
-    _$.meetup_circle = new google.maps.Circle( meetup_location );
-
-    // TODO mark votes
-
-    // Add click listener
-    google.maps.event.addListener( _$.map, 'click', function ( np ) {
-      set_center( np.latLng.lat(), np.latLng.lng() );
-    } )
-
-    google.maps.event.addListener( _$.meetup_circle, 'click', function ( np ) {
-      set_center( np.latLng.lat(), np.latLng.lng() );
-    } )
-
-  }
-
-  function set_center( lat, lon ) {
-    'use strict';
-    var location = lat + ', ' + lon
-    var lat_long = new google.maps.LatLng( lat, lon )
-
-    $( '#vote_location' ).val( location )
-
-    var vote_location = {
-      position: lat_long,
-      map: _$.map,
-      title: "TODO's vote"
-    }
-
-    if ( _$.vote_marker ) {
-      _$.vote_marker.setMap( null )
-    }
-
-    _$.vote_marker = new google.maps.Marker( vote_location )
-  }
 
   </script>
 </template>

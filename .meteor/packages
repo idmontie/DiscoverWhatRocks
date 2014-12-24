@@ -7,8 +7,11 @@ meteor-platform
 iron:router
 email
 jquery
+accounts-base
 accounts-password
 accounts-ui-unstyled
 aldeed:collection2
 fourseven:scss
+idmontie:migrations
+idmontie:gravatar
 

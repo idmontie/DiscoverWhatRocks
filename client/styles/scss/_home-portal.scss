@@ -7,7 +7,7 @@
 
 .home-page {
   .heading {
-    background: url('/images/hero_1.jpg') no-repeat center center fixed;
+    background: url('/images/hero_1.jpg') no-repeat center center;
     -moz-background-size: cover;
     -o-background-size: cover;
     -webkit-background-size: cover;
@@ -16,10 +16,27 @@
     min-height: 250px;
     min-height: 80vh;
     width: 100%;
+
+    h1,
+    h2,
+    h3,
+    p.lead {
+      background-color: rgba(0, 0, 0, .8);
+      color: white;
+      display: block;
+      display: table;
+      font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin: 10px auto;
+      padding: 10px;
+      text-align: center;
+    }
+
   }
 
   .heading-push {
-    height: 120px;
-    height: 35vh;
-  }
+    height: 100px;
+    height: 20vh;
+  }  
 }
+
+

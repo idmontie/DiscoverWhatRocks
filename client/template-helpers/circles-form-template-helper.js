@@ -13,6 +13,7 @@
 
 // Session gets reset in the router
 Session.setDefault( 'invited-friends', [] );
+
 var circlesContext = Schema.circles.namedContext( 'circle' );
 
 function createCircleFromForm () {
