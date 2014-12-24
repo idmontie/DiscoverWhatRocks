@@ -71,6 +71,11 @@ Template.meetup.events( {
         votes : newMeetup.votes
       }
     } )
+
+    // redirect to the meetup view
+    Router.go ( 'meetup', {
+      slug : this.meetup.slug
+    } )
   }
 } )
 
@@ -165,18 +170,24 @@ this.setVoteMarker = function ( lat, lon, placeData ) {
 
   $( '#vote_location' ).val( location )
 
+  var content = '<div class="pin"><img src="' + Gravatar.imageUrlFromEmail( Meteor.user().emails[0].address, {
+    size : 32,
+    secure : true
+  } ) + '" /></div>';
+
   var vote_location = {
     position: lat_long,
     map: _$.map,
+    flat: true,
     title: "TODO's vote",
-    icon: '/images/vote.png'
+    content: content
   }
 
   if ( _$.voteMarker ) {
     _$.voteMarker.setMap( null )
   }
 
-  _$.voteMarker = new google.maps.Marker( vote_location )
+  _$.voteMarker = new RichMarker( vote_location )
 
   Session.set( 'voteLat', lat )
   Session.set( 'voteLong', lon )
