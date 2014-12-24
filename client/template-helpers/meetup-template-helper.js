@@ -1,3 +1,17 @@
+/**
+ * Meetup Template Helper
+ */
+
+/* global _$ */
+/* global google */
+/* global RichMarker */
+/* global Meetups */
+/* global PlaceTypes */
+/* global Schema */
+/* global ReactivityHelper */
+/* global Gravatar */
+
+
 // ================
 // Session Defaults
 // ================
@@ -29,7 +43,7 @@ Template.meetup.helpers( {
     var isSet = ReactivityHelper.reliesOn( this.meetup )
 
     if ( isSet ) {
-      var index = getPreviouslyCastVote( this.meetup, Meteor.userId() )
+      var index = _$.getPreviouslyCastVote( this.meetup, Meteor.userId() )
       return index !== -1
     } else {
       return false
@@ -47,7 +61,7 @@ Template.meetup.events( {
     // Add or Update vote in the meetup
     var newMeetup = $.extend( {}, this.meetup )
     var userId = Meteor.userId()
-    var vote = createVote( userId )
+    var vote = _$.createVote( userId )
 
     // First vote needs to create votes array
     if ( newMeetup.votes == null ) {
@@ -55,7 +69,7 @@ Template.meetup.events( {
     }
 
     // Check array for pre-existing vote
-    var index = getPreviouslyCastVote( newMeetup, userId )
+    var index = _$.getPreviouslyCastVote( newMeetup, userId )
 
     // Pre-existing votes should be updated, not deleted
     if ( index !== -1 ) {
@@ -97,6 +111,8 @@ this.getPreviouslyCastVote = function ( meetup, userId ) {
 }
 
 this.createVote = function ( userId ) {
+  'use strict';
+
   var lat          = Session.get( 'voteLat' )
   var lng          = Session.get( 'voteLong' )
   var placeDetails = Session.get( 'voteData' )
@@ -122,11 +138,13 @@ this.createVote = function ( userId ) {
  * Run after data is set
  */
 this.run = function () {
+  'use strict';
+
   var Coords = {
     latitude: _$.data.meetup.mapCenter.latitude,
     longitude: _$.data.meetup.mapCenter.longitude
   }
-  
+
   _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
     center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
     zoom: 13
@@ -154,11 +172,11 @@ this.run = function () {
 
   // Add click listener
   google.maps.event.addListener( _$.map, 'click', function ( np ) {
-    setVoteMarker( np.latLng.lat(), np.latLng.lng() );
+    _$.setVoteMarker( np.latLng.lat(), np.latLng.lng() );
   } )
 
   google.maps.event.addListener( _$.meetupCircle, 'click', function ( np ) {
-    setVoteMarker( np.latLng.lat(), np.latLng.lng() );
+    _$.setVoteMarker( np.latLng.lat(), np.latLng.lng() );
   } )
 
 }
@@ -166,7 +184,7 @@ this.run = function () {
 this.setVoteMarker = function ( lat, lon, placeData ) {
   'use strict';
   var location = lat + ', ' + lon
-  var lat_long = new google.maps.LatLng( lat, lon )
+  var latLng = new google.maps.LatLng( lat, lon )
 
   $( '#vote_location' ).val( location )
 
@@ -175,11 +193,11 @@ this.setVoteMarker = function ( lat, lon, placeData ) {
     secure : true
   } ) + '" /></div>';
 
-  var vote_location = {
-    position: lat_long,
+  var voteLocation = {
+    position: latLng,
     map: _$.map,
     flat: true,
-    title: "TODO's vote",
+    title: 'Vote',
     content: content
   }
 
@@ -187,7 +205,7 @@ this.setVoteMarker = function ( lat, lon, placeData ) {
     _$.voteMarker.setMap( null )
   }
 
-  _$.voteMarker = new RichMarker( vote_location )
+  _$.voteMarker = new RichMarker( voteLocation )
 
   Session.set( 'voteLat', lat )
   Session.set( 'voteLong', lon )
@@ -195,6 +213,8 @@ this.setVoteMarker = function ( lat, lon, placeData ) {
 }
 
 this.setPlaceMarkers = function ( placeType ) {
+  'use strict';
+
   // set markers
   var service   = new google.maps.places.PlacesService( _$.map )
   var placeRequest = {
@@ -202,27 +222,28 @@ this.setPlaceMarkers = function ( placeType ) {
     radius : _$.scale,
     types  : [placeType]
   }
-  service.radarSearch( placeRequest, nearbyCallback )
+  service.radarSearch( placeRequest, _$.nearbyCallback )
 }
 
 this.nearbyCallback = function  ( results, status ) {
   'use strict';
 
+  var i = 0;
+
   // Place the markers on the map
   if ( status == google.maps.places.PlacesServiceStatus.OK ) {
     // Destroy old markers
     if ( _$.previewMarkers ) {
-      for ( var i = 0; i < _$.previewMarkers.length; i++ ) {
+      for ( i = 0; i < _$.previewMarkers.length; i++ ) {
         _$.previewMarkers[i].setMap( null )
       }
       _$.previewMarkers = []
     }
 
-    for ( var i = 0; i < results.length; i++ ) {
-      var place = results[i];
+    for ( i = 0; i < results.length; i++ ) {
       if ( results[i] !== null &&
           typeof results[i] !== 'undefined' )
-        createMarker( results[i] )
+        _$.createMarker( results[i] )
     }
   }
 }
@@ -230,13 +251,12 @@ this.nearbyCallback = function  ( results, status ) {
 this.currentPositionCallback = function ( position ) {
   'use strict';
 
-  setCenter( position.coords.latitude,  position.coords.longitude );
+  _$.setCenter( position.coords.latitude,  position.coords.longitude );
 }
 
 this.createMarker = function ( place ) {
   'use strict';
 
-  var placeLoc = place.geometry.location
   var marker = new google.maps.Marker( {
     map: _$.map,
     position: place.geometry.location
@@ -244,10 +264,16 @@ this.createMarker = function ( place ) {
 
   _$.previewMarkers.push( marker )
 
-  updateMarker( marker, place.place_id )
+  /*jshint camelcase: false */
+  // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+  _$.updateMarker( marker, place.place_id )
+  /*jshint camelcase: true */
+  // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 }
 
 this.updateMarker = function ( markerReference, placeId ) {
+  'use strict';
+
   var service = new google.maps.places.PlacesService( _$.map )
 
   var request = {
@@ -259,13 +285,13 @@ this.updateMarker = function ( markerReference, placeId ) {
 
     // anonymous because we need scoping
     service.getDetails( request, function ( place, status ) {
-      
+
       if ( status == google.maps.places.PlacesServiceStatus.OK ) {
         _$.infowindow.setContent( place.name )
         _$.infowindow.open( _$.map, self )
 
         // this marks the marker
-        setVoteMarker(
+        _$.setVoteMarker(
             markerReference.getPosition().lat(),
             markerReference.getPosition().lng(),
             place

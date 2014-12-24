@@ -1,4 +1,7 @@
 
+/* global Migrations */
+/* global PlaceTypes */
+
 Migrations.add( 'add-place-types-to-database', function () {
   'use strict';
 
@@ -386,11 +389,11 @@ Migrations.add( 'add-place-types-to-database', function () {
     {
       slug : 'zoo',
       readibleName : 'Zoos'
-    },
+    }
   ]
 
   for ( var i = 0; i < googlePlaceTypes.length; i++ ) {
-    PlaceTypes.insert( googlePlaceTypes[i] )  
+    PlaceTypes.insert( googlePlaceTypes[i] )
   }
-  
+
 } );

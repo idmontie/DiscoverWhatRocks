@@ -75,19 +75,19 @@ Router.route('/circles/meetups/:slug', function () {
         circle = Circles.findOne( {
           _id : meetup.circleId
         } )
-      } else {
-
       }
-      
+
       return {
         meetup : meetup,
-        circle : circle  
+        circle : circle
       }
     }
   } );
 }, {
   name : 'meetup',
   action : function () {
+    'use strict';
+
     if ( this.ready() ) {
       this.render()
     }

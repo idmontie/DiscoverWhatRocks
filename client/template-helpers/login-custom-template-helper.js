@@ -7,28 +7,30 @@
  */
 
 /* global Accounts */
+/* global Tracker */
 
 // for convenience
 var loginButtonsSession = Accounts._loginButtonsSession;
+var _$ = this
 
 Template.loginCustom.events( {
   'click #login-buttons-password' : function () {
     'use strict';
 
-    loginOrSignup()
+    _$.loginOrSignup()
   },
 
   'keypress #forgot-password-email' : function ( event ) {
     'use strict';
 
     if ( event.keyCode === 13 )
-      forgotPassword()
+      _$.forgotPassword()
   },
 
   'click #login-buttons-forgot-password' : function () {
     'use strict';
 
-    forgotPassword()
+    _$.forgotPassword()
   },
 
   'click #signup-link' : function () {
@@ -37,10 +39,10 @@ Template.loginCustom.events( {
     loginButtonsSession.resetMessages()
 
     // store values of fields before swtiching to the signup form
-    var username        = trimmedElementValueById( 'login-username' )
-    var email           = trimmedElementValueById( 'login-email' )
-    var usernameOrEmail = trimmedElementValueById( 'login-username-or-email' )
-    var password        = elementValueById( 'login-password' )
+    var username        = _$.trimmedElementValueById( 'login-username' )
+    var email           = _$.trimmedElementValueById( 'login-email' )
+    var usernameOrEmail = _$.trimmedElementValueById( 'login-username-or-email' )
+    var password        = _$.elementValueById( 'login-password' )
 
     loginButtonsSession.set( 'inSignupFlow', true )
     loginButtonsSession.set( 'inForgotPasswordFlow', false )
@@ -79,8 +81,8 @@ Template.loginCustom.events( {
     loginButtonsSession.resetMessages();
 
     // store values of fields before swtiching to the signup form
-    var email = trimmedElementValueById('login-email');
-    var usernameOrEmail = trimmedElementValueById('login-username-or-email');
+    var email = _$.trimmedElementValueById('login-email');
+    var usernameOrEmail = _$.trimmedElementValueById('login-username-or-email');
 
     loginButtonsSession.set('inSignupFlow', false);
     loginButtonsSession.set('inForgotPasswordFlow', true);
@@ -100,11 +102,11 @@ Template.loginCustom.events( {
 
     loginButtonsSession.resetMessages();
 
-    var username = trimmedElementValueById('login-username');
-    var email = trimmedElementValueById('login-email')
-          || trimmedElementValueById('forgot-password-email'); // Ughh. Standardize on names?
+    var username = _$.trimmedElementValueById('login-username');
+    var email = _$.trimmedElementValueById('login-email')
+          || _$.trimmedElementValueById('forgot-password-email'); // Ughh. Standardize on names?
     // notably not trimmed. a password could (?) start or end with a space
-    var password = elementValueById('login-password');
+    var password = _$.elementValueById('login-password');
 
     loginButtonsSession.set('inSignupFlow', false);
     loginButtonsSession.set('inForgotPasswordFlow', false);
@@ -126,174 +128,193 @@ Template.loginCustom.events( {
     'use strict';
 
     if ( event.keyCode === 13 )
-      loginOrSignup()
+      _$.loginOrSignup()
   }
 } );
 
 
-//
-// helpers
-//
+// =============
+// Login Helpers
+// =============
 
-var elementValueById = function(id) {
-  var element = document.getElementById(id);
-  if (!element)
+this.elementValueById = function ( id ) {
+  'use strict';
+
+  var element = document.getElementById( id )
+  if ( ! element )
     return null;
   else
     return element.value;
 };
 
-var trimmedElementValueById = function(id) {
-  var element = document.getElementById(id);
-  if (!element)
-    return null;
+this.trimmedElementValueById = function ( id ) {
+  'use strict';
+
+  var element = document.getElementById( id )
+  if ( ! element )
+    return null
   else
-    return element.value.replace(/^\s*|\s*$/g, ""); // trim() doesn't work on IE8;
+    return element.value.replace(/^\s*|\s*$/g, '') // trim() doesn't work on IE8;
 };
 
-var loginOrSignup = function () {
+this.loginOrSignup = function () {
+  'use strict';
+
   if (loginButtonsSession.get('inSignupFlow'))
-    signup();
+    _$.signup();
   else
-    login();
+    _$.login();
 };
 
-var login = function () {
+this.login = function () {
+  'use strict';
+
   loginButtonsSession.resetMessages();
 
-  var username = trimmedElementValueById('login-username');
-  var email = trimmedElementValueById('login-email');
-  var usernameOrEmail = trimmedElementValueById('login-username-or-email');
+  var username = _$.trimmedElementValueById('login-username');
+  var email = _$.trimmedElementValueById('login-email');
+  var usernameOrEmail = _$.trimmedElementValueById('login-username-or-email');
   // notably not trimmed. a password could (?) start or end with a space
-  var password = elementValueById('login-password');
+  var password = _$.elementValueById('login-password');
 
   var loginSelector;
-  if (username !== null) {
-    if (!validateUsername(username))
+  if ( username !== null ) {
+    if ( ! _$.validateUsername( username ) )
       return;
     else
-      loginSelector = {username: username};
-  } else if (email !== null) {
-    if (!validateEmail(email))
+      loginSelector = { username: username };
+  } else if ( email !== null ) {
+    if ( ! _$.validateEmail( email ) )
       return;
     else
-      loginSelector = {email: email};
-  } else if (usernameOrEmail !== null) {
+      loginSelector = { email: email };
+  } else if ( usernameOrEmail !== null ) {
     // XXX not sure how we should validate this. but this seems good enough (for now),
     // since an email must have at least 3 characters anyways
-    if (!validateUsername(usernameOrEmail))
+    if ( ! _$.validateUsername( usernameOrEmail ) )
       return;
     else
       loginSelector = usernameOrEmail;
   } else {
-    throw new Error("Unexpected -- no element to use as a login user selector");
+    throw new Error( 'Unexpected -- no element to use as a login user selector' );
   }
 
-  Meteor.loginWithPassword(loginSelector, password, function (error, result) {
-    if (error) {
-      loginButtonsSession.errorMessage(error.reason || "Unknown error");
+  Meteor.loginWithPassword( loginSelector, password, function ( error ) {
+    if ( error ) {
+      loginButtonsSession.errorMessage( error.reason || 'Unknown error' );
     } else {
       loginButtonsSession.closeDropdown();
     }
   });
 };
 
-var signup = function () {
-  loginButtonsSession.resetMessages();
+this.signup = function () {
+  'use strict';
 
-  var options = {}; // to be passed to Accounts.createUser
+  loginButtonsSession.resetMessages()
 
-  var username = trimmedElementValueById('login-username');
-  if (username !== null) {
-    if (!validateUsername(username))
-      return;
+  // to be passed to Accounts.createUser
+  var options = {}
+
+  var username = _$.trimmedElementValueById( 'login-username' )
+  if ( username !== null ) {
+    if ( ! _$.validateUsername( username ) )
+      return
     else
-      options.username = username;
+      options.username = username
   }
 
-  var email = trimmedElementValueById('login-email');
-  if (email !== null) {
-    if (!validateEmail(email))
-      return;
+  var email = _$.trimmedElementValueById( 'login-email' )
+  if ( email !== null ) {
+    if ( ! _$.validateEmail( email ) )
+      return
     else
-      options.email = email;
+      options.email = email
   }
 
   // notably not trimmed. a password could (?) start or end with a space
-  var password = elementValueById('login-password');
-  if (!validatePassword(password))
-    return;
+  var password = _$.elementValueById( 'login-password' )
+  if ( ! _$.validatePassword( password ) )
+    return
   else
     options.password = password;
 
-  if (!matchPasswordAgainIfPresent())
+  if ( ! _$.matchPasswordAgainIfPresent() )
     return;
 
-  Accounts.createUser(options, function (error) {
-    if (error) {
-      loginButtonsSession.errorMessage(error.reason || "Unknown error");
+  Accounts.createUser(options, function ( error ) {
+    if ( error ) {
+      loginButtonsSession.errorMessage( error.reason || 'Unknown error' );
     } else {
       loginButtonsSession.closeDropdown();
     }
   });
 };
 
-var forgotPassword = function () {
+this.forgotPassword = function () {
+  'use strict';
+
   loginButtonsSession.resetMessages();
 
-  var email = trimmedElementValueById("forgot-password-email");
-  if (email.indexOf('@') !== -1) {
-    Accounts.forgotPassword({email: email}, function (error) {
+  var email = _$.trimmedElementValueById( 'forgot-password-email' );
+  if ( email.indexOf( '@' ) !== -1 ) {
+    Accounts.forgotPassword( { email: email }, function ( error ) {
       if (error)
-        loginButtonsSession.errorMessage(error.reason || "Unknown error");
+        loginButtonsSession.errorMessage( error.reason || 'Unknown error' );
       else
-        loginButtonsSession.infoMessage("Email sent");
+        loginButtonsSession.infoMessage( 'Email sent' );
     });
   } else {
-    loginButtonsSession.errorMessage("Invalid email");
+    loginButtonsSession.errorMessage( 'Invalid email' );
   }
 };
 
-var changePassword = function () {
-  loginButtonsSession.resetMessages();
+this.changePassword = function () {
+  'use strict';
+
+  loginButtonsSession.resetMessages()
 
   // notably not trimmed. a password could (?) start or end with a space
-  var oldPassword = elementValueById('login-old-password');
+  var oldPassword = _$.elementValueById( 'login-old-password' )
 
   // notably not trimmed. a password could (?) start or end with a space
-  var password = elementValueById('login-password');
-  if (!validatePassword(password))
+  var password = _$.elementValueById( 'login-password' )
+  if ( ! _$.validatePassword( password ) )
     return;
 
-  if (!matchPasswordAgainIfPresent())
+  if ( ! _$.matchPasswordAgainIfPresent() )
     return;
 
   Accounts.changePassword(oldPassword, password, function (error) {
     if (error) {
-      loginButtonsSession.errorMessage(error.reason || "Unknown error");
+      loginButtonsSession.errorMessage( error.reason || 'Unknown error' );
     } else {
-      loginButtonsSession.set('inChangePasswordFlow', false);
-      loginButtonsSession.set('inMessageOnlyFlow', true);
-      loginButtonsSession.infoMessage("Password changed");
+      loginButtonsSession.set( 'inChangePasswordFlow', false )
+      loginButtonsSession.set( 'inMessageOnlyFlow', true )
+      loginButtonsSession.infoMessage( 'Password changed' )
     }
   });
 };
 
-var matchPasswordAgainIfPresent = function () {
+this.matchPasswordAgainIfPresent = function () {
+  'use strict';
+
   // notably not trimmed. a password could (?) start or end with a space
-  var passwordAgain = elementValueById('login-password-again');
-  if (passwordAgain !== null) {
+  var passwordAgain = _$.elementValueById('login-password-again');
+  if ( passwordAgain !== null ) {
     // notably not trimmed. a password could (?) start or end with a space
-    var password = elementValueById('login-password');
+    var password = _$.elementValueById('login-password');
     if (password !== passwordAgain) {
-      loginButtonsSession.errorMessage("Passwords don't match");
+      loginButtonsSession.errorMessage( 'Passwords don\'t match');
       return false;
     }
   }
   return true;
 };
 
-var correctDropdownZIndexes = function () {
+this.correctDropdownZIndexes = function () {
+  'use strict';
+
   // IE <= 7 has a z-index bug that means we can't just give the
   // dropdown a z-index and expect it to stack above the rest of
   // the page even if nothing else has a z-index.  The nature of
@@ -303,9 +324,9 @@ var correctDropdownZIndexes = function () {
   //
   // The fix, then is to give z-index:1 to all ancestors
   // of the dropdown having z-index:0.
-  for(var n = document.getElementById('login-dropdown-list').parentNode;
+  for ( var n = document.getElementById('login-dropdown-list').parentNode;
       n.nodeName !== 'BODY';
-      n = n.parentNode)
+      n = n.parentNode )
     if (n.style.zIndex === 0)
       n.style.zIndex = 1;
 };
@@ -314,20 +335,24 @@ var correctDropdownZIndexes = function () {
 // Validations
 // ===========
 
-var validateEmail = function (email) {
+this.validateEmail = function (email) {
+  'use strict';
 
   if (email.indexOf('@') !== -1) {
     return true;
   } else {
-    loginButtonsSession.errorMessage("Invalid email");
+    loginButtonsSession.errorMessage( 'Invalid email' );
     return false;
   }
 };
-var validatePassword = function (password) {
+
+this.validatePassword = function (password) {
+  'use strict';
+
   if (password.length >= 6) {
     return true;
   } else {
-    loginButtonsSession.errorMessage("Password must be at least 6 characters long");
+    loginButtonsSession.errorMessage( 'Password must be at least 6 characters long' );
     return false;
   }
 };

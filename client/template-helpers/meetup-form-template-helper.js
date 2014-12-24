@@ -5,8 +5,11 @@
  * and the meetups-update-form
  */
 
+/* global _$ */
 /* global Meetups */
 /* global Schema */
+/* global PlaceTypes */
+/* global google */
 
 // The `currentPositionCallback` is defined in the template file
 /* global currentPositionCallback */
@@ -46,7 +49,7 @@ Template['meetups-add-form'].events( {
 
     var name              = $( 'input[name="name"]' ).val()
     var meetupDate        = $( 'input[name="dateToMeet"]' ).val()
-    var meetupType        = $( 'select[name="meetupType"]' ).find(":selected").val()
+    var meetupType        = $( 'select[name="meetupType"]' ).find( ':selected' ).val()
     var tempLocationParts = $( '#map_center' ).val().split( ',' )
     var meetupLatitude    = tempLocationParts[0].trim()
     var meetupLongitude   = tempLocationParts[1].trim()
@@ -68,17 +71,11 @@ Template['meetups-add-form'].events( {
     var newId = Meetups.insert( meetup )
 
     Meteor.call( 'getRealMeetupSlug', newId, function ( err, data ) {
-      if ( err ) {
-        // TODO
-      }
-
       // redirect to the meetup view
       Router.go ( 'meetup', {
         slug : data
       } )
     } )
-
-    
   }
 } );
 
@@ -86,12 +83,14 @@ Template['meetups-add-form'].events( {
 // Map Helpers
 // ===========
 this.setScale = function ( scale ) {
-  _$.scale = scale * scaleFactor;
+  'use strict';
+
+  _$.scale = scale * _$.scaleFactor;
 
   if ( _$.meetupCircle ) {
     _$.meetupCircle.setRadius( _$.scale );
     // defined in meetup-template-helper.js
-    setPlaceMarkers(  $( 'select[name="meetupType"]' ).find(":selected").val() )
+    _$.setPlaceMarkers(  $( 'select[name="meetupType"]' ).find( ':selected' ).val() )
   }
 }
 
@@ -102,7 +101,7 @@ this.setCenter = function ( lat, lon ) {
   var center   = new google.maps.LatLng( lat, lon )
   $( '#map_center' ).val( location )
 
-  var meetup_location = {
+  var meetupLocation = {
     strokeColor: '#FF0000',
     strokeOpacity: 0.8,
     strokeWeight: 2,
@@ -118,32 +117,33 @@ this.setCenter = function ( lat, lon ) {
     _$.meetupCircle.setMap( null )
   }
 
-  _$.meetupCircle = new google.maps.Circle( meetup_location )
+  _$.meetupCircle = new google.maps.Circle( meetupLocation )
   _$.map.panTo( _$.meetupCircle.getCenter() )
   // TODO rezoom the map according to the radius
 
   // defined in meetup-template-helper.js
-  setPlaceMarkers(  $( 'select[name="meetupType"]' ).find(":selected").val() )
+  _$.setPlaceMarkers( $( 'select[name="meetupType"]' ).find( ':selected' ).val() )
 }
 
 this.nearbyCallback = function  ( results, status ) {
   'use strict';
 
+  var i = 0
+
   // Place the markers on the map
   if ( status == google.maps.places.PlacesServiceStatus.OK ) {
     // Destroy old markers
     if ( _$.previewMarkers ) {
-      for ( var i = 0; i < _$.previewMarkers.length; i++ ) {
+      for ( i = 0; i < _$.previewMarkers.length; i++ ) {
         _$.previewMarkers[i].setMap( null )
       }
       _$.previewMarkers = []
     }
 
-    for ( var i = 0; i < results.length; i++ ) {
-      var place = results[i];
+    for ( i = 0; i < results.length; i++ ) {
       if ( results[i] !== null &&
           typeof results[i] !== 'undefined' )
-        createMarker( results[i] )
+        _$.createMarker( results[i] )
     }
   }
 }
@@ -151,24 +151,12 @@ this.nearbyCallback = function  ( results, status ) {
 this.currentPositionCallback = function ( position ) {
   'use strict';
 
-  setCenter( position.coords.latitude,  position.coords.longitude );
-}
-
-this.createMarker = function ( place ) {
-  'use strict';
-
-  var placeLoc = place.geometry.location
-  var marker = new google.maps.Marker( {
-    map: _$.map,
-    position: place.geometry.location
-  } )
-
-  _$.previewMarkers.push( marker )
-
-  updateMarker( marker, place.place_id )
+  _$.setCenter( position.coords.latitude,  position.coords.longitude );
 }
 
 this.updateMarker = function ( markerReference, placeId ) {
+  'use strict';
+
   var service = new google.maps.places.PlacesService( _$.map )
 
   var request = {
@@ -180,7 +168,7 @@ this.updateMarker = function ( markerReference, placeId ) {
 
     // anonymous because we need scoping
     service.getDetails( request, function ( place, status ) {
-      
+
       if ( status == google.maps.places.PlacesServiceStatus.OK ) {
         _$.infowindow.setContent( place.name )
         _$.infowindow.open( _$.map, self )
