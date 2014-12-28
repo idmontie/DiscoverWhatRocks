@@ -29,7 +29,7 @@ Template.homeLoggedIn.helpers({
     'use strict';
 
     return Circles.find( {
-      'users.$.userId' : Meteor.userId()
+      'users.$.email' : Meteor.user().emails[0].address
     }, {
       sort: {
         dateCreated: -1
@@ -40,7 +40,7 @@ Template.homeLoggedIn.helpers({
     'use strict';
 
     return Circles.find( {
-      'users.$.userId' : Meteor.userId()
+      'users.$.email' : Meteor.user().emails[0].address
     } ).fetch().length === 0
   }
 });

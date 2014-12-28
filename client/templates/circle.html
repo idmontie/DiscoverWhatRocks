@@ -4,9 +4,9 @@
       <i class="fa fa-plus"></i>
       <label>Create a Meetup</label>
     </a>
-    <a class="item" href="TODO">
+    <a class="item" href="/circles/friends/add/{{circle.slug}}">
       <div class="overlay">
-        <span class="label round overlay-up overlay-right">{{numberOfFriends}}</span>
+        <span class="label round overlay-up overlay-right">{{numberOfFriendsForCircle circle}}</span>
       </div>
       <i class="fa fa-group"></i>
       <label>Add Friends</label>
@@ -33,7 +33,7 @@
               {{#if noFriends}}
                 <p>Or how about addings some friends to this Circle?</p>
 
-                <a class="button expand" href="TODO">
+                <a class="button expand" href="/circles/friends/add/{{circle.slug}}">
                 <i class="fa fa-group"></i>&nbsp;Add Friends
               </a>
               {{/if}}

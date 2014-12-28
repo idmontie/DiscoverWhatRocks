@@ -13,16 +13,23 @@
 
 // Session gets reset in the router
 Session.setDefault( 'invited-friends', [] );
+Session.setDefault( 'form-errors', null );
 
 var circlesContext = Schema.circles.namedContext( 'circle' );
 
-function createCircleFromForm () {
+function createCircleFromForm ( tempSlug ) {
   'use strict';
   var name = $('input[name="name"]').val()
 
-  var circle = Schema.circles.clean( {
+  var obj = {
     name : name
-  } )
+  }
+
+  if ( tempSlug ) {
+    obj['slug'] = 'temp'
+  }
+
+  var circle = Schema.circles.clean( obj )
 
   return circle
 }
@@ -85,7 +92,7 @@ Template['circles-add-form'].events({
   'keyup #circles_add_form input, change #circles_add_form input' : function () {
     'use strict';
 
-    var circle = createCircleFromForm()
+    var circle = createCircleFromForm( true )
     var errors = getErrorMessageForCircle( circle )
 
     Session.set( 'form-errors', errors )
@@ -95,14 +102,20 @@ Template['circles-add-form'].events({
 
     e.preventDefault();
 
-    var circle = createCircleFromForm()
+    var circle = createCircleFromForm( false )
 
-    Circles.insert( circle );
+    Circles.insert( circle, function ( err, id ) {
+      var realCircle = Circles.findOne( {
+        _id : id
+      })
 
-    // redirect to the full view
-    Router.go( 'circle', {
-      slug : circle.slug
-    });
+      // redirect to the full view
+      Router.go( 'circle', {
+        slug : realCircle.slug
+      });
+    } );
+
+    
   }
 });
 

@@ -34,7 +34,7 @@ Template.registerHelper( 'number_of_upcoming_meetups_for_circle', function ( cir
   } ).count()
 } );
 
-Template.registerHelper( 'number_of_friends_for_circle', function ( circle ) {
+Template.registerHelper( 'numberOfFriendsForCircle', function ( circle ) {
   'use strict';
 
   if ( circle.users != null ) {

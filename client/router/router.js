@@ -150,3 +150,19 @@ Router.route('/circles/:slug', function () {
 });
 
 
+// =======
+// Friends
+// =======
+Router.route('/circles/friends/add/:slug', function () {
+  'use strict';
+
+  var circle = Circles.findOne( {
+    slug : this.params.slug
+  } )
+
+  this.render('friendsForm', {
+    data : circle
+  } );
+}, {
+  name : 'friends-form'
+} );

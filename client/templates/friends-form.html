@@ -1,0 +1,52 @@
+<template name="friendsForm">
+  <div class="row">
+    <div class="large-offset-1 large-10 columns">
+      <h1 class="lead">Add Friends to "{{name}}"</h1>
+
+      <table class="table-responsive">
+        <tbody>
+          <tr>
+            <td colspan="2">
+              {{> friendsFormAdd}}
+            </td>
+          </tr>
+          {{#each users}}
+            <tr>
+              Test
+
+              Resend Invitation
+
+              Delete
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+
+
+<template name="friendsFormAdd">
+  <form id="friendsAddForm">
+    <label class="{{#if email_is_not_valid}}error{{/if}}">
+      Your Friend's Email
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="row collapse">
+            <div class="small-10 columns">
+              <input type="email" name="email" />
+            </div>
+            <div class="small-2 columns">
+              <button class="button success postfix" type="submit">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </label>
+    {{#if email_is_not_valid}}
+      <small class="error">{{{email_error_message}}}</small>
+    {{/if}}
+  </form>
+</template>
