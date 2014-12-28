@@ -61,8 +61,8 @@ Template.registerHelper( 'generateCalendarIcon', function ( dateTime ) {
   var date       = new Date( dateTime )
   var dayNames   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
     'Friday', 'Saturday']
-  var monthNames = [ 'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December' ]
+  var monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December']
 
   var monthName = monthNames[date.getMonth()]
   var dayName   = dayNames[date.getDay()]

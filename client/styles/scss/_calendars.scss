@@ -2,7 +2,7 @@
 time.icon {
   -webkit-backface-visibility: hidden;
   background-color: #fff;
-  border-radius: 0.6em;
+  border-radius: .6em;
   box-shadow: 0 1px 0 #bdbdbd, 0 2px 0 #fff, 0 3px 0 #bdbdbd, 0 4px 0 #fff, 0 5px 0 #bdbdbd, 0 0 0 1px #bdbdbd;
   display: block;
   overflow: hidden;
@@ -20,19 +20,19 @@ time.icon {
   }
 
   strong {
-    position: absolute;
-    top: 0;
-    padding: 0.2em 0;
-    color: #fff;
     background-color: #fd9f1b;
     border-bottom: 1px dashed #f37302;
     box-shadow: 0 2px 0 #fd9f1b;
+    color: #fff;
+    padding: .2em 0;
+    position: absolute;
+    top: 0;
   }
 
   em {
     bottom: 1.5em;
     color: #fd9f1b;
-    position: absolute
+    position: absolute;
   }
 
   span {
@@ -47,20 +47,4 @@ time.icon {
       padding-top: 1.2em;
     }
   }
-}
-
-time.icon2 em
-{
-  position: absolute;
-  bottom: 0.3em;
-  
-}
-
-time.icon2 span
-{
-  width: 100%;
-  font-size: 2.8em;
-  letter-spacing: -0.05em;
-  padding-top: 0.8em;
-  
 }
