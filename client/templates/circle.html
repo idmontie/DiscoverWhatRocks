@@ -43,11 +43,7 @@
       {{else}}
         <ul class="stack button-group">
           {{#each meetups}}
-            <li>
-              <a href="/circles/meetups/{{slug}}" class="button">
-                {{name}} - {{dateToMeet}}
-              </a>
-            </li>
+            {{>meetupBadge this}}
           {{/each}}
         </ul>
       {{/if}}

@@ -9,9 +9,14 @@
         {{number_of_friends_for_circle this}} Friends
       </span>
     </div>
-    <a href="/circles/{{slug}}">
-      {{name}}
-    </a>
+    <div class="row">
+      <div class="column small-6">
+        <a href="/circles/{{slug}}" class="button">
+          {{name}} &raquo;
+        </a>
+      </div>
+    </div>
+    
     <div class="clearfix"></div>
   </li>
 </template>

@@ -1,0 +1,66 @@
+
+time.icon {
+  -webkit-backface-visibility: hidden;
+  background-color: #fff;
+  border-radius: 0.6em;
+  box-shadow: 0 1px 0 #bdbdbd, 0 2px 0 #fff, 0 3px 0 #bdbdbd, 0 4px 0 #fff, 0 5px 0 #bdbdbd, 0 0 0 1px #bdbdbd;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  -webkit-transform: rotate(0deg) skewY(0deg);
+  -webkit-transform-origin: 50% 10%;
+  transform-origin: 50% 10%;
+
+  * {
+    display: block;
+    font-style: normal;
+    font-weight: normal;
+    text-align: center;
+    width: 100%;
+  }
+
+  strong {
+    position: absolute;
+    top: 0;
+    padding: 0.2em 0;
+    color: #fff;
+    background-color: #fd9f1b;
+    border-bottom: 1px dashed #f37302;
+    box-shadow: 0 2px 0 #fd9f1b;
+  }
+
+  em {
+    bottom: 1.5em;
+    color: #fd9f1b;
+    position: absolute
+  }
+
+  span {
+    color: #2f2f2f;
+    font-weight: bold;
+    padding-top: 2.5em;
+
+    &.time {
+      font-weight: normal;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 1.2em;
+    }
+  }
+}
+
+time.icon2 em
+{
+  position: absolute;
+  bottom: 0.3em;
+  
+}
+
+time.icon2 span
+{
+  width: 100%;
+  font-size: 2.8em;
+  letter-spacing: -0.05em;
+  padding-top: 0.8em;
+  
+}

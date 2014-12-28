@@ -1,0 +1,15 @@
+<template name="meetupBadge">
+  <li class="panel">
+    <div class="right">
+      {{{generateCalendarIcon dateToMeet}}}
+    </div>
+    <div class="row">
+      <div class="column small-6">
+        <a href="/circles/meetups/{{slug}}" class="button">
+          {{name}} &raquo; 
+        </a>
+      </div>
+    </div>
+    
+  </li>
+</template>

@@ -54,3 +54,26 @@ Handlebars.registerHelper('key_value', function ( context ) {
 
   return result
 });
+
+Template.registerHelper( 'generateCalendarIcon', function ( dateTime ) {
+  'use strict';
+
+  var date       = new Date( dateTime )
+  var dayNames   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+    'Friday', 'Saturday']
+  var monthNames = [ 'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December' ]
+
+  var monthName = monthNames[date.getMonth()]
+  var dayName   = dayNames[date.getDay()]
+
+  var calendar = ''
+  calendar += '<time datetime="' + date + '" class="icon">'
+  calendar += '<em>' + dayName + '</em>'
+  calendar += '<strong>' + monthName + '</strong>'
+  calendar += '<span>' + date.getDate() + '</span>'
+  calendar += '<span class="time">' + date.toLocaleTimeString() + '</span>'
+  calendar += '</time>'
+
+  return calendar
+} )
