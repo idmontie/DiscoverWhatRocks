@@ -5,6 +5,7 @@
  * template helpers, but are normally reactive.
  */
 
+/* global Meetups */
 /* global slugify */
 
 // Configure UI helper
@@ -28,9 +29,19 @@ Template.registerHelper( 'session', function ( input ) {
 Template.registerHelper( 'number_of_upcoming_meetups_for_circle', function ( circle ) {
   'use strict';
 
-  // TODO trick to shut grunt up
-  circle = circle
-  return 0;
+  return Meetups.find( {
+    circleId : circle._id
+  } ).count()
+} );
+
+Template.registerHelper( 'number_of_friends_for_circle', function ( circle ) {
+  'use strict';
+
+  if ( circle.users != null ) {
+    return circle.users.length
+  }
+
+  return 0
 } );
 
 Handlebars.registerHelper('key_value', function ( context ) {
