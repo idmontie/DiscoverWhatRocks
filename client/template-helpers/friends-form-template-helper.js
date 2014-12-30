@@ -3,7 +3,16 @@
  */
 
 Template.friendsForm.helpers( {
-  
+  users : function () {
+    'use strict';
+    var self = this
+
+    return _.map( this.users, function ( user ) {
+      return _.extend( user, {
+        circleId : self._id
+      })
+    })
+  }
 } );
 
 Template.friendsForm.events( {
@@ -23,5 +32,23 @@ Template.friendsForm.events( {
 
     // Reset form
     $( '#friendsAddForm' )[0].reset()
+  },
+  'click .resendInvitation' : function ( e ) {
+    'use strict';
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    Meteor.call( 'invite', this.email, this.circleId, function () {
+      // TODO Tell the user whether they were successful or not
+    } )
+  },
+  'click .deleteEmail' : function ( e ) {
+    'use strict';
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log ( this )
   }
 } );

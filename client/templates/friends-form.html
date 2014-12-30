@@ -12,11 +12,12 @@
           </tr>
           {{#each users}}
             <tr>
-              Test
+              <div class="right">
+                <button class="button small resendInvitation">Resend Invitation</button>
 
-              Resend Invitation
-
-              Delete
+                <button class="button small deleteEmail">Delete</button>
+              </div>
+              {{email}}
             </tr>
           {{/each}}
         </tbody>

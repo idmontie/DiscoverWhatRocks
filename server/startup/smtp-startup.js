@@ -8,10 +8,10 @@ Meteor.startup( function () {
   var password = Assets.getText('email-password.txt');
 
   var smtp = {
-    username : 'admin@mantarayar.com',
+    username : 'help@mantarayar.com',
     password : password,
     server : 'smtp.gmail.com',
-    port: 25
+    port: 465
   }
 
   process.env.MAIL_URL = 'smtp://' +

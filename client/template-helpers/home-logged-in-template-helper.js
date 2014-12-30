@@ -39,8 +39,13 @@ Template.homeLoggedIn.helpers({
   noFriendsCircles : function () {
     'use strict';
 
-    return Circles.find( {
-      'users.$.email' : Meteor.user().emails[0].address
-    } ).fetch().length === 0
+    if ( Meteor.user() ) {
+      return Circles.find( {
+        'users.$.email' : Meteor.user().emails[0].address
+      } ).fetch().length === 0
+    }
+
+    return true;
+    
   }
 });

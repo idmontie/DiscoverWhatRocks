@@ -31,6 +31,10 @@ function createCircleFromForm ( tempSlug ) {
 
   var circle = Schema.circles.clean( obj )
 
+  if ( tempSlug ) {
+    circle['slug'] = 'temp'
+  }
+
   return circle
 }
 
@@ -57,7 +61,7 @@ Template['circles-add-form'].helpers({
     var errors = Session.get( 'form-errors' )
 
     if ( errors ) {
-      var circle   = createCircleFromForm()
+      var circle   = createCircleFromForm( true )
       var isValid = circlesContext.validateOne(
         circle, 'name'
       )
