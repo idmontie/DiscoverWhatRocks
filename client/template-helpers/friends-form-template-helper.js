@@ -49,6 +49,8 @@ Template.friendsForm.events( {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log ( this )
+    Meteor.call( 'uninvite', this.email, this.circleId, function () {
+      // TODO Tell the user whether they were successful or not
+    } )
   }
 } );

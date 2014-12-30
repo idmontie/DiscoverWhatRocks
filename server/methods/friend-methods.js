@@ -1,20 +1,26 @@
 
 Meteor.methods( {
+  /**
+   * Validate email and circleId.  Send an email invite.
+   *
+   * TODO rate limiting
+   *
+   * @param String email
+   * @param String circleId
+   */
   invite : function ( email, circleId ) {
     'use strict';
 
     check( email, String )
-    check ( circleId, String )
+    check( circleId, String )
 
     if ( ! this.userId ) {
-      throw new Meteor.Error( 'not-logged_in', 'You must be logged in to invite users.' )
+      throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
     }
 
-    var circle = Circles.find( {
+    var circle = Circles.findOne( {
       _id : circleId
     } )
-
-    console.log( circleId, email )
 
     Circles.update( circleId, {
       $addToSet : {
@@ -24,7 +30,7 @@ Meteor.methods( {
       }
     }, {
       validate: false,
-      getAutoValues : false
+      getAutoValues: false
     } )
 
     var url = Meteor.absoluteUrl( 'circles/' + circle.slug )
@@ -37,5 +43,37 @@ Meteor.methods( {
       text : Circles.emailTemplate.inviteEmail.text( email, url )
     } )
 
+    return true
+  },
+  uninvite : function ( email, circleId ) {
+    'use strict';
+
+    check( email, String )
+    check( circleId, String )
+
+    if ( ! this.userId ) {
+      throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
+    }
+
+    var circle = Circles.findOne( {
+      _id : circleId
+    } )
+
+    if ( circle.ownerId !== this.userId ) {
+      throw new Meteor.Error( 'not-your-circle', 'You cannot uninvite users from circles you don\'t own.' )
+    }
+
+    Circles.update( circleId, {
+      $pull : {
+        users : {
+          email : email
+        }
+      }
+    }, {
+      validate: false,
+      getAutoValues: false
+    })
+
+    return true
   }
 })
