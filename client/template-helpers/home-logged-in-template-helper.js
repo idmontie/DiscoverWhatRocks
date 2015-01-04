@@ -29,7 +29,11 @@ Template.homeLoggedIn.helpers({
     'use strict';
 
     return Circles.find( {
-      'users.$.email' : Meteor.user().emails[0].address
+      'users' : {
+        $elemMatch : {
+          'email' : Meteor.user().emails[0].address
+        }
+      }
     }, {
       sort: {
         dateCreated: -1
@@ -41,11 +45,14 @@ Template.homeLoggedIn.helpers({
 
     if ( Meteor.user() ) {
       return Circles.find( {
-        'users.$.email' : Meteor.user().emails[0].address
+        'users' : {
+          $elemMatch : {
+            'email' : Meteor.user().emails[0].address
+          }
+        }
       } ).fetch().length === 0
     }
 
     return true;
-    
   }
 });

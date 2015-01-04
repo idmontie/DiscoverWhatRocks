@@ -4,8 +4,14 @@
 
 Meteor.startup( function () {
   'use strict';
+  var password = null
 
-  var password = Assets.getText('email-password.txt');
+  try {
+    password = Assets.getText('email-password.txt')
+  } catch ( e ) {
+    console.log( 'put an email-password.txt file in the private directory!' )
+    throw e;
+  }
 
   var smtp = {
     username : 'help@mantarayar.com',
@@ -18,7 +24,7 @@ Meteor.startup( function () {
     encodeURIComponent(smtp.username) +
     ':' + encodeURIComponent(smtp.password) +
     '@' + encodeURIComponent(smtp.server) +
-    ':' + smtp.port;
+    ':' + smtp.port
 
 
   // =======================
@@ -31,7 +37,8 @@ Meteor.startup( function () {
   }
 
   Accounts.emailTemplates.verifyEmail.text = function ( user, url ) {
-    return 'click on the following link to verify your email address: ' + url
+    // TODO import an html file
+    return 'Click on the following link to verify your email address: ' + url
   }
 
   // =============================
@@ -46,6 +53,7 @@ Meteor.startup( function () {
   }
 
   Circles.emailTemplate.inviteEmail.text = function ( email, url ) {
-    return 'click on the following link to check out your circle: ' + url
+    // TODO import an html file
+    return 'Click on the following link to check out the circle you\'ve been invited to: ' + url
   }
 } );

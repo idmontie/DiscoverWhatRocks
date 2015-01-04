@@ -118,57 +118,5 @@ Template['circles-add-form'].events({
         slug : realCircle.slug
       });
     } );
-
-    
-  }
-});
-
-// ===================
-// Circles Update Form
-// ===================
-
-// TODO
-
-Template['circles-update-form'].helpers({
-  invitedFriends : function () {
-    'use strict';
-    return Session.get( 'invited-friends' );
-  }
-})
-
-Template['circles-update-form'].events({
-  'click #add_invited_friend' : function ( e ) {
-    'use strict';
-
-    e.preventDefault();
-
-    var invitedFriend = $('#invited_friend').val();
-
-    // TODO check email
-    var invitedFriends = Session.get( 'invited-friends' );
-    invitedFriends.push( invitedFriend );
-
-    Session.set( 'invited-friends', invitedFriends );
-
-    // TODO clear input, close mobile keyboards
-  },
-  // TODO handle enter
-  'click #invitedFriends .remove' : function ( e ) {
-    'use strict';
-
-    e.preventDefault();
-
-    // Force 'this' to be a string
-    var invitedFriend = this.value + '';
-
-    var invitedFriends = Session.get( 'invited-friends' );
-
-    for ( var i = invitedFriends.length - 1; i >= 0; i-- ) {
-      if ( invitedFriends[i] === invitedFriend ) {
-        invitedFriends.splice( i, 1 );
-      }
-    }
-
-    Session.set( 'invited-friends', invitedFriends );
   }
 });

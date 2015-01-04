@@ -17,6 +17,18 @@ Router.configure({
   layoutTemplate: 'application-layout'
 });
 
+Router.onBeforeAction( function () {
+  'use strict';
+  if ( ! Meteor.userId() ) {
+    this.render( 'home' )
+    // TODO when the user logs in, it need to go to the original url
+  } else {
+    this.next()
+  }
+}, {
+  except: ['home']
+} )
+
 // ====
 // Home
 // ====

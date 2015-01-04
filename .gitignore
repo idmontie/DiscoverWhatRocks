@@ -1,2 +1,6 @@
 node_modules/*
 .standards/node_modules/*
+npm-debug.log
+private/*
+.DS_Store
+*/.DS_Store

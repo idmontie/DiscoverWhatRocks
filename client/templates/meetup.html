@@ -33,12 +33,14 @@
             <li class="vote-badge panel">
               <h3 class="lead">{{placeName}}</h3>
               <div class="right">
-                <button id="vote-premade" class="button success">
-                  {{#if voteAlreadyCast}}
-                    Change Your Vote
-                  {{else}}
-                    Vote
-                  {{/if}}
+                <button class="button success vote-premade">
+                  {{#with .. }}
+                    {{#if voteAlreadyCast}}
+                      Change Your Vote
+                    {{else}}
+                      Vote
+                    {{/if}}
+                  {{/with}}
                 </button>
               </div>
               <div class="voters">

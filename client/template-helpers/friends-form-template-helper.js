@@ -26,7 +26,7 @@ Template.friendsForm.events( {
 
     var email = $( '#friendsAddForm' ).find( '[name=email]' ).val()
 
-    Meteor.call( 'invite', email, this._id, function () {
+    Meteor.call( 'invite', email, this._id, function ( error, result ) {
       // TODO Tell the user whether they were successful or not
     } )
 
@@ -39,7 +39,7 @@ Template.friendsForm.events( {
     e.preventDefault();
     e.stopPropagation();
 
-    Meteor.call( 'invite', this.email, this.circleId, function () {
+    Meteor.call( 'invite', this.email, this.circleId, function ( error, result ) {
       // TODO Tell the user whether they were successful or not
     } )
   },

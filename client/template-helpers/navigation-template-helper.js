@@ -27,7 +27,7 @@ Template.navigation.events( {
 
     $('.off-canvas-wrap').removeClass('move-right')
   },
-  'click #logout' : function ( e ) {
+  'click #logout, click .logout' : function ( e ) {
     'use strict';
 
     e.preventDefault()

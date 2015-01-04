@@ -19,6 +19,7 @@ Session.setDefault( 'voteLat', null )
 Session.setDefault( 'voteLong', null )
 Session.setDefault( 'voteData', null )
 
+
 Template.meetup.helpers( {
   placeType : function () {
     'use strict';
@@ -43,7 +44,7 @@ Template.meetup.helpers( {
     var isSet = ReactivityHelper.reliesOn( this.meetup )
 
     if ( isSet ) {
-      var index = _$.getPreviouslyCastVote( this.meetup, Meteor.userId() )
+      var index = window.getPreviouslyCastVote( this.meetup, Meteor.userId() )
       return index !== -1
     } else {
       return false
@@ -63,83 +64,35 @@ Template.meetup.helpers( {
   },
   structuredVotes : function () {
     'use strict';
+    var self = this
 
-    // TODO this takes a lot of computation power
-    // make it only semi reactive
-    var meetup = this.meetup
-    var placeName = null
+    Meteor.autorun( function () {
+      Meteor.call(
+        'meetupStructuredVotes',
+        self.meetup._id,
+        function ( error, result ) {
+          Session.set( 'structuredVotes', result )
 
-    var structuredVotesObject = {}
-    var places = {}
-
-    for ( var i = 0; i < meetup.votes.length; i++ ) {
-      var vote = meetup.votes[i]
-      placeName = ( vote.placeDetails ? vote.placeDetails.name : vote.latitude + ', ' + vote.longitude )
-
-      // TODO users is probably not accessible by clients
-      var user = Meteor.users.findOne( {
-        _id : vote.userId
-      } )
-
-      var email = user.emails[0].address
-
-      var gravatar = Gravatar.imageUrlFromEmail( email )
-
-      if ( structuredVotesObject[placeName]  == null ) {
-        // Add it
-        structuredVotesObject[placeName] = []
-      }
-
-      structuredVotesObject[placeName].push( {
-        email : email,
-        gravatar : gravatar
-      } )
-
-      places[placeName]           = vote.placeDetails
-      places[placeName].latitude  = vote.latitude
-      places[placeName].longitude = vote.longitude
-    }
-
-    // Transform the votes object into an array with vote counters
-    var structuredVotes = []
-
-    for ( placeName in structuredVotesObject ) {
-      if ( structuredVotesObject.hasOwnProperty( placeName ) ) {
-        var numberOfVotes = structuredVotesObject[placeName].length
-        var voters        = []
-        var place         = places[placeName]
-        var latitude      = places[placeName].latitude
-        var longitude     = places[placeName].longitude
-
-        for ( var j = 0; j < numberOfVotes; j++ ) {
-          voters.push( structuredVotesObject[placeName][j] )
+          window.updateMarkers( result )
         }
+      )
+    } )
 
-        structuredVotes.push( {
-          placeDetails : place,
-          latitude : latitude,
-          longitude : longitude,
-          placeName : placeName,
-          numberOfVotes : numberOfVotes,
-          voters : voters
-        } )
-      }
-    }
-
-    // TODO sort the array by number of votes
-
-    return structuredVotes
+    return Session.get( 'structuredVotes' )
   }
 } )
 
 Template.meetup.events( {
-  'click #vote-premade' : function ( e ) {
+  'click .vote-premade' : function ( e ) {
     'use strict';
 
     e.preventDefault()
     e.stopPropagation()
 
-    var newMeetup = $.extend( {}, this.meetup )
+    var parent =  Template.parentData()
+
+    var newMeetup = $.extend( {}, parent.meetup )
+
     /*jshint camelcase: false */
     // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
     var vote = {
@@ -149,7 +102,7 @@ Template.meetup.events( {
       placeDetails : {
         name : this.placeDetails.name,
         place_id : this.placeDetails.place_id,
-        vicinity : this.vicinity
+        vicinity : this.placeDetails.vicinity
       }
     }
     /*jshint camelcase: true */
@@ -168,11 +121,13 @@ Template.meetup.events( {
 
     // Update meetup
     newMeetup = Schema.meetups.clean( newMeetup )
-    Meetups.update( this.meetup._id, {
+    Meetups.update( parent.meetup._id, {
       $set : {
         votes : newMeetup.votes
       }
     } )
+
+    _$.markersDirty = true
   },
   'click #vote:not(.disabled)' : function ( e ) {
     'use strict';
@@ -182,8 +137,8 @@ Template.meetup.events( {
 
     // Add or Update vote in the meetup
     var newMeetup = $.extend( {}, this.meetup )
-    var userId = Meteor.userId()
-    var vote = _$.createVote( userId )
+    var userId    = Meteor.userId()
+    var vote      = _$.createVote( userId )
 
     // First vote needs to create votes array
     if ( newMeetup.votes == null ) {
@@ -207,6 +162,8 @@ Template.meetup.events( {
         votes : newMeetup.votes
       }
     } )
+
+    _$.markersDirty = true
   }
 } )
 
@@ -217,6 +174,7 @@ Template.meetup.events( {
 this.getPreviouslyCastVote = function ( meetup, userId ) {
   'use strict';
   var index = -1
+
   for ( var i = 0; i < meetup.votes.length; i++ ) {
     if ( meetup.votes[i].userId == userId ) {
       index = i
@@ -236,7 +194,12 @@ this.createVote = function ( userId ) {
 
   // Make sure placeDetails is an object
   if ( placeDetails == null ) {
-    placeDetails = {}
+    // TODO ask to name location
+    placeDetails = {
+      name : '(' + lat + ', ' + lng + ')',
+      place_id : 'NA',
+      vicinity : 'NA'
+    }
   }
 
   return {
@@ -269,8 +232,9 @@ this.run = function () {
     scaleControl: true,
     scrollwheel: false,
     disableDoubleClickZoom: true
-  } );
-  _$.scale = parseFloat( _$.data.meetup.mapCenter.radius );
+  } )
+  _$.scale = parseFloat( _$.data.meetup.mapCenter.radius )
+  _$.oldMarkers = []
 
   var meetupLocation = {
     strokeColor: '#FF0000',
@@ -287,40 +251,6 @@ this.run = function () {
 
   _$.setPlaceMarkers( _$.data.meetup.placeTypeSlug )
 
-  //  mark votes
-  for ( var i = 0; i < _$.data.meetup.votes.length; i++ ) {
-    var vote = _$.data.meetup.votes[i]
-    // TODO this won't work for clients
-    var email = Meteor.users.findOne( {
-      _id : vote.userId
-    } ).emails[0].address
-
-    var latLng = new google.maps.LatLng( vote.latitude, vote.longitude )
-
-    var content = '<div class="pin"><img src="' + Gravatar.imageUrlFromEmail( email, {
-      size : 32,
-      secure : true
-    } ) + '" /></div>';
-
-    var voteLocation = {
-      position: latLng,
-      map: _$.map,
-      flat: true,
-      title: 'Vote',
-      content: content
-    }
-
-    if ( vote.userId === Meteor.userId() ) {
-      _$.voteMarker = new RichMarker( voteLocation )
-
-      Session.set( 'voteLat', vote.latitude )
-      Session.set( 'voteLong', vote.longitude )
-      Session.set( 'voteData', vote.placeDetails )
-    } else {
-      new RichMarker( voteLocation )
-    }
-  }
-
   // Add click listener
   google.maps.event.addListener( _$.map, 'click', function ( np ) {
     _$.setVoteMarker( np.latLng.lat(), np.latLng.lng() );
@@ -329,6 +259,8 @@ this.run = function () {
   google.maps.event.addListener( _$.meetupCircle, 'click', function ( np ) {
     _$.setVoteMarker( np.latLng.lat(), np.latLng.lng() );
   } )
+
+  _$.listenForMarkers()
 
 }
 
@@ -450,4 +382,78 @@ this.updateMarker = function ( markerReference, placeId ) {
       }
     } )
   } )
+}
+
+this.updateMarkers = function ( votes ) {
+  if ( ! _.isEqual( votes, _$.votes ) ) {
+    _$.markersDirty = true
+    _$.votes = votes
+  }
+}
+
+this.listenForMarkers = function () {
+  setInterval( function () {
+    if ( _$.markersDirty && _$.map ) {
+      _$.markersDirty = false
+
+      var votes = _$.votes
+      // remove old votes
+      for ( var i = 0; i < _$.oldMarkers.length; i++ ) {
+        _$.oldMarkers[i].setMap( null )
+      }
+      _$.oldMarkers = []
+
+
+      //  mark votes
+      for ( var i = 0; i < votes.length; i++ ) {
+        var vote = votes[i]
+        var latLng = new google.maps.LatLng( vote.latitude, vote.longitude )
+
+        for ( var j = 0; j < vote.voters.length; j++ ) {
+          var voter = vote.voters[j]
+
+          var content = '<div class="pin"><img src="' + Gravatar.imageUrlFromEmail(
+              voter.email,
+              {
+                size : 32,
+                secure : true
+              } 
+            ) + '" /></div>';
+
+          var voteLocation = {
+            position: latLng,
+            map: _$.map,
+            flat: true,
+            title: 'Vote',
+            content: content
+          }
+
+          if ( voter.email === Meteor.user().emails[0].address ) {
+            // TODO Bug: if a user clicks on the map BEFORE this gets run, their
+            // vote will get overwriten. 
+            // To cause this bug, refresh the page and click on a marker before the
+            // gravitar circles show up.
+
+            // Delete the old marker
+            if ( _$.voteMarker == null ) {
+              continue;
+            }
+
+            if ( _$.voteMarker ) {
+              _$.voteMarker.setMap( null )
+            }
+
+            _$.voteMarker = new RichMarker( voteLocation )
+
+            Session.set( 'voteLat', vote.latitude )
+            Session.set( 'voteLong', vote.longitude )
+            Session.set( 'voteData', vote.placeDetails )
+          } else {
+            _$.oldMarkers.push( new RichMarker( voteLocation ) )
+          }
+        }
+      }
+
+    }
+  }, 2000 )
 }

@@ -5,43 +5,13 @@
 // Licenced under BSD
 // ==========================
 
-// TODO factor out colors
-
-.login-link-text {
-  background-color: rgb(67, 172, 106);
-  color: rgb(255, 255, 255);
-  display: inline-block;
-  font-size: 18px;
-  margin: 0 auto 18px;
-  padding: 16px 52px 16px 32px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  transition-delay: 0s;
-  transition-duration: .3s;
-  transition-property: background-color;
-  transition-timing-function: ease-out;
-  width: 100%;
-
-  &:hover {
-    background-color: #368a55;
-    color: white;
-  }
-}
-
 .accounts-dialog {
-  background-color: rgb(231, 231, 231);
-  border: rgb(199, 199, 199) solid 1px;
-  box-sizing: border-box;
-  color: rgb(79, 79, 79);
-  cursor: auto;
+  background-color: $panel-background-color-transparent;
+  border: $panel-border-color solid 1px;
+  color: $panel-color;
   display: block;
-  font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
-  font-size: 12px;
   -webkit-font-smoothing: antialiased;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 17.3332805633545px;
+  line-height: 17px;
   margin-bottom: 10px;
   padding: 13px;
   position: relative;
@@ -54,13 +24,16 @@
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 
+  .additional-link-container {
+    padding: 5px;
+  }
+
   .error-message {
-    background: #f04124;
-    color: #fff;
+    background: $error-background;
+    color: $error-color;
     display: block;
-    font-size: .7rem;
+    font-size: .9rem;
     font-style: italic;
-    font-weight: normal;
     margin-top: -1px;
     padding: .3rem .5rem .5rem;
   }
@@ -72,10 +45,10 @@
 
 .login-button {
   -webkit-appearance: none;
-  background-color: rgb(0, 112, 149);
+  background-color: $login-button-background-color;
   border: 0;
   box-sizing: border-box;
-  color: rgb(255, 255, 255);
+  color: $login-button-color;
   cursor: pointer;
   display: inline-block;
   font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
@@ -83,13 +56,13 @@
   -webkit-font-smoothing: antialiased;
   font-style: normal;
   font-weight: normal;
-  height: 45.328125px;
+  height: 45px;
   line-height: normal;
-  margin-bottom: 0 17.777759552002px 0 0;
-  padding-bottom: 15.1110401153564px;
-  padding-left: 28.4444808959961px;
-  padding-right: 28.4444808959961px;
-  padding-top: 14.222240447998px;
+  margin-bottom: 0 18px 0 0;
+  padding-bottom: 15px;
+  padding-left: 28px;
+  padding-right: 28px;
+  padding-top: 14px;
   position: relative;
   text-align: center;
   text-decoration: none;

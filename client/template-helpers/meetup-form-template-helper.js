@@ -109,7 +109,6 @@ this.setCenter = function ( lat, lon ) {
     fillOpacity: 0.35,
     map: _$.map,
     center: center,
-    // TODO
     radius: _$.scale
   }
 
