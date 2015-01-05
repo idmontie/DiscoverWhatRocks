@@ -70,6 +70,8 @@
         </ul>
       </aside>
 
+      {{> breadcrumbs}}
+
       {{> alerts}}
 
       <section class="main-section {{current_route_name}}-page">
@@ -82,6 +84,9 @@
   </div>
 </template>
 
+<template name="breadcrumbs">
+  {{! TODO breadcrumbs}}
+</template>
 
 <template name="alerts">
   {{#each session 'alerts'}}
