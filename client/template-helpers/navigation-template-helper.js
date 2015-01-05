@@ -35,5 +35,16 @@ Template.navigation.events( {
     Meteor.logout()
 
     Router.go( '/' )
+  },
+  'click .session-alert-box-close' : function ( e ) {
+    'use strict';
+
+    e.preventDefault()
+
+    var alerts = Session.get( 'alerts' )
+    var index  = alerts.indexOf( this )
+    alerts.splice( index, 1 )
+
+    Session.set( 'alerts', alerts )
   }
 } );

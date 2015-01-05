@@ -68,6 +68,8 @@ Template.friendsForm.events( {
       alerts.push( html )
 
       Session.set( 'alerts', alerts )
+
+      $( e.target ).removeClass( 'disabled' )
     } )
   },
   'click .deleteEmail' : function ( e ) {
