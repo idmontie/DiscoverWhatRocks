@@ -1,23 +1,33 @@
-/**
- * Router File
- * Contains routes for Iron Router configuration
- */
+// ==========================
+// Router.js
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
+// Contains routes for Iron Router configuration.
 
-// Code coverage complains about Router not being defined
-/* global Router */
-
+// ============
+// Lint Globals
+// ============
 /* global Circles */
 /* global Meetups */
+/* global Router */
 /* global Session */
 
 // ====================
 // Global Configuration
 // ====================
 
-Router.configure({
-  layoutTemplate: 'application-layout'
-});
+/**
+ * Set a base layout template.
+ */
+Router.configure( {
+  layoutTemplate: 'applicationLayout'
+} );
 
+/**
+ * If the user is not logged in, show the log in page
+ */
 Router.onBeforeAction( function () {
   'use strict';
 
