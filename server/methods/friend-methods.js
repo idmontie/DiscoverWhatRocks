@@ -1,4 +1,8 @@
 
+/* global check */
+/* global Circles */
+/* global Email */
+
 Meteor.methods( {
   /**
    * Validate email and circleId.  Send an email invite.

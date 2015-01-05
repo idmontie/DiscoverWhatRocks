@@ -1,5 +1,10 @@
+
+/* global Accounts */
+
 Meteor.methods( {
-  'resendVerificationEmail' : function () {
+  resendVerificationEmail : function () {
+    'use strict';
+
     Accounts.sendVerificationEmail( this.userId )
   }
 } )

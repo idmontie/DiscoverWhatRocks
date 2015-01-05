@@ -1,3 +1,5 @@
+/* global Accounts */
+
 Accounts.onCreateUser( function ( options, user ) {
   'use strict';
 

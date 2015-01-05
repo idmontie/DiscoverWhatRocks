@@ -29,9 +29,9 @@ Template.homeLoggedIn.helpers({
     'use strict';
 
     return Circles.find( {
-      'users' : {
+      users : {
         $elemMatch : {
-          'email' : Meteor.user().emails[0].address
+          email : Meteor.user().emails[0].address
         }
       }
     }, {
@@ -45,9 +45,9 @@ Template.homeLoggedIn.helpers({
 
     if ( Meteor.user() ) {
       return Circles.find( {
-        'users' : {
+        users : {
           $elemMatch : {
-            'email' : Meteor.user().emails[0].address
+            email : Meteor.user().emails[0].address
           }
         }
       } ).fetch().length === 0

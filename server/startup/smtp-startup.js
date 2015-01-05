@@ -2,6 +2,12 @@
  * STMP Setup
  */
 
+/* global console */
+/* global process */
+/* global Assets */
+/* global Accounts */
+/* global Circles */
+
 Meteor.startup( function () {
   'use strict';
   var password = null
@@ -32,7 +38,7 @@ Meteor.startup( function () {
   // =======================
   Accounts.emailTemplates.from = 'Discover What Rocks <help@mantarayar.com>'
   Accounts.emailTemplates.siteName = 'Discover What Rocks'
-  Accounts.emailTemplates.verifyEmail.subject = function ( user ) {
+  Accounts.emailTemplates.verifyEmail.subject = function ( /* user */ ) {
     return 'Confirm Your Email Address'
   }
 
@@ -48,7 +54,7 @@ Meteor.startup( function () {
   Circles.emailTemplate.from = 'Discover What Rocks <help@mantarayr.com>'
   Circles.emailTemplate.siteName = 'Discover What Rocks'
   Circles.emailTemplate.inviteEmail = {}
-  Circles.emailTemplate.inviteEmail.subject = function ( email ) {
+  Circles.emailTemplate.inviteEmail.subject = function ( /* email */ ) {
     return 'You\'ve Been Invited to A Circle!'
   }
 

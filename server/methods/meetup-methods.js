@@ -1,5 +1,6 @@
 
 /* global Meetups */
+/* global Gravatar */
 
 Meteor.methods( {
   getRealMeetupSlug : function ( id ) {
@@ -12,6 +13,8 @@ Meteor.methods( {
     return newMeetup.slug
   },
   meetupStructuredVotes : function ( id ) {
+    'use strict';
+
     // TODO check id is string
     // TODO check user can access meetup
 

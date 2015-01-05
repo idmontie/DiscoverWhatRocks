@@ -28,6 +28,7 @@ Template.friendsForm.events( {
 
     Meteor.call( 'invite', email, this._id, function ( error, result ) {
       // TODO Tell the user whether they were successful or not
+      result = result
     } )
 
     // Reset form
@@ -41,6 +42,7 @@ Template.friendsForm.events( {
 
     Meteor.call( 'invite', this.email, this.circleId, function ( error, result ) {
       // TODO Tell the user whether they were successful or not
+      result = result
     } )
   },
   'click .deleteEmail' : function ( e ) {

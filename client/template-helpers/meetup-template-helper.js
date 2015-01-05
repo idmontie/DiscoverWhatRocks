@@ -195,11 +195,15 @@ this.createVote = function ( userId ) {
   // Make sure placeDetails is an object
   if ( placeDetails == null ) {
     // TODO ask to name location
+    /*jshint camelcase: false */
+    // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
     placeDetails = {
       name : '(' + lat + ', ' + lng + ')',
       place_id : 'NA',
       vicinity : 'NA'
     }
+    /*jshint camelcase: true */
+    // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
   }
 
   return {
@@ -385,6 +389,8 @@ this.updateMarker = function ( markerReference, placeId ) {
 }
 
 this.updateMarkers = function ( votes ) {
+  'use strict';
+
   if ( ! _.isEqual( votes, _$.votes ) ) {
     _$.markersDirty = true
     _$.votes = votes
@@ -392,20 +398,23 @@ this.updateMarkers = function ( votes ) {
 }
 
 this.listenForMarkers = function () {
+  'use strict';
+
   setInterval( function () {
     if ( _$.markersDirty && _$.map ) {
       _$.markersDirty = false
 
       var votes = _$.votes
+      var i     = 0
       // remove old votes
-      for ( var i = 0; i < _$.oldMarkers.length; i++ ) {
+      for ( i = 0; i < _$.oldMarkers.length; i++ ) {
         _$.oldMarkers[i].setMap( null )
       }
       _$.oldMarkers = []
 
 
-      //  mark votes
-      for ( var i = 0; i < votes.length; i++ ) {
+      // mark votes
+      for ( i = 0; i < votes.length; i++ ) {
         var vote = votes[i]
         var latLng = new google.maps.LatLng( vote.latitude, vote.longitude )
 
@@ -417,7 +426,7 @@ this.listenForMarkers = function () {
               {
                 size : 32,
                 secure : true
-              } 
+              }
             ) + '" /></div>';
 
           var voteLocation = {
@@ -430,7 +439,7 @@ this.listenForMarkers = function () {
 
           if ( voter.email === Meteor.user().emails[0].address ) {
             // TODO Bug: if a user clicks on the map BEFORE this gets run, their
-            // vote will get overwriten. 
+            // vote will get overwriten.
             // To cause this bug, refresh the page and click on a marker before the
             // gravitar circles show up.
 

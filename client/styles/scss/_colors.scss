@@ -17,7 +17,7 @@ $font-color:    white;
 // ======
 
 $panel-background-color:             rgb(231, 231, 231);
-$panel-background-color-transparent: fade-out($panel-background-color, 0.1);
+$panel-background-color-transparent: fade-out($panel-background-color, .1);
 $panel-border-color:                 darken($panel-background-color, 30%);
 $panel-color:                        rgb(79, 79, 79);
 

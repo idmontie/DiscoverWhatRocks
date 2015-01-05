@@ -27,15 +27,15 @@ function createCircleFromForm ( tempSlug ) {
 
   // TODO figure out a better way to fake all this data
   if ( tempSlug ) {
-    obj['slug'] = 'temp'
-    circle['dateCreated'] = Date.now() + ''
+    obj.slug = 'temp'
+    obj.dateCreated = Date.now() + ''
   }
 
   var circle = Schema.circles.clean( obj )
 
   if ( tempSlug ) {
-    circle['slug'] = 'temp'
-    circle['dateCreated'] = Date.now() + ''
+    circle.slug = 'temp'
+    circle.dateCreated = Date.now() + ''
   }
 
   return circle

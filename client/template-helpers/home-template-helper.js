@@ -1,14 +1,16 @@
+/* global Accounts */
+
 Session.setDefault( 'alerts', [] )
 
 Template.home.created = function () {
   'use strict';
 
   if ( Accounts._verifyEmailToken ) {
-    Accounts.verifyEmail( Accounts._verifyEmailToken, function( error ) {
+    Accounts.verifyEmail( Accounts._verifyEmailToken, function ( error ) {
       var html = ''
 
       if ( error != null) {
-        if ( error.message = 'Verify email link expired [403]' ) {
+        if ( error.message == 'Verify email link expired [403]' ) {
           html += 'Sorry, this verification link has expired. '
           html += '<a href="#" class="resend-verification-email">Click here to resend</a>. '
         } else {
@@ -23,8 +25,8 @@ Template.home.created = function () {
       alerts.push( html )
       Session.set( 'alerts', alerts )
     } )
-  } 
-}
+  }
+};
 
 Template.home.events( {
   'click .resend-verification-email' : function ( e ) {
@@ -51,4 +53,4 @@ Template.home.events( {
 
     Session.set( 'alerts', alerts )
   }
-} )
+} );
