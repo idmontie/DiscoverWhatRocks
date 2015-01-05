@@ -83,6 +83,32 @@ Template.meetup.helpers( {
 } )
 
 Template.meetup.events( {
+  'click #email-friends-about-meetup' : function ( e ) {
+    'use strict';
+
+    $( e.target ).hide()
+    var meetup = this.meetup;
+
+    // email, callback show alert
+    Meteor.call( 'inviteToMeetup', meetup._id, function ( error ) {
+      // Tell the user whether they were successful or not
+
+      // TODO refactor, this alerts code is very similar and used all
+      // over the place (see friends-form-template-helper.js)
+      var html = '';
+      var alerts = Session.get( 'alerts' )
+
+      if ( error ) {
+        html = 'We could not send out the emails to your Circle. Refresh the page to try again.'
+      } else {
+        html = 'Emails successfully sent to this Circle.'
+      }
+
+      alerts.push( html )
+
+      Session.set( 'alerts', alerts )
+    } )
+  },
   'click .vote-premade' : function ( e ) {
     'use strict';
 

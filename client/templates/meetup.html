@@ -3,7 +3,13 @@
     <div class="large-offset-1 large-10 columns">
       <h1 class="lead">{{meetup.name}}</h1>
 
-      {{meetup.dateToMeet}}
+      {{{generateCalendarIcon meetup.dateToMeet}}}
+
+      <br/>
+      
+      <button class="right" id="email-friends-about-meetup">
+        Email Friends About Meetup
+      </button>
 
       <p class="lead">{{placeType.readibleName}}</p>
 

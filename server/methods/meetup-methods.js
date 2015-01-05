@@ -1,4 +1,7 @@
 
+/* global check */
+/* global Circles */
+/* global Email */
 /* global Meetups */
 /* global Gravatar */
 
@@ -15,7 +18,8 @@ Meteor.methods( {
   meetupStructuredVotes : function ( id ) {
     'use strict';
 
-    // TODO check id is string
+    check( id, String )
+
     // TODO check user can access meetup
 
     // TODO this takes a lot of computation power
@@ -85,5 +89,38 @@ Meteor.methods( {
     // TODO sort the array by number of votes
 
     return structuredVotes
+  },
+  inviteToMeetup : function ( meetupId ) {
+    'use strict';
+
+    check( meetupId, String )
+
+    if ( ! this.userId ) {
+      throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
+    }
+
+    var meetup = Meetups.findOne( {
+      _id : meetupId
+    } )
+
+    var circle = Circles.findOne( {
+      _id : meetup.circleId
+    } )
+
+    var url = Meteor.absoluteUrl( 'circles/meetups/' + meetup.slug )
+
+    for ( var i = 0; i < circle.users.length; i++ ) {
+      // TODO only send emails to users with accounts
+
+      // send email
+      var email = circle.users[i].email
+
+      Email.send( {
+        from : Meetups.emailTemplate.from,
+        to : email,
+        subject : Meetups.emailTemplate.inviteEmail.subject( email ),
+        text : Meetups.emailTemplate.inviteEmail.text( email, url )
+      } )
+    }
   }
 } );
