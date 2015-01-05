@@ -70,6 +70,8 @@
         </ul>
       </aside>
 
+      {{> alerts}}
+
       <section class="main-section {{current_route_name}}-page">
         {{> yield}}
       </section>
@@ -78,4 +80,14 @@
 
     </div>
   </div>
+</template>
+
+
+<template name="alerts">
+  {{#each session 'alerts'}}
+    <div data-alert class="alert-box">
+      {{{this}}}
+      <a href="#" class="close session-alert-box-close">&times;</a>
+    </div>
+  {{/each}}
 </template>

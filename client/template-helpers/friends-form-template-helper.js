@@ -26,33 +26,71 @@ Template.friendsForm.events( {
 
     var email = $( '#friendsAddForm' ).find( '[name=email]' ).val()
 
-    Meteor.call( 'invite', email, this._id, function ( error, result ) {
-      // TODO Tell the user whether they were successful or not
-      result = result
+    Meteor.call( 'invite', email, this._id, function ( error ) {
+      // Tell the user whether they were successful or not
+      var html = '';
+      var alerts = Session.get( 'alerts' )
+
+      if ( error ) {
+        html = 'We could not send out an email to ' + email + '.'
+      } else {
+        html = 'Email successfully sent to ' + email + '.'
+      }
+
+      alerts.push( html )
+
+      Session.set( 'alerts', alerts )
     } )
 
     // Reset form
     $( '#friendsAddForm' )[0].reset()
   },
-  'click .resendInvitation' : function ( e ) {
+  'click .resendInvitation:not(.disabled)' : function ( e ) {
     'use strict';
 
     e.preventDefault();
     e.stopPropagation();
 
-    Meteor.call( 'invite', this.email, this.circleId, function ( error, result ) {
-      // TODO Tell the user whether they were successful or not
-      result = result
+    $( e.target ).addClass( 'disabled' )
+    var email = this.email
+
+    Meteor.call( 'invite', email, this.circleId, function ( error ) {
+      // Tell the user whether they were successful or not
+      var html = '';
+      var alerts = Session.get( 'alerts' )
+
+      if ( error ) {
+        html = 'We could not send out an email to ' + email + '.'
+      } else {
+        html = 'Email successfully sent to ' + email + '.'
+      }
+
+      alerts.push( html )
+
+      Session.set( 'alerts', alerts )
     } )
   },
   'click .deleteEmail' : function ( e ) {
     'use strict';
 
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
-    Meteor.call( 'uninvite', this.email, this.circleId, function () {
-      // TODO Tell the user whether they were successful or not
+    var email = this.email
+
+    Meteor.call( 'uninvite', email, this.circleId, function ( error ) {
+      var html = '';
+      var alerts = Session.get( 'alerts' )
+
+      if ( error ) {
+        html = 'We could not remove ' + email + ', try again later'
+      } else {
+        html = email + ' removed.'
+      }
+
+      alerts.push( html )
+
+      Session.set( 'alerts', alerts )
     } )
   }
 } );

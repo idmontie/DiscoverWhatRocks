@@ -1,19 +1,9 @@
 <template name="home">
-  {{> alerts}}
   {{#if session "meteorLoggedIn"}}
     {{> homeLoggedIn}}
   {{else}}
     {{> homePortal}}
   {{/if}}
-</template>
-
-<template name="alerts">
-  {{#each session 'alerts'}}
-    <div data-alert class="alert-box">
-      {{{this}}}
-      <a href="#" class="close session-alert-box-close">&times;</a>
-    </div>
-  {{/each}}
 </template>
 
 <template name="homeLoggedIn">
