@@ -5,19 +5,35 @@
 // Licensed under BSD
 // ===========================
 
+// =========
+// Variables
+// =========
+@import 'colors';
+
+// ====
 // Core
 // ====
 @import 'scaffolding';
+@import 'alert';
 @import 'icon-bar';
 @import 'typography';
 @import 'accounts';
 @import 'maps';
 @import 'overlays';
+@import 'calendars';
+@import 'tables';
 
+// ========
 // Accounts
 // ========
 @import 'login';
 
+// =====
+// Votes
+// =====
+@import 'votes';
+
+// =====
 // Pages
 // =====
 @import 'home-portal';

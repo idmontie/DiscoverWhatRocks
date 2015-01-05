@@ -17,6 +17,18 @@ Router.configure({
   layoutTemplate: 'application-layout'
 });
 
+Router.onBeforeAction( function () {
+  'use strict';
+  if ( ! Meteor.userId() ) {
+    this.render( 'home' )
+    // TODO when the user logs in, it need to go to the original url
+  } else {
+    this.next()
+  }
+}, {
+  except: ['home']
+} )
+
 // ====
 // Home
 // ====
@@ -150,3 +162,19 @@ Router.route('/circles/:slug', function () {
 });
 
 
+// =======
+// Friends
+// =======
+Router.route('/circles/friends/add/:slug', function () {
+  'use strict';
+
+  var circle = Circles.findOne( {
+    slug : this.params.slug
+  } )
+
+  this.render('friendsForm', {
+    data : circle
+  } );
+}, {
+  name : 'friends-form'
+} );

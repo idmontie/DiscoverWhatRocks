@@ -29,7 +29,11 @@ Template.homeLoggedIn.helpers({
     'use strict';
 
     return Circles.find( {
-      'users.$.userId' : Meteor.userId()
+      'users' : {
+        $elemMatch : {
+          'email' : Meteor.user().emails[0].address
+        }
+      }
     }, {
       sort: {
         dateCreated: -1
@@ -39,8 +43,16 @@ Template.homeLoggedIn.helpers({
   noFriendsCircles : function () {
     'use strict';
 
-    return Circles.find( {
-      'users.$.userId' : Meteor.userId()
-    } ).fetch().length === 0
+    if ( Meteor.user() ) {
+      return Circles.find( {
+        'users' : {
+          $elemMatch : {
+            'email' : Meteor.user().emails[0].address
+          }
+        }
+      } ).fetch().length === 0
+    }
+
+    return true;
   }
 });

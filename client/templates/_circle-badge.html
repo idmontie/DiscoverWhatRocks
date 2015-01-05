@@ -1,9 +1,22 @@
 <template name="circleBadge">
-  <li>
-    <a href="/circles/{{slug}}" class="button">
-      {{name}}
-      &nbsp;
-      {{number_of_upcoming_meetups_for_circle this}}
-    </a>
+  <li class="panel">
+    <div class="right">
+      <span class="label">
+        {{number_of_upcoming_meetups_for_circle this}} Meetups
+      </span>
+      <br/>
+      <span class="label">
+        {{numberOfFriendsForCircle this}} Friends
+      </span>
+    </div>
+    <div class="row">
+      <div class="column small-6">
+        <a href="/circles/{{slug}}" class="button">
+          {{name}} &raquo;
+        </a>
+      </div>
+    </div>
+    
+    <div class="clearfix"></div>
   </li>
 </template>

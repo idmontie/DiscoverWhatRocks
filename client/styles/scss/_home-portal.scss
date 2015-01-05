@@ -5,6 +5,9 @@
 // Licenced under BSD
 // ==========================
 
+// TODO these styles also need to work for whe home is rendered inside of another
+// page because the user is not logged in
+
 .home-page {
   .heading {
     background: url('/images/hero_1.jpg') no-repeat center center;

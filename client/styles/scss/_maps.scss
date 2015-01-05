@@ -11,6 +11,27 @@
   margin: 0;
   padding: 0;
   width: 100%;
+
+  /*
+   * Hack
+   * @see https://github.com/zurb/foundation/issues/2462
+   */
+  *,
+  *:before,
+  *:after {
+    -moz-box-sizing: content-box !important;
+    -webkit-box-sizing: content-box !important;
+    box-sizing: content-box !important;  
+  }
+
+  img {
+    max-width: none;
+  }
+
+  label {
+    display: inline;
+    width: auto;
+  }
 }
 
 .pin {

@@ -74,7 +74,11 @@
 
         _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
           center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
-          zoom: 13
+          zoom: 13,
+          zoomControl: true,
+          scaleControl: true,
+          scrollwheel: false,
+          disableDoubleClickZoom: true
         } );
 
         // Add click listener

@@ -10,11 +10,6 @@
 // ============
 
 Template.circle.helpers({
-  numberOfFriends : function () {
-    'use strict';
-    // TODO return number of friends
-    return 0
-  },
   noMeetups : function () {
     'use strict';
 
@@ -22,7 +17,12 @@ Template.circle.helpers({
   },
   noFriends : function () {
     'use strict';
-    // TODO return if friendless
-    return true
+
+    if ( this.circle.users !== null &&
+         this.circle.users.length > 0 ) {
+      return false
+    } else {
+      return true
+    }
   }
 })

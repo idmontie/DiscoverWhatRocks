@@ -1,4 +1,5 @@
 <template name="home">
+  {{> alerts}}
   {{#if session "meteorLoggedIn"}}
     {{> homeLoggedIn}}
   {{else}}
@@ -6,14 +7,21 @@
   {{/if}}
 </template>
 
-<template name="homeLoggedIn">
-  <div class="icon-bar one-up box-bar">
-    <div class="row">
-      <a class="item" href="/circles/add">
-        <i class="fa fa-plus"></i>
-        <label>Create a Circle</label>
-      </a>
+<template name="alerts">
+  {{#each session 'alerts'}}
+    <div data-alert class="alert-box">
+      {{{this}}}
+      <a href="#" class="close session-alert-box-close">&times;</a>
     </div>
+  {{/each}}
+</template>
+
+<template name="homeLoggedIn">
+  <div class="icon-bar three-up box-bar">
+    <a class="item" href="/circles/add">
+      <i class="fa fa-plus"></i>
+      <label>Create a Circle</label>
+    </a>
   </div>
 
   <div class="row">
@@ -56,14 +64,13 @@
         </div>
       {{else}}
         <ul class="stack button-group">
-          {{#each circles}}
+          {{#each friendsCircles}}
             {{> circleBadge this}}
           {{/each}}
         </ul>
       {{/if}}
     </div>
   </div>
-
 </template>
 
 <template name="homePortal">

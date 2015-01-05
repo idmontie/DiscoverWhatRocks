@@ -1,0 +1,35 @@
+// ===========================
+// Discover What Rocks: v0.0.1
+// ===========================
+// Copyright 2014 Mantaray AR
+// Licensed under BSD
+// ===========================
+
+
+// =====
+// Theme
+// =====
+$primary-color: rgb(0, 112, 149);
+$font-color:    white;
+
+// ======
+// Panels
+// ======
+
+$panel-background-color:             rgb(231, 231, 231);
+$panel-background-color-transparent: fade-out($panel-background-color, 0.1);
+$panel-border-color:                 darken($panel-background-color, 30%);
+$panel-color:                        rgb(79, 79, 79);
+
+// ======
+// Errors
+// ======
+
+$error-background: rgb(240, 65, 36);
+$error-color:      $font-color;
+
+// ============
+// Login Colors
+// ============
+$login-button-background-color: $primary-color;
+$login-button-color:            $font-color;
