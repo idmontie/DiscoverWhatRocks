@@ -2,7 +2,7 @@
  * Meetup Form Template Helper
  *
  * Template Helpers for the meetup forms, including the meetups-add-form
- * and the meetups-update-form
+ * and the meetupsAddForm
  */
 
 /* global _$ */
@@ -14,7 +14,7 @@
 // The `currentPositionCallback` is defined in the template file
 /* global currentPositionCallback */
 
-Template['meetups-add-form'].helpers( {
+Template.meetupsAddForm.helpers( {
   /**
    * Check for geolocation browser capability
    */
@@ -34,7 +34,7 @@ Template['meetups-add-form'].helpers( {
   }
 } );
 
-Template['meetups-add-form'].events( {
+Template.meetupsAddForm.events( {
   'click #use_current_location:not("[disabled]")' : function ( e ) {
     'use strict';
     e.preventDefault();

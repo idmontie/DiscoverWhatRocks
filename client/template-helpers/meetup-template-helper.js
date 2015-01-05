@@ -15,9 +15,9 @@
 // ================
 // Session Defaults
 // ================
-Session.setDefault( 'voteLat', null )
-Session.setDefault( 'voteLong', null )
-Session.setDefault( 'voteData', null )
+Session.setDefault( 'voteLat', null );
+Session.setDefault( 'voteLong', null );
+Session.setDefault( 'voteData', null );
 
 
 Template.meetup.helpers( {
@@ -336,29 +336,6 @@ this.setPlaceMarkers = function ( placeType ) {
     types  : [placeType]
   }
   service.radarSearch( placeRequest, _$.nearbyCallback )
-}
-
-this.nearbyCallback = function  ( results, status ) {
-  'use strict';
-
-  var i = 0;
-
-  // Place the markers on the map
-  if ( status == google.maps.places.PlacesServiceStatus.OK ) {
-    // Destroy old markers
-    if ( _$.previewMarkers ) {
-      for ( i = 0; i < _$.previewMarkers.length; i++ ) {
-        _$.previewMarkers[i].setMap( null )
-      }
-      _$.previewMarkers = []
-    }
-
-    for ( i = 0; i < results.length; i++ ) {
-      if ( results[i] !== null &&
-          typeof results[i] !== 'undefined' )
-        _$.createMarker( results[i] )
-    }
-  }
 }
 
 this.currentPositionCallback = function ( position ) {

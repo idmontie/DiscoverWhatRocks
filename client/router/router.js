@@ -8,6 +8,7 @@
 
 /* global Circles */
 /* global Meetups */
+/* global Session */
 
 // ====================
 // Global Configuration
@@ -19,6 +20,7 @@ Router.configure({
 
 Router.onBeforeAction( function () {
   'use strict';
+
   if ( ! Meteor.userId() ) {
     this.render( 'home' )
     // TODO when the user logs in, it need to go to the original url
@@ -27,7 +29,7 @@ Router.onBeforeAction( function () {
   }
 }, {
   except: ['home']
-} )
+} );
 
 // ====
 // Home
@@ -51,31 +53,31 @@ Router.route('/about', function () {
 // Meetups
 // =======
 
-Router.route('/circles/meetups/add/:slug', function () {
+Router.route( '/circles/meetups/add/:slug', function () {
   'use strict';
 
   var circle = Circles.findOne( {
     slug : this.params.slug
-  } );
+  } )
 
-  this.render('meetups-add-form', {
+  this.render( 'meetupsAddForm', {
     data : circle
-  });
+  } )
 }, {
-  name : 'meetups-add-form'
-});
+  name : 'meetupsAddForm'
+} );
 
-Router.route('/circles/meetups/update/:slug', function () {
+Router.route( '/circles/meetups/update/:slug', function () {
   'use strict';
-  this.render('meetups-update-form');
+  this.render( 'meetups-update-form' );
 }, {
   name : 'meetups-update-form'
-});
+} );
 
-Router.route('/circles/meetups/:slug', function () {
+Router.route( '/circles/meetups/:slug', function () {
   'use strict';
 
-  this.render('meetup', {
+  this.render( 'meetup', {
     data : function () {
       var circle = null
 
