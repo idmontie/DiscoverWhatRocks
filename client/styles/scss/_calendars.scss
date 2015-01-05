@@ -1,9 +1,15 @@
+// ==========================
+// Calendars: v0.0.1
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
 
 time.icon {
   -webkit-backface-visibility: hidden;
-  background-color: #fff;
+  background-color: $time-icon-background-color;
   border-radius: .6em;
-  box-shadow: 0 1px 0 #bdbdbd, 0 2px 0 #fff, 0 3px 0 #bdbdbd, 0 4px 0 #fff, 0 5px 0 #bdbdbd, 0 0 0 1px #bdbdbd;
+  box-shadow: 0 1px 0 $time-icon-box-color, 0 2px 0 $time-icon-box-color-alt, 0 3px 0 $time-icon-box-color, 0 4px 0 $time-icon-box-color-alt, 0 5px 0 $time-icon-box-color, 0 0 0 1px $time-icon-box-color;
   display: block;
   overflow: hidden;
   position: relative;
@@ -20,10 +26,10 @@ time.icon {
   }
 
   strong {
-    background-color: #fd9f1b;
-    border-bottom: 1px dashed #f37302;
-    box-shadow: 0 2px 0 #fd9f1b;
-    color: #fff;
+    background-color: $time-icon-strong-background-color;
+    border-bottom: 1px dashed $time-icon-strong-border;
+    box-shadow: 0 2px 0 $time-icon-strong-box-shadow;
+    color: $time-icon-strong-color;
     padding: .2em 0;
     position: absolute;
     top: 0;
@@ -31,12 +37,12 @@ time.icon {
 
   em {
     bottom: 1.5em;
-    color: #fd9f1b;
+    color: $time-icon-em-color;
     position: absolute;
   }
 
   span {
-    color: #2f2f2f;
+    color: $time-icon-span-color;
     font-weight: bold;
     padding-top: 2.5em;
 

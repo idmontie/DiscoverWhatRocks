@@ -1,5 +1,5 @@
 // ==========================
-// Accounts Core: v0.0.1
+// Alerts: v0.0.1
 // ==========================
 // Copyright 2014 Mantaray AR
 // Licenced under BSD
@@ -7,7 +7,7 @@
 
 .alert-box {
   a {
-    color: white;
+    color: $alert-color;
     text-decoration: underline;
   }
 }

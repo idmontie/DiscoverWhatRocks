@@ -12,24 +12,51 @@
 $primary-color: rgb(0, 112, 149);
 $font-color:    white;
 
+// =====
+// Leads
+// =====
+$lead-border-color: #b7b7b7;
+
 // ======
 // Panels
 // ======
-
 $panel-background-color:             rgb(231, 231, 231);
 $panel-background-color-transparent: fade-out($panel-background-color, .1);
 $panel-border-color:                 darken($panel-background-color, 30%);
 $panel-color:                        rgb(79, 79, 79);
 
 // ======
+// Alerts
+// ======
+$alert-color: $font-color;
+
+// ======
 // Errors
 // ======
-
 $error-background: rgb(240, 65, 36);
 $error-color:      $font-color;
+
+// ========
+// Calendar
+// ========
+$time-icon-background-color: white;
+$time-icon-box-color:        #bdbdbd;
+$time-icon-box-color-alt:    white;
+
+$time-icon-strong-background-color: #fd9f1b;
+$time-icon-strong-border:           #f37302;
+$time-icon-strong-box-shadow:       $time-icon-strong-background-color;
+$time-icon-strong-color:            $font-color;
+
+$time-icon-em-color: #fd9f1b;
+
+$time-icon-span-color: #2f2f2f;
 
 // ============
 // Login Colors
 // ============
 $login-button-background-color: $primary-color;
 $login-button-color:            $font-color;
+
+$heading-lead-background-color: fade-out(black, .2);
+$heading-lead-color:            $font-color;

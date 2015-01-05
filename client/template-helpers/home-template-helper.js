@@ -1,4 +1,4 @@
-/* global Accounts */
+
 
 Session.setDefault( 'alerts', [] )
 

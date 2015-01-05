@@ -1,9 +1,12 @@
 // ==========================
-// Overlays Core: v0.0.1
+// Overlays: v0.0.1
 // ==========================
 // Copyright 2014 Mantaray AR
 // Licenced under BSD
 // ==========================
+
+// TODO move to variables file
+$overlay-offset: 12px;
 
 .overlay {
   display: inline;
@@ -14,11 +17,11 @@
     position: absolute !important;  
 
     &.overlay-up {
-      top: -12px;
+      top: -$overlay-offset;
     }
 
     &.overlay-right {
-      left: 12px;
+      left: $overlay-offset;
     }
   }
 }
