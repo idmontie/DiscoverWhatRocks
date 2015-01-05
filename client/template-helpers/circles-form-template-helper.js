@@ -1,8 +1,8 @@
 /**
  * Circles Form Template Helper
  *
- * Template Helper for the circles form, including `circles-add-form` and
- * `circles-update-form`.
+ * Template Helper for the circles form, including `circlesAddForm` and
+ * `circlesUpdateForm`.
  */
 
 // A special function defined by Meteor
@@ -57,7 +57,7 @@ function getErrorMessageForCircle ( circle ) {
 // Circles Add Form
 // ================
 
-Template['circles-add-form'].helpers({
+Template.circlesAddForm.helpers({
   nameIsNotValid : function () {
     'use strict';
 
@@ -95,7 +95,7 @@ Template['circles-add-form'].helpers({
   }
 });
 
-Template['circles-add-form'].events({
+Template.circlesAddForm.events({
   'keyup #circles_add_form input, change #circles_add_form input' : function () {
     'use strict';
 

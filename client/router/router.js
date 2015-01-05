@@ -33,12 +33,11 @@ Router.onBeforeAction( function () {
 
   if ( ! Meteor.userId() ) {
     this.render( 'home' )
-    // TODO when the user logs in, it need to go to the original url
   } else {
     this.next()
   }
 }, {
-  except: ['home']
+  except: ['home', 'about']
 } );
 
 // ====
@@ -81,7 +80,7 @@ Router.route( '/circles/meetups/update/:slug', function () {
   'use strict';
   this.render( 'meetups-update-form' );
 }, {
-  name : 'meetups-update-form'
+  name : 'meetupsUpdateForm'
 } );
 
 Router.route( '/circles/meetups/:slug', function () {
@@ -116,25 +115,21 @@ Router.route( '/circles/meetups/:slug', function () {
       this.render()
     }
   }
-});
-
+} );
 
 // =======
 // Circles
 // =======
 
-Router.route('/circles/add', function () {
+Router.route( '/circles/add', function () {
   'use strict';
 
-  // Reset the session
-  Session.set( 'invited-friends', [] );
-
-  this.render( 'circles-add-form' );
+  this.render( 'circlesAddForm' );
 }, {
-  name : 'circles-add-form'
-});
+  name : 'circlesAddForm'
+} );
 
-Router.route('/circles/update/:slug', function () {
+Router.route( '/circles/update/:slug', function () {
   'use strict';
 
   var circle = Circles.findOne( {
@@ -148,9 +143,8 @@ Router.route('/circles/update/:slug', function () {
     data : circle
   } );
 }, {
-  name : 'circles-update-form'
-});
-
+  name : 'circlesUpdateForm'
+} );
 
 Router.route('/circles/:slug', function () {
   'use strict';
@@ -173,20 +167,20 @@ Router.route('/circles/:slug', function () {
   name : 'circle'
 });
 
-
 // =======
 // Friends
 // =======
-Router.route('/circles/friends/add/:slug', function () {
+
+Router.route( '/circles/friends/add/:slug', function () {
   'use strict';
 
   var circle = Circles.findOne( {
     slug : this.params.slug
   } )
 
-  this.render('friendsForm', {
+  this.render( 'friendsForm', {
     data : circle
   } );
 }, {
-  name : 'friends-form'
+  name : 'friendsForm'
 } );
