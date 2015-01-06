@@ -14,7 +14,109 @@
 // The `currentPositionCallback` is defined in the template file
 /* global currentPositionCallback */
 
+Template.meetupsAddForm.created = function () {
+  Session.set( 'meetupsAddFormErrors', {} )
+}
+
+Template.meetupsAddForm.schemaHelpers = {
+  name : function () {
+    'use strict';
+
+    var name = $( 'input[name=name]' ).val()
+    try {
+      check( name, Schema.meetups._schema.name.type )
+    } catch ( e ) {
+      return {
+        valid : false,
+        message : 'Please enter a valid name'
+      }  
+    }
+
+    if ( name.trim() == '' ) {
+      return {
+        valid : false,
+        message : 'Please enter a name'
+      }
+    }
+    
+    return {
+      valid : true
+    }
+  },
+  date : function () {
+    'use strict';
+
+    var dateToMeet = $( 'input[name=dateToMeet]' ).val()
+    
+    if ( ( ! dateToMeet ) || dateToMeet.trim() === '' ||
+         dateToMeet === '____/__/__ __:__ __') {
+      return {
+        valid : false,
+        message : 'Please enter a date to meet'
+      }
+    }
+
+    return {
+      valid : true
+    }
+  },
+  location : function () {
+    'use strict';
+
+    var tempLocationParts = $( '#map_center' ).val().split( ',' )
+
+    if ( tempLocationParts.length <= 1 ) {
+      return {
+        valid : false,
+        message : 'Please click on the map to select a location to meet'
+      }
+    }
+
+    return {
+      valid : true
+    }
+  }
+}
+
 Template.meetupsAddForm.helpers( {
+  nameIsNotValid : function () {
+    'use strict';
+
+    var session = Session.get( 'meetupsAddFormErrors' )
+    return  ( ! ! session.name ) && ! session.name.valid
+  },
+  nameErrorMessage : function () {
+    'use strict';
+
+    var session = Session.get( 'meetupsAddFormErrors' )
+    return session.name.message
+  },
+  dateIsNotValid : function () {
+    'use strict';
+
+    var session = Session.get( 'meetupsAddFormErrors' )
+    return ( ! ! session.date ) && ! session.date.valid
+  },
+  dateErrorMessage : function () {
+    'use strict';
+
+    var session = Session.get( 'meetupsAddFormErrors' )
+    return session.date.message
+  },
+  locationIsNotValid : function () {
+    'use strict';
+
+    var session = Session.get( 'meetupsAddFormErrors' )
+    return ( ! ! session.location ) && ! session.location.valid
+  },
+  locationErrorMessage : function () {
+    'use strict';
+
+    var session = Session.get( 'meetupsAddFormErrors' )
+    return session.location.message
+  },
+
+
   /**
    * Check for geolocation browser capability
    */
@@ -35,17 +137,53 @@ Template.meetupsAddForm.helpers( {
 } );
 
 Template.meetupsAddForm.events( {
+  // TODO this does not run on location pick
+  'keyup input[name=name], change input[name=name]' : function ( e ) {
+    var session = Session.get( 'meetupsAddFormErrors' )
+
+    session.name = Template.meetupsAddForm.schemaHelpers.name()
+
+    Session.set( 'meetupsAddFormErrors', session )
+  },
+  'keyup input[name=dateToMeet], blur input[name=dateToMeet]' : function ( e ) {
+    var session = Session.get( 'meetupsAddFormErrors' )
+
+    session.date = Template.meetupsAddForm.schemaHelpers.date()
+
+    Session.set( 'meetupsAddFormErrors', session )
+  },
   'click #use_current_location:not("[disabled]")' : function ( e ) {
     'use strict';
     e.preventDefault();
 
+    // TODO precompute this on page load if we already have permission
+    // to get it
     navigator.geolocation.getCurrentPosition( currentPositionCallback );
   },
   'submit form' : function ( e ) {
     'use strict';
     e.preventDefault();
 
-    // TODO validation
+    // validation
+    var forceCheck = {
+      name : Template.meetupsAddForm.schemaHelpers.name(),
+      date : Template.meetupsAddForm.schemaHelpers.date(),
+      location : Template.meetupsAddForm.schemaHelpers.location()
+    }
+
+    Session.set( 'meetupsAddFormErrors', forceCheck )
+
+    var dirty = false
+    for ( var check in forceCheck ) {
+      if ( ! forceCheck[check].valid ) {
+        dirty = true
+        break;
+      }
+    }
+    
+    if ( dirty ) {
+      return;
+    }
 
     var name              = $( 'input[name="name"]' ).val()
     var meetupDate        = $( 'input[name="dateToMeet"]' ).val()
