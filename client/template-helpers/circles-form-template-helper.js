@@ -114,7 +114,7 @@ Template.circlesAddForm.events({
     var errors = getErrorMessageForCircle( circle )
 
     if ( errors ) {
-      Session.set( 'form-errors', errors )  
+      Session.set( 'form-errors', errors )
       return
     }
 

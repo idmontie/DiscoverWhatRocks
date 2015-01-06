@@ -10,11 +10,14 @@
 /* global Schema */
 /* global PlaceTypes */
 /* global google */
+/* global check */
 
 // The `currentPositionCallback` is defined in the template file
 /* global currentPositionCallback */
 
 Template.meetupsAddForm.created = function () {
+  'use strict';
+
   Session.set( 'meetupsAddFormErrors', {} )
 }
 
@@ -29,16 +32,16 @@ Template.meetupsAddForm.schemaHelpers = {
       return {
         valid : false,
         message : 'Please enter a valid name'
-      }  
+      }
     }
 
-    if ( name.trim() == '' ) {
+    if ( name.trim() === '' ) {
       return {
         valid : false,
         message : 'Please enter a name'
       }
     }
-    
+
     return {
       valid : true
     }
@@ -47,7 +50,7 @@ Template.meetupsAddForm.schemaHelpers = {
     'use strict';
 
     var dateToMeet = $( 'input[name=dateToMeet]' ).val()
-    
+
     if ( ( ! dateToMeet ) || dateToMeet.trim() === '' ||
          dateToMeet === '____/__/__ __:__ __') {
       return {
@@ -83,7 +86,7 @@ Template.meetupsAddForm.helpers( {
     'use strict';
 
     var session = Session.get( 'meetupsAddFormErrors' )
-    return  ( ! ! session.name ) && ! session.name.valid
+    return ( ! ! session.name ) && ! session.name.valid
   },
   nameErrorMessage : function () {
     'use strict';
@@ -137,15 +140,18 @@ Template.meetupsAddForm.helpers( {
 } );
 
 Template.meetupsAddForm.events( {
-  // TODO this does not run on location pick
-  'keyup input[name=name], change input[name=name]' : function ( e ) {
+  'keyup input[name=name], change input[name=name]' : function () {
+    'use strict';
+
     var session = Session.get( 'meetupsAddFormErrors' )
 
     session.name = Template.meetupsAddForm.schemaHelpers.name()
 
     Session.set( 'meetupsAddFormErrors', session )
   },
-  'keyup input[name=dateToMeet], blur input[name=dateToMeet]' : function ( e ) {
+  'keyup input[name=dateToMeet], blur input[name=dateToMeet]' : function () {
+    'use strict';
+
     var session = Session.get( 'meetupsAddFormErrors' )
 
     session.date = Template.meetupsAddForm.schemaHelpers.date()
@@ -180,7 +186,7 @@ Template.meetupsAddForm.events( {
         break;
       }
     }
-    
+
     if ( dirty ) {
       return;
     }
