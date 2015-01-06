@@ -1,22 +1,20 @@
 <template name="circleBadge">
-  <li class="panel">
-    <div class="right">
-      <span class="label">
-        {{number_of_upcoming_meetups_for_circle this}} Meetups
-      </span>
-      <br/>
-      <span class="label">
-        {{numberOfFriendsForCircle this}} Friends
-      </span>
-    </div>
-    <div class="row">
-      <div class="column small-6">
-        <a href="/circles/{{slug}}" class="button">
-          {{name}} &raquo;
-        </a>
+  <li>
+    <a href="/circles/{{slug}}">
+      <div class="row panel">
+        <div class="column small-8">
+          {{name}}
+        </div>
+        <div class="column small-4">
+          <span class="label">
+            {{number_of_upcoming_meetups_for_circle this}} Meetups
+          </span>&nbsp;
+          <span class="label">
+            {{numberOfFriendsForCircle this}}&nbsp;<i class="fa fa-users"></i>
+          </span>
+        </div>
       </div>
-    </div>
-    
+    </a>
     <div class="clearfix"></div>
   </li>
 </template>

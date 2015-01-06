@@ -14,14 +14,15 @@
 // Core
 // ====
 @import 'scaffolding';
-@import 'alert';
-@import 'icon-bar';
-@import 'typography';
 @import 'accounts';
+@import 'alert';
+@import 'calendars';
+@import 'icon-bar';
 @import 'maps';
 @import 'overlays';
-@import 'calendars';
+@import 'panels';
 @import 'tables';
+@import 'typography';
 
 // ========
 // Accounts

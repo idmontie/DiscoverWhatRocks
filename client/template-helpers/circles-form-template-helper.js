@@ -109,8 +109,19 @@ Template.circlesAddForm.events({
 
     e.preventDefault();
 
-    var circle = createCircleFromForm( false )
+    // TODO refactor, similar to above function
+    var circle = createCircleFromForm( true )
+    var errors = getErrorMessageForCircle( circle )
 
+    if ( errors ) {
+      Session.set( 'form-errors', errors )
+      return
+    }
+
+    // This time without help!
+    circle = createCircleFromForm( false )
+
+    // TODO change this to a call
     Circles.insert( circle, function ( err, id ) {
       var realCircle = Circles.findOne( {
         _id : id

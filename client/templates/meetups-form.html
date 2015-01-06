@@ -4,20 +4,20 @@
       <h1 class="lead">Create a Meetup for "{{name}}"</h1>
 
       <form id="meetups_add_form">
-        <label class="{{#if name_is_not_valid}}error{{/if}}">
+        <label class="{{#if nameIsNotValid}}error{{/if}}">
           Name Your Meetup
           <input type="text" name="name" />
         </label>
-        {{#if name_is_not_valid}}
-          <small class="error">{{{name_error_message}}}</small>
+        {{#if nameIsNotValid}}
+          <small class="error">{{{nameErrorMessage}}}</small>
         {{/if}}
 
-        <label class="{{#if date_is_not_valid}}error{{/if}}">
+        <label class="{{#if dateIsNotValid}}error{{/if}}">
           When To Meet
           <input type="datetime" name="dateToMeet" />
         </label>
-        {{#if date_is_not_valid}}
-          <small class="error">{{{date_error_message}}}</small>
+        {{#if dateIsNotValid}}
+          <small class="error">{{{dateErrorMessage}}}</small>
         {{/if}}
 
         <label>
@@ -41,6 +41,9 @@
         <input type="hidden" id="map_center" />
         <a href="#" class="button postfix" id="use_current_location"  {{geolocationEnabled}} >Use My Current Location</a>
 
+        {{#if locationIsNotValid}}
+          <small class="error">{{{locationErrorMessage}}}</small>
+        {{/if}}
         <div id="map-canvas" class="map-canvas"></div>
 
         <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Meetup</button>
@@ -69,7 +72,11 @@
      */
     jQuery( function ( $ ) {
       $( document ).ready( function () {
-        $( 'input[name="dateToMeet"]' ).datetimepicker();
+        $( 'input[name="dateToMeet"]' ).datetimepicker( {
+          mask: '____/__/__ __:__ __',
+          format: 'Y/m/d h:i a',
+          formatTime: 'h:i a'
+        } );
 
         _$.map = new google.maps.Map( document.getElementById( 'map-canvas' ), {
           center: new google.maps.LatLng( Coords.latitude, Coords.longitude ),
