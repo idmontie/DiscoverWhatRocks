@@ -52,7 +52,7 @@ Template.friendsForm.events( {
     e.stopPropagation();
 
     $( e.target ).addClass( 'disabled' )
-    var email = this.email
+    var email = this.email.toLowerCase()
 
     Meteor.call( 'invite', email, this.circleId, function ( error ) {
       // Tell the user whether they were successful or not
@@ -78,7 +78,7 @@ Template.friendsForm.events( {
     e.preventDefault()
     e.stopPropagation()
 
-    var email = this.email
+    var email = this.email.toLowerCase()
 
     Meteor.call( 'uninvite', email, this.circleId, function ( error ) {
       var html = '';

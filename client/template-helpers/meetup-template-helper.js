@@ -479,7 +479,7 @@ this.listenForMarkers = function () {
             content: content
           }
 
-          if ( voter.email === Meteor.user().emails[0].address ) {
+          if ( voter.email.toLowerCase() === ( Meteor.user().emails[0].address ).toLowerCase() ) {
             // TODO Bug: if a user clicks on the map BEFORE this gets run, their
             // vote will get overwriten.
             // To cause this bug, refresh the page and click on a marker before the

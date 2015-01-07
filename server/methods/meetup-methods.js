@@ -41,7 +41,7 @@ Meteor.methods( {
         _id : vote.userId
       } )
 
-      var email = user.emails[0].address
+      var email = ( user.emails[0].address ).toLowerCase()
 
       var gravatar = Gravatar.imageUrlFromEmail( email )
 
@@ -124,7 +124,7 @@ Meteor.methods( {
 
     // dont forget yourself!
     invitees.push( {
-      email : Meteor.user().emails[0].address,
+      email : ( Meteor.user().emails[0].address ).toLowerCase(),
       hasVoted : hasVoted( Meteor.userId() )
     } )
 
@@ -132,19 +132,19 @@ Meteor.methods( {
       var user = Meteor.users.findOne( {
         emails : {
           $elemMatch : {
-            address : circle.users[i].email
+            address : circle.users[i].email.toLowerCase()
           }
         }
       } )
 
       if ( user === null ) {
         invitees.push( {
-          email : circle.users[i].email,
+          email : circle.users[i].email.toLowerCase(),
           hasVoted : false
         } )
       } else {
         invitees.push( {
-          email : user.emails[0].address,
+          email : ( user.emails[0].address ).toLowerCase(),
           hasVoted : hasVoted( user._id )
         } )
       }
@@ -192,7 +192,7 @@ Meteor.methods( {
       // TODO only send emails to users with accounts
 
       // send email
-      var email = circle.users[i].email
+      var email = circle.users[i].email.toLowerCase()
 
       Email.send( {
         from : Meetups.emailTemplate.from,

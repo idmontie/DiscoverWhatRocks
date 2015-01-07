@@ -18,6 +18,8 @@ Meteor.methods( {
     check( email, String )
     check( circleId, String )
 
+    email = email.toLowerCase()
+
     if ( ! this.userId ) {
       throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
     }
@@ -54,6 +56,8 @@ Meteor.methods( {
 
     check( email, String )
     check( circleId, String )
+
+    email = email.toLowerCase()
 
     if ( ! this.userId ) {
       throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
