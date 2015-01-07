@@ -7,12 +7,22 @@
 
 .panel {
   a > & {
+    background: $panel-background-color;
     transition: background-color .5s ease;
     
+
     &:active,
     &:hover,
     &:focus {
       background: $panel-hover-background-color;
     }
+  }
+
+  &.panel-flush {
+    padding: 0;
+  }
+
+  .panel-content {
+    padding: 1.25em;
   }
 }

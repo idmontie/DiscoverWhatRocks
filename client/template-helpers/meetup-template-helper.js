@@ -21,6 +21,23 @@ Session.setDefault( 'voteData', null );
 
 
 Template.meetup.helpers( {
+  isOwner : function () {
+    'use strict';
+    var isSet = ReactivityHelper.reliesOn( this.meetup )
+
+    if ( isSet ) {
+      if ( this.meetup.ownerId === Meteor.userId() ) {
+        return true
+      }
+    }
+
+    return false
+  },
+  hasNotPinged : function () {
+    'use strict';
+
+    return ! this.meetup.pinged
+  },
   placeType : function () {
     'use strict';
 
@@ -79,6 +96,28 @@ Template.meetup.helpers( {
     } )
 
     return Session.get( 'structuredVotes' )
+  },
+  invitees : function () {
+    'use strict';
+
+    var self = this
+    var isSet = ReactivityHelper.reliesOn( this.meetup )
+
+    if ( isSet ) {
+      Meteor.autorun( function () {
+
+        Meteor.call(
+          'meetupInvitees',
+          self.meetup._id,
+          function ( error, result ) {
+            console.log( error, result )
+            Session.set( 'meetupInvitees', result )
+          }
+        )
+      } )
+    }
+
+    return Session.get( 'meetupInvitees' )
   }
 } )
 
@@ -99,7 +138,8 @@ Template.meetup.events( {
       var alerts = Session.get( 'alerts' )
 
       if ( error ) {
-        html = 'We could not send out the emails to your Circle. Refresh the page to try again.'
+        html = 'We could not send out the emails to your Circle. ' +
+          '<a href="#" onclick="location.reload(true); retun false;">Refresh the page to try again</a>.'
       } else {
         html = 'Emails successfully sent to this Circle.'
       }

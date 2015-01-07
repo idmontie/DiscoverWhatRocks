@@ -90,6 +90,68 @@ Meteor.methods( {
 
     return structuredVotes
   },
+  meetupInvitees : function ( meetupId ) {
+    'use strict';
+
+    check( meetupId, String )
+
+    if ( ! this.userId ) {
+      throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
+    }
+
+    var meetup = Meetups.findOne( {
+      _id : meetupId
+    } )
+
+    var circle = Circles.findOne( {
+      _id : meetup.circleId
+    } )
+
+    // Invitees structure:
+    // - email
+    // - hasVoted
+    var invitees = [];
+
+    var hasVoted = function ( userId ) {
+      for ( var i = 0; i < meetup.votes.length; i++ ) {
+        if ( meetup.votes[i].userId === userId ) {
+          return true
+        }
+      }
+
+      return false
+    }
+
+    // dont forget yourself!
+    invitees.push( {
+      email : Meteor.user().emails[0].address,
+      hasVoted : hasVoted( Meteor.userId() )
+    } )
+
+    for ( var i = 0; i < circle.users.length; i++ ) {
+      var user = Meteor.users.findOne( {
+        emails : {
+          $elemMatch : {
+            address : circle.users[i].email
+          }
+        }
+      } )
+
+      if ( user === null ) {
+        invitees.push( {
+          email : circle.users[i].email,
+          hasVoted : false
+        } )
+      } else {
+        invitees.push( {
+          email : user.emails[0].address,
+          hasVoted : hasVoted( user._id )
+        } )
+      }
+    }
+
+    return invitees
+  },
   inviteToMeetup : function ( meetupId ) {
     'use strict';
 
@@ -102,6 +164,23 @@ Meteor.methods( {
     var meetup = Meetups.findOne( {
       _id : meetupId
     } )
+
+    // TODO check that the user is the owner
+
+    if ( meetup.pinged === true ) {
+      throw new Meteor.Error( 'already-pinged', 'You have already pinged!' )
+    } else {
+      meetup.pinged = true
+
+      Meetups.update( meetup._id, {
+        $set : {
+          pinged : true
+        }
+      }, {
+        validate: false,
+        getAutoValues: false
+      } )
+    }
 
     var circle = Circles.findOne( {
       _id : meetup.circleId

@@ -6,10 +6,25 @@
       {{{generateCalendarIcon meetup.dateToMeet}}}
 
       <br/>
+      <ul class="button-group right">
+        {{#if isOwner}}
+          {{#if hasNotPinged}}
+            <li>
+              <a href="#" class="small button " id="email-friends-about-meetup"> Ping</a>
+            </li>
+          {{/if}}
+        {{/if}}
+        <li>
+          <a href="#" class="small button dropdown" ref="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false"  data-options="align:left"><i class="fa fa-users"></i>
+          </a>
+        </li>
+      </ul>
+      <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1" data-options="align:left">
+        {{#each invitees}}
+          <li>{{email}} {{#if hasVoted}}<i class="fa fa-check"></i>{{/if}}</li>
+        {{/each}}
+      </ul>
       
-      <button class="right" id="email-friends-about-meetup">
-        Email Friends About Meetup
-      </button>
 
       <p class="lead">{{placeType.readibleName}}</p>
 

@@ -17,6 +17,13 @@ time.icon {
   -webkit-transform-origin: 50% 10%;
   transform-origin: 50% 10%;
 
+  .panel & {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    min-width: 120px;
+  }
+
   * {
     display: block;
     font-style: normal;
