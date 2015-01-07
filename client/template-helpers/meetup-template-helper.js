@@ -110,7 +110,6 @@ Template.meetup.helpers( {
           'meetupInvitees',
           self.meetup._id,
           function ( error, result ) {
-            console.log( error, result )
             Session.set( 'meetupInvitees', result )
           }
         )

@@ -1,0 +1,8 @@
+<template name="gravatarBadge">
+  <div class="inner-badge" data-dropdown="gravatar-dropdown-{{emailAsSlug}}" aria-controls="gravatar-dropdown-{{emailAsSlug}}" aria-expanded="false" data-options="align:top">
+    <img src="{{gravatar}}" />
+  </div>
+  <div id="gravatar-dropdown-{{emailAsSlug}}" data-dropdown-content class="f-dropdown content" aria-hidden="true" tabindex="-1">
+    <span>{{email}}</span>
+  </div>
+</template>
