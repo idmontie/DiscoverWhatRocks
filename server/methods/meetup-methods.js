@@ -143,6 +143,8 @@ Meteor.methods( {
           hasVoted : false
         } )
       } else {
+        // TODO user.emails[0] is throwing error
+        // on server
         invitees.push( {
           email : user.emails[0].address,
           hasVoted : hasVoted( user._id )
