@@ -137,7 +137,8 @@ Meteor.methods( {
         }
       } )
 
-      if ( user === null ) {
+      if ( user === null ||
+           typeof user === 'undefined' ) {
         invitees.push( {
           email : circle.users[i].email,
           hasVoted : false
