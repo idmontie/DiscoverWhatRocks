@@ -1,10 +1,22 @@
+// ==================================
+// _gravatar-badge-template-helper.js
+// ==================================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==================================
+// Contains Template Helpers and Events for the Gravatar badges
 
+// ============
+// Lint Globals
+// ============
 /* global slugify */
 
-Template.gravatarBadge.helpers( {
-  emailAsSlug : function () {
-    'use strict';
-
-    return slugify( this.email )
-  }
-} )
++function () {
+  'use strict';
+  
+  Template.gravatarBadge.helpers( {
+    emailAsSlug : function () {
+      return slugify( this.email )
+    }
+  } )
+}();

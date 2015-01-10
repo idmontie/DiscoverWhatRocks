@@ -1,11 +1,16 @@
-/**
- * Auto Run Template Helper
- *
- * Template Helpers that are always added
- */
+// ==========================
+// autorun-template-helper.js
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
+// Contains Autorun Session helpers
 
-Meteor.autorun( function () {
++function () {
   'use strict';
 
-  Session.set( 'meteorLoggedIn', ! ! Meteor.user() );
-} );
+  Meteor.autorun( function () {
+    Session.set( 'meteorLoggedIn', ! ! Meteor.user() )
+  } )
+}();
+

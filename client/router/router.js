@@ -1,5 +1,5 @@
 // ==========================
-// Router.js
+// router.js
 // ==========================
 // Copyright 2014 Mantaray AR
 // Licenced under BSD
@@ -14,173 +14,206 @@
 /* global Router */
 /* global Session */
 
-// ====================
-// Global Configuration
-// ====================
-
-/**
- * Set a base layout template.
- */
-Router.configure( {
-  layoutTemplate: 'applicationLayout'
-} );
-
-/**
- * If the user is not logged in, show the log in page
- */
-Router.onBeforeAction( function () {
++function () {
   'use strict';
 
-  if ( ! Meteor.userId() ) {
+  // ====================
+  // Global Configuration
+  // ====================
+  if ( ! window.defaults ) {
+    window.defaults = {}
+  }
+
+  window.defaults.router = {
+    layoutTemplate : 'applicationLayout',
+    exceptionPages : [
+      'home',
+      'about',
+      'privacy'
+    ]
+  }
+
+  /**
+   * Set a base layout template.
+   */
+  Router.configure( {
+    layoutTemplate: window.defaults.router.layoutTemplate
+  } );
+
+  /**
+   * Redirect to log in pages
+   */
+  Router.onBeforeAction( function () {
+    if ( ! Meteor.userId() ) {
+      this.render( 'home' )
+    }
+
+    this.next();
+  }, {
+    except: window.defaults.router.exceptionPages
+  } )
+
+  // ===================
+  // Route Configuration
+  // ===================
+
+  /*
+   * Home
+   * '/' => 'home'
+   */
+  Router.route( '/', function () {
     this.render( 'home' )
-  } else {
-    this.next()
-  }
-}, {
-  except: ['home', 'about']
-} );
-
-// ====
-// Home
-// ====
-
-Router.route('/', function () {
-  'use strict';
-  this.render('home');
-}, {
-  name : 'home'
-});
-
-Router.route('/about', function () {
-  'use strict';
-  this.render('about');
-}, {
-  name : 'about'
-});
-
-// =======
-// Meetups
-// =======
-
-Router.route( '/circles/meetups/add/:slug', function () {
-  'use strict';
-
-  var circle = Circles.findOne( {
-    slug : this.params.slug
+  }, {
+    name : 'home'
   } )
 
-  this.render( 'meetupsAddForm', {
-    data : circle
+  /*
+   * About
+   * '/about' => 'about'
+   */
+  Router.route( '/about', function () {
+    this.render( 'about' );
+  }, {
+    name : 'about'
   } )
-}, {
-  name : 'meetupsAddForm'
-} );
 
-Router.route( '/circles/meetups/update/:slug', function () {
-  'use strict';
-  this.render( 'meetups-update-form' );
-}, {
-  name : 'meetupsUpdateForm'
-} );
+  /*
+   * Meetups Add
+   * '/circles/meetups/add/:slug' => 'meetupsAddForm'
+   */
+  Router.route( '/circles/meetups/add/:slug', function () {
+    var circle = Circles.findOne( {
+      slug : this.params.slug
+    } )
 
-Router.route( '/circles/meetups/:slug', function () {
-  'use strict';
+    this.render( 'meetupsAddForm', {
+      data : circle
+    } )
+  }, {
+    name : 'meetupsAddForm'
+  } )
 
-  this.render( 'meetup', {
-    data : function () {
-      var circle = null
+  /*
+   * Meetups Update
+   * '/circles/meetups/update/:slug' => 'meetupsUpdateForm'
+   */
+  Router.route( '/circles/meetups/update/:slug', function () {
+    var meetup = Meetups.findOne( {
+      slug : this.params.slug
+    } )
 
-      var meetup = Meetups.findOne( {
-        slug : this.params.slug
-      } )
+    this.render( 'meetupsUpdateForm', {
+      data : meetup
+    } )
+  }, {
+    name : 'meetupsUpdateForm'
+  } )
 
-      if ( meetup ) {
-        circle = Circles.findOne( {
-          _id : meetup.circleId
+  
+  /*
+   * Meetup View
+   * '/circle/meetups/:slug' => 'meetup'
+   */
+  Router.route( '/circles/meetups/:slug', function () {
+    var renderData = {
+      data : function () {
+        var circle = null
+        var meetup = Meetups.findOne( {
+          slug : this.params.slug
         } )
+
+        if ( meetup ) {
+          circle = Circles.findOne( {
+            _id : meetup.circleId
+          } )
+        }
+
+        return {
+          circle : circle,
+          meetup : meetup
+        }
       }
+    }
 
-      return {
-        meetup : meetup,
-        circle : circle
+    this.render( 'meetup', renderData )
+  }, {
+    name : 'meetup',
+    action : function () {
+      if ( this.ready() ) {
+        this.render()
       }
     }
-  } );
-}, {
-  name : 'meetup',
-  action : function () {
-    'use strict';
-
-    if ( this.ready() ) {
-      this.render()
-    }
-  }
-} );
-
-// =======
-// Circles
-// =======
-
-Router.route( '/circles/add', function () {
-  'use strict';
-
-  this.render( 'circlesAddForm' );
-}, {
-  name : 'circlesAddForm'
-} );
-
-Router.route( '/circles/update/:slug', function () {
-  'use strict';
-
-  var circle = Circles.findOne( {
-    slug : this.params.slug
-  } );
-
-  // Reset the session
-  Session.set( 'invited-friends', [] );
-
-  this.render( 'circles-update-form', {
-    data : circle
-  } );
-}, {
-  name : 'circlesUpdateForm'
-} );
-
-Router.route('/circles/:slug', function () {
-  'use strict';
-
-  var circle = Circles.findOne( {
-    slug : this.params.slug
-  } );
-
-  var meetups = Meetups.find( {
-    circleId : circle._id
-  } );
-
-  this.render('circle', {
-    data : {
-      circle: circle,
-      meetups : meetups
-    }
-  });
-}, {
-  name : 'circle'
-});
-
-// =======
-// Friends
-// =======
-
-Router.route( '/circles/friends/add/:slug', function () {
-  'use strict';
-
-  var circle = Circles.findOne( {
-    slug : this.params.slug
   } )
 
-  this.render( 'friendsForm', {
-    data : circle
-  } );
-}, {
-  name : 'friendsForm'
-} );
+  /*
+   * Cirles Add
+   * '/circles/add' => 'circlesAddForm'
+   */
+  Router.route( '/circles/add', function () {
+    this.render( 'circlesAddForm' )
+  }, {
+    name : 'circlesAddForm'
+  } )
+
+  /*
+   * Circles Update
+   * '/circles/update/:slug' => 'circlesUpdateForm'
+   */
+  Router.route( '/circles/update/:slug', function () {
+    var circles = Circles.findOne( {
+      slug : this.params.slug
+    } )
+
+    this.render( 'circlesUpdateForm', {
+      data : circle
+    } )
+  }, {
+    name : 'circlesUpdateForm'
+  } )
+
+  /*
+   * Circles View
+   * '/circles/:slug' => 'circle'
+   */
+  Router.route( 'circles/:slug', function () {
+    var renderData = {
+      data : function () {
+        var meetups = null
+        var circle  = Circles.findOne( {
+          slug : this.params.slug
+        } )
+
+        if ( circle ) {
+          meetups = Meetups.find( {
+            circleId : circle._id
+          } )
+        }
+
+        return {
+          circle : circle,
+          meetups : meetups
+        }
+      }
+    }
+
+    this.render( 'circle', renderData )
+  }, {
+    name : 'circle'
+  } )
+
+  /*
+   * Friends Add
+   * '/circles/friends/add/:slug' => 'friendsForm'
+   */
+  Router.route( '/circles/friends/add/:slug', function () {
+    var circles = Circles.findOne( {
+      slug : this.params.slug
+    } )
+
+    this.render( 'friendsForm', {
+      data : circle
+    } )
+  }, {
+    name : 'friendsForm'
+  } )
+}();

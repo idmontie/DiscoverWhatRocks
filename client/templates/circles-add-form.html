@@ -1,5 +1,5 @@
 <template name="circlesAddForm">
-  <form id="circles_add_form">
+  <form id="circles-add-form">
     <div class="row">
       <div class="large-offset-1 large-10 columns">
         <h1 class="lead">Create a New Circles</h1>
@@ -12,11 +12,10 @@
           <small class="error">{{{nameErrorMessage}}}</small>
         {{/if}}
 
-        {{#if isValidForm}}
-          <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Circle</button>
-        {{else}}
-          <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand" disabled="disabled">Create Circle</button>
+        {{#if genericIsNotValid}}
+          <small class="error">{{{genericErrorMessage}}}</small>
         {{/if}}
+        <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand">Create Circle</button>
       </div>
     </div>
   </form>

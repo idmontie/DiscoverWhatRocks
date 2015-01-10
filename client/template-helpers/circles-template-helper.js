@@ -12,13 +12,17 @@
 Template.circle.helpers({
   noMeetups : function () {
     'use strict';
-
-    return this.meetups.fetch().length === 0
+    if ( this.meetups ) {
+      return this.meetups.fetch().length === 0
+    } else {
+      return true
+    }
   },
   noFriends : function () {
     'use strict';
 
-    if ( this.circle.users !== null &&
+    if ( this.circle &&
+         this.circle.users &&
          this.circle.users.length > 0 ) {
       return false
     } else {
