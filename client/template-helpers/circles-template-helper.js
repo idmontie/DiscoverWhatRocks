@@ -1,32 +1,36 @@
-/**
- * Circles Template Helper
- *
- * Template Helper for the circles view.
- */
+// ==========================
+// circles-template-helper.js
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
+// Contains Template Helper and Events for the Circle View
 
++function () {
+  'use strict';
 
-// ============
-// Circles View
-// ============
+  // =======
+  // Helpers
+  // =======
+  Template.circle.helpers( {
+    noMeetups : function () {
+      'use strict';
+      if ( this.meetups ) {
+        return this.meetups.fetch().length === 0
+      } else {
+        return true
+      }
+    },
+    noFriends : function () {
+      'use strict';
 
-Template.circle.helpers({
-  noMeetups : function () {
-    'use strict';
-    if ( this.meetups ) {
-      return this.meetups.fetch().length === 0
-    } else {
-      return true
+      if ( this.circle &&
+           this.circle.users &&
+           this.circle.users.length > 0 ) {
+        return false
+      } else {
+        return true
+      }
     }
-  },
-  noFriends : function () {
-    'use strict';
-
-    if ( this.circle &&
-         this.circle.users &&
-         this.circle.users.length > 0 ) {
-      return false
-    } else {
-      return true
-    }
-  }
-})
+  } )
+}();

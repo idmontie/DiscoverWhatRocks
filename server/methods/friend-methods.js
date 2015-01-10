@@ -8,15 +8,18 @@ Meteor.methods( {
    * Validate email and circleId.  Send an email invite.
    *
    * TODO rate limiting
+   * TODO validate email
    *
    * @param String email
    * @param String circleId
    */
-  invite : function ( email, circleId ) {
+  friendsInvite : function ( email, circleId ) {
     'use strict';
 
     check( email, String )
     check( circleId, String )
+
+
 
     if ( ! this.userId ) {
       throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
@@ -47,7 +50,7 @@ Meteor.methods( {
       text : Circles.emailTemplate.inviteEmail.text( email, url )
     } )
 
-    return true
+    return 'Email successfully sent to' + email + '.'
   },
   uninvite : function ( email, circleId ) {
     'use strict';

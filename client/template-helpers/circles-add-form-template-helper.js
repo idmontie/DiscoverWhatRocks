@@ -5,6 +5,9 @@
 // Licenced under BSD
 // ===================================
 // Contains Template Helper and Events for the Circle Add Form
+//
+// TODO disable the create button until we recieve a response
+// from the server when the user hits create 
 
 // ============
 // Lint Globals
@@ -135,7 +138,6 @@
        */
       Meteor.call( 'circlesAdd', name, function ( error, data ) {
         if ( error ) {
-          console.log ( error )
           var session     = Session.get( 'circleAddFormErrors' )
           session.generic = {
             valid : false,
