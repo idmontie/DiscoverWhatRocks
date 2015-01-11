@@ -7,22 +7,16 @@
 // Contains Template Helper and Events for the Circle Add Form
 //
 // TODO disable the create button until we recieve a response
-// from the server when the user hits create 
+// from the server when the user hits create
 
 // ============
 // Lint Globals
 // ============
 /* global check */
-/* global Circles */
 /* global Schema */
 
 +function () {
   'use strict';
-
-  // ===================
-  // Local Configuration
-  // ===================
-  var circlesContext = Schema.circles.namedContext( 'circle' )
 
   // ========
   // Sessions
@@ -119,7 +113,7 @@
     'keyup input[name=name], change input[name=name]' : function () {
       var session  = Session.get( 'circleAddFormErrors' )
       session.name = Template.circlesAddForm.schemaHelpers.name()
-      Session.set( 'circleAddFormErrors', session ) 
+      Session.set( 'circleAddFormErrors', session )
     },
     'submit form' : function ( e ) {
       e.preventDefault()

@@ -12,7 +12,6 @@
 /* global Circles */
 /* global Meetups */
 /* global Router */
-/* global Session */
 
 +function () {
   'use strict';
@@ -109,7 +108,6 @@
     name : 'meetupsUpdateForm'
   } )
 
-  
   /*
    * Meetup View
    * '/circle/meetups/:slug' => 'meetup'
@@ -160,7 +158,7 @@
    * '/circles/update/:slug' => 'circlesUpdateForm'
    */
   Router.route( '/circles/update/:slug', function () {
-    var circles = Circles.findOne( {
+    var circle = Circles.findOne( {
       slug : this.params.slug
     } )
 

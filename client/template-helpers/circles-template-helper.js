@@ -14,7 +14,6 @@
   // =======
   Template.circle.helpers( {
     noMeetups : function () {
-      'use strict';
       if ( this.meetups ) {
         return this.meetups.fetch().length === 0
       } else {
@@ -22,8 +21,6 @@
       }
     },
     noFriends : function () {
-      'use strict';
-
       if ( this.circle &&
            this.circle.users &&
            this.circle.users.length > 0 ) {

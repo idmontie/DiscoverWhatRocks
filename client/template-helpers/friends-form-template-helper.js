@@ -6,6 +6,11 @@
 // ===============================
 // Contains Template Helper and Events for the Friends Form
 
+// ============
+// Lint Globals
+// ============
+/* global check */
+
 +function () {
   'use strict';
 
@@ -56,8 +61,8 @@
         $( this ).data( 'to-be-deleted', true )
         $( this ).css( 'background', '#f00' )
 
-        /* 
-         * Hack to force Meteor to react to our 
+        /*
+         * Hack to force Meteor to react to our
          * custom event.  Normally you would use:
          *
          * ```js
@@ -175,7 +180,7 @@
     },
     'submit form' : function ( e ) {
       e.preventDefault()
-      
+
       // Client side validate
       var dirty = Template.friendsForm.schemaHelpers.forceCheckDirty( true )
 
