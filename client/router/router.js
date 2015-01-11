@@ -206,7 +206,7 @@
    * '/circles/friends/add/:slug' => 'friendsForm'
    */
   Router.route( '/circles/friends/add/:slug', function () {
-    var circles = Circles.findOne( {
+    var circle = Circles.findOne( {
       slug : this.params.slug
     } )
 

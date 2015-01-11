@@ -56,7 +56,7 @@
     }
 
     var triggerSuccess = function () {
-      $this.trigger('htd.success')
+      $this.trigger('htdsuccess')
       options.success.call($this)
     }
 
@@ -67,7 +67,7 @@
         count++
         options.increment.call($this, count)
 
-        if (count>100) {
+        if (count > 100) {
           count = 0
           triggerLeave()
           triggerSuccess(true)

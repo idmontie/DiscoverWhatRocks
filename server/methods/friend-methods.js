@@ -19,8 +19,6 @@ Meteor.methods( {
     check( email, String )
     check( circleId, String )
 
-
-
     if ( ! this.userId ) {
       throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
     }
@@ -50,9 +48,9 @@ Meteor.methods( {
       text : Circles.emailTemplate.inviteEmail.text( email, url )
     } )
 
-    return 'Email successfully sent to' + email + '.'
+    return 'Email successfully sent to ' + email + '.'
   },
-  uninvite : function ( email, circleId ) {
+  friendsUninvite : function ( email, circleId ) {
     'use strict';
 
     check( email, String )
@@ -81,6 +79,6 @@ Meteor.methods( {
       getAutoValues: false
     })
 
-    return true
+    return email + ' removed.'
   }
 })

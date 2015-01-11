@@ -21,15 +21,66 @@
     Session.set( 'friendsFormErrors', {} )
   }
 
+  // =================
+  // Template Rendered
+  // =================
+  Template.friendsFormEach.rendered = function () {
+    $('.delete-email').holdToDelete( {
+      cleanup : function () {
+        if ( $( this ).data( 'original-background-color' ) &&
+             ! ( this ).data( 'to-be-deleted' ) ) {
+          var originalColor = $( this ).data( 'original-background-color' )
+          $( this ).css( 'background', originalColor )
+        }
+      },
+      increment : function ( count ) {
+        var originalColor;
+
+
+        if ( $( this ).data( 'original-background-color' ) ) {
+          originalColor = $( this ).data( 'original-background-color' )
+        } else {
+          originalColor = $( this ).css( 'background-color' )
+          $( this ).data( 'original-background-color', originalColor )
+        }
+
+        $( this ).css(
+          'background',
+          'linear-gradient(to right, ' +
+          '#f00 0%, ' +
+          '#f00 ' + count + '%, ' +
+          originalColor + ' ' + count + '%, ' +
+          originalColor + ' 100%)')
+      },
+      success : function () {
+        $( this ).data( 'to-be-deleted', true )
+        $( this ).css( 'background', '#f00' )
+
+        /* 
+         * Hack to force Meteor to react to our 
+         * custom event.  Normally you would use:
+         *
+         * ```js
+         * $(elem).on('htdsuccess')
+         * ```
+         */
+        var event = document.createEvent('Event');
+        event.initEvent('htdsuccess', true, true)
+
+        $( this )[0].dispatchEvent( event )
+      }
+    } )
+  }
+
   // ==============
   // Schema Helpers
   // ==============
   Template.friendsForm.schemaHelpers = {
-    email : function () {
+    email : function ( worry ) {
       var email = $( 'input[name=email]' ).val()
 
       try {
-        check( name, String )
+        check( email, String )
       } catch ( e ) {
         return {
           valid : false,
@@ -37,7 +88,7 @@
         }
       }
 
-      if ( email.trim() === '' ) {
+      if ( email.trim() === '' && worry === true ) {
         return {
           valid : false,
           message : 'Please enter an email'
@@ -51,17 +102,17 @@
     /*
      * Common Schema Helper functionality
      */
-    forceCheck : function () {
+    forceCheck : function ( worry ) {
       var forceCheck = {
-        email : Template.friendsForm.schemaHelpers.email()
+        email : Template.friendsForm.schemaHelpers.email( worry )
       }
 
       Session.set( 'friendsFormErrors', forceCheck )
 
       return forceCheck
     },
-    forceCheckDirty : function () {
-      var forceCheck = Template.friendsForm.schemaHelpers.forceCheck()
+    forceCheckDirty : function ( worry ) {
+      var forceCheck = Template.friendsForm.schemaHelpers.forceCheck( worry )
 
       var dirty = false
       for ( var check in forceCheck ) {
@@ -97,7 +148,7 @@
     },
     emailIsNotValid : function () {
       var session = Session.get( 'friendsFormErrors' )
-      return ( ! ! session.email ) && ! session.email.valud
+      return ( ! ! session.email ) && ! session.email.valid
     },
     emailErrorMessage : function () {
       var session = Session.get( 'friendsFormErrors' )
@@ -119,15 +170,23 @@
   Template.friendsForm.events( {
     'keyup input[name=email], change input[name=email]' : function () {
       var session = Session.get( 'friendsFormErrors' )
-      session.email = Template.friendsForm.schemaHelpers.name()
+      session.email = Template.friendsForm.schemaHelpers.email()
       Session.set( 'friendsFormErrors', session )
     },
     'submit form' : function ( e ) {
       e.preventDefault()
       
-      var email =  $( 'input[name=email]' ).val()
+      // Client side validate
+      var dirty = Template.friendsForm.schemaHelpers.forceCheckDirty( true )
 
-      Meteor.call( 'friendsInvite', function ( error, data ) {
+      if ( dirty ) {
+        return;
+      }
+
+      var email =  $( 'input[name=email]' ).val()
+      $( 'input[name=email]' ).val( '' )
+
+      Meteor.call( 'friendsInvite', email, this._id, function ( error, data ) {
         if ( error ) {
           var session     = Session.get( 'friendsFormErrors' )
           session.generic = {
@@ -147,7 +206,7 @@
 
       $( e.target ).addClass( 'disabled' )
       var email = this.email
-      
+
       Meteor.call( 'friendsInvite', email, this.circleId, function ( error, data ) {
         if ( error ) {
           var session     = Session.get( 'friendsFormErrors' )
@@ -165,85 +224,25 @@
     }
   } )
 
+  Template.friendsFormEach.events( {
+    'htdsuccess .delete-email' : function ( e ) {
+      e.preventDefault()
+      e.stopPropagation()
+
+      var email = this.email
+      $( e.target ).hide()
+
+      Meteor.call( 'friendsUninvite', email, this.circleId, function ( error, data ) {
+        var alerts = Session.get( 'alerts' )
+        if ( error ) {
+          $( e.target ).show()
+          alerts.push( error.reason )
+        } else {
+          alerts.push ( data )
+        }
+
+        Session.set( 'alerts', alerts )
+      } )
+    }
+  } )
 }();
-
-
-Template.friendsForm.events( {
-  'submit #friendsAddForm' : function ( e ) {
-    'use strict';
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    var email = $( 'input[name=email]' ).val()
-
-    Meteor.call( 'invite', email, this._id, function ( error ) {
-      // Tell the user whether they were successful or not
-      var html = '';
-      var alerts = Session.get( 'alerts' )
-
-      if ( error ) {
-        html = 'We could not send out an email to ' + email + '.'
-      } else {
-        html = 'Email successfully sent to ' + email + '.'
-      }
-
-      alerts.push( html )
-
-      Session.set( 'alerts', alerts )
-    } )
-
-    // Reset form
-    $( '#friendsAddForm' )[0].reset()
-  },
-  'click .resendInvitation:not(.disabled)' : function ( e ) {
-    'use strict';
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    $( e.target ).addClass( 'disabled' )
-    var email = this.email
-
-    Meteor.call( 'invite', email, this.circleId, function ( error ) {
-      // Tell the user whether they were successful or not
-      var html = '';
-      var alerts = Session.get( 'alerts' )
-
-      if ( error ) {
-        html = 'We could not send out an email to ' + email + '.'
-      } else {
-        html = 'Email successfully sent to ' + email + '.'
-      }
-
-      alerts.push( html )
-
-      Session.set( 'alerts', alerts )
-
-      $( e.target ).removeClass( 'disabled' )
-    } )
-  },
-  'click .deleteEmail' : function ( e ) {
-    'use strict';
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    var email = this.email
-
-    Meteor.call( 'uninvite', email, this.circleId, function ( error ) {
-      var html = '';
-      var alerts = Session.get( 'alerts' )
-
-      if ( error ) {
-        html = 'We could not remove ' + email + ', try again later'
-      } else {
-        html = email + ' removed.'
-      }
-
-      alerts.push( html )
-
-      Session.set( 'alerts', alerts )
-    } )
-  }
-} );

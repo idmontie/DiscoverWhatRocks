@@ -7,19 +7,35 @@
         <tbody>
           <tr>
             <td colspan="2">
-              {{> friendsFormAdd}}
+              <form id="friendsAddForm">
+                <label class="{{#if emailIsNotValid}}error{{/if}}">
+                  Your Friend's Email
+                  <div class="row">
+                    <div class="large-12 columns">
+                      <div class="row collapse">
+                        <div class="small-10 columns">
+                          <input type="email" name="email" />
+                        </div>
+                        <div class="small-2 columns">
+                          <button class="button success postfix" type="submit">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {{#if emailIsNotValid}}
+                    <small class="error">{{{emailErrorMessage}}}</small>
+                  {{/if}}
+                      {{#if genericIsNotValid}}
+                    <small class="error">{{{genericErrorMessage}}}</small>
+                  {{/if}}
+                </label>
+              </form>
             </td>
           </tr>
           {{#each users}}
-            <tr>
-              <td>
-                {{email}}
-              </td>
-              <td>
-                <button class="button small resend-invitation">Resend Invitation</button>
-                <button class="button small delete-email">Delete</button>
-              </td>
-            </tr>
+            {{> friendsFormEach}}
           {{/each}}
         </tbody>
       </table>
@@ -27,28 +43,19 @@
   </div>
 </template>
 
-
-<template name="friendsFormAdd">
-  <form id="friendsAddForm">
-    <label class="{{#if email_is_not_valid}}error{{/if}}">
-      Your Friend's Email
-      <div class="row">
-        <div class="large-12 columns">
-          <div class="row collapse">
-            <div class="small-10 columns">
-              <input type="email" name="email" />
-            </div>
-            <div class="small-2 columns">
-              <button class="button success postfix" type="submit">
-                <i class="fa fa-plus"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </label>
-    {{#if email_is_not_valid}}
-      <small class="error">{{{email_error_message}}}</small>
-    {{/if}}
-  </form>
+<template name="friendsFormEach">
+  {{! A seperate template is required
+      in order to bind properly. Otherwise
+      the `.rendered` template only runs correctly
+      once and a while.
+  }}
+  <tr>
+    <td>
+      {{email}}
+    </td>
+    <td>
+      <button class="button small resend-invitation">Resend Invitation</button>
+      <button class="button small delete-email">Hold to Delete</button>
+    </td>
+  </tr>
 </template>
