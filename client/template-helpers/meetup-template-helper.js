@@ -19,6 +19,7 @@ Session.setDefault( 'voteLat', null );
 Session.setDefault( 'voteLong', null );
 Session.setDefault( 'voteData', null );
 
+var _$ = this;
 
 Template.meetup.helpers( {
   isOwner : function () {

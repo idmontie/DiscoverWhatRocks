@@ -1,79 +1,70 @@
-/**
- * Global Template Helpers
- *
- * Template helpers that are present globally.  Similar to autorun
- * template helpers, but are normally reactive.
- */
+// ==========================
+// global-template-helper.js
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
+// Contains Template Helpers that get registered
+// globally.
 
+// ============
+// Lint Globals
+// ============
 /* global Meetups */
 /* global slugify */
 
-// Configure UI helper
-Template.registerHelper( 'current_route_name', function () {
++function () {
   'use strict';
 
-  if ( Router.current() &&
-       Router.current().route.getName() ) {
-    return slugify( Router.current().route.getName() )
-  }
+  // =======
+  // Helpers
+  // =======
+  Template.registerHelper( 'currentRouteName', function () {
+    if ( Router.current() &&
+         Router.current().route.getName() ) {
+      return slugify( Router.current().route.getName() )
+    }
 
-  return 'NA'
-} );
+    return 'na'
+  } )
 
-Template.registerHelper( 'session', function ( input ) {
-  'use strict';
+  Template.registerHelper( 'session', function ( input ) {
+    return Session.get( input )
+  } )
 
-  return Session.get( input )
-});
+  Template.registerHelper( 'numberOfUpcomingMeetupsForCircle', function ( circle ) {
+    return Meetups.find( {
+      circleId : circle._id
+    } ).count()
+  } )
 
-Template.registerHelper( 'number_of_upcoming_meetups_for_circle', function ( circle ) {
-  'use strict';
+  Template.registerHelper( 'numberOfFriendsForCircle', function ( circle ) {
+    if ( circle && circle.users ) {
+      return circle.users.length
+    }
 
-  return Meetups.find( {
-    circleId : circle._id
-  } ).count()
-} );
+    return 0
+  } )
 
-Template.registerHelper( 'numberOfFriendsForCircle', function ( circle ) {
-  'use strict';
+  Template.registerHelper( 'generateCalendarIcon', function ( dateTime ) {
+    var date       = new Date( dateTime )
+    var dayNames   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+      'Friday', 'Saturday']
+    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December']
 
-  if ( circle && circle.users ) {
-    return circle.users.length
-  }
+    var monthName = monthNames[date.getMonth()]
+    var dayName   = dayNames[date.getDay()]
 
-  return 0
-} );
+    var calendar = ''
+    calendar += '<time datetime="' + date + '" class="icon">'
+    calendar += '<em>' + dayName + '</em>'
+    calendar += '<strong>' + monthName + '</strong>'
+    calendar += '<span>' + date.getDate() + '</span>'
+    calendar += '<span class="time">' + date.toLocaleTimeString() + '</span>'
+    calendar += '</time>'
 
-Handlebars.registerHelper('key_value', function ( context ) {
-  'use strict';
+    return calendar
+  } )
 
-  var result = [];
-  _.each(context, function ( value, key ) {
-    result.push({ key:key, value:value })
-  })
-
-  return result
-});
-
-Template.registerHelper( 'generateCalendarIcon', function ( dateTime ) {
-  'use strict';
-
-  var date       = new Date( dateTime )
-  var dayNames   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-    'Friday', 'Saturday']
-  var monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December']
-
-  var monthName = monthNames[date.getMonth()]
-  var dayName   = dayNames[date.getDay()]
-
-  var calendar = ''
-  calendar += '<time datetime="' + date + '" class="icon">'
-  calendar += '<em>' + dayName + '</em>'
-  calendar += '<strong>' + monthName + '</strong>'
-  calendar += '<span>' + date.getDate() + '</span>'
-  calendar += '<span class="time">' + date.toLocaleTimeString() + '</span>'
-  calendar += '</time>'
-
-  return calendar
-} )
+}();
