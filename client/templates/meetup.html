@@ -54,15 +54,17 @@
             <li class="vote-badge panel">
               <h3 class="lead">{{placeName}}</h3>
               <div class="right">
-                <button class="button success vote-premade">
-                  {{#with .. }}
-                    {{#if voteAlreadyCast}}
-                      Change Your Vote
-                    {{else}}
-                      Vote
-                    {{/if}}
-                  {{/with}}
-                </button>
+                {{#if notOwnVote}}
+                  <button class="button success vote-premade">
+                    {{#with .. }}
+                      {{#if voteAlreadyCast}}
+                        Change Your Vote
+                      {{else}}
+                        Vote
+                      {{/if}}
+                    {{/with}}
+                  </button>
+                {{/if}}
               </div>
               <div class="voters">
                 {{#each voters}}

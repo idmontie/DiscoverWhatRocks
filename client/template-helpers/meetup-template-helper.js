@@ -120,6 +120,16 @@ var _$ = this;
         return false
       }
     },
+    notOwnVote : function () {
+      var votedForThis = false
+
+      for ( var i = 0; i < this.voters.length; i++ ) {
+        if ( this.voters[i].email === Meteor.user().emails[0].address.toLowerCase() )
+          votedForThis = true
+      }
+
+      return ! votedForThis
+    },
     hasVotes : function () {
       'use strict';
 
