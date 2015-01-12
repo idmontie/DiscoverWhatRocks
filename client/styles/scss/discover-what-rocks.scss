@@ -8,7 +8,8 @@
 // =========
 // Variables
 // =========
-@import 'colors';
+@import 'variables-colors';
+@import 'variables-media';
 
 // ====
 // Core
@@ -23,6 +24,11 @@
 @import 'panels';
 @import 'tables';
 @import 'typography';
+
+// ==========
+// Navigation
+// ==========
+@import 'navs';
 
 // ========
 // Accounts

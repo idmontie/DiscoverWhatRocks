@@ -82,6 +82,27 @@
 
     // Initialize scale
     $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale / scaleFactor);
+
+    _$.updateMarker = function ( markerReference, placeId ) {
+      var service = new google.maps.places.PlacesService( _$.map )
+
+      var request = {
+        placeId : placeId
+      }
+
+      google.maps.event.addListener( markerReference, 'click', function () {
+        var self = this
+
+        // anonymous because we need scoping
+        service.getDetails( request, function ( place, status ) {
+
+          if ( status == google.maps.places.PlacesServiceStatus.OK ) {
+            _$.infowindow.setContent( place.name )
+            _$.infowindow.open( _$.map, self )
+          }
+        } )
+      } )
+    }
   }
 
   // ==============
@@ -337,28 +358,5 @@
     'use strict';
 
     _$.setCenter( position.coords.latitude,  position.coords.longitude );
-  }
-
-  _$.updateMarker = function ( markerReference, placeId ) {
-    'use strict';
-
-    var service = new google.maps.places.PlacesService( _$.map )
-
-    var request = {
-      placeId : placeId
-    }
-
-    google.maps.event.addListener( markerReference, 'click', function () {
-      var self = this
-
-      // anonymous because we need scoping
-      service.getDetails( request, function ( place, status ) {
-
-        if ( status == google.maps.places.PlacesServiceStatus.OK ) {
-          _$.infowindow.setContent( place.name )
-          _$.infowindow.open( _$.map, self )
-        }
-      } )
-    } )
   }
 }(this);

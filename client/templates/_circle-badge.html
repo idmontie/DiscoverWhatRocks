@@ -1,20 +1,22 @@
 <template name="circleBadge">
+  {{!
+    Circle Badge
+
+    Expects `this` to be a circle object.
+  }}
   <li>
     <a href="/circles/{{slug}}">
       <div class="row panel">
-        <div class="column small-8">
+        <div class="column medium-10 small-6">
           {{name}}
         </div>
-        <div class="column small-4">
-          <span class="label">
-            {{numberOfUpcomingMeetupsForCircle this}} Meetups
-          </span>&nbsp;
-          <span class="label">
-            {{numberOfFriendsForCircle this}}&nbsp;<i class="fa fa-users"></i>
-          </span>
+        <div class="column medium-1 small-3 center">
+          {{numberOfUpcomingMeetupsForCircle this}}&nbsp;<i class="fa fa-calendar"></i><span class="sr-only">Meetups</span>
+        </div>
+        <div class="column medium-1 small-3 center">
+          {{numberOfFriendsForCircle this}}&nbsp;<i class="fa fa-users"></i><span class="sr-only">Friends</span>
         </div>
       </div>
     </a>
-    <div class="clearfix"></div>
   </li>
 </template>

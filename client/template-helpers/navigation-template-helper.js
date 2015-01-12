@@ -1,50 +1,56 @@
-/**
- * Navigation Template Helpers
- *
- * Template helpers for navigation
- */
+// =============================
+// navigation-template-helper.js
+// =============================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// =============================
 
+// ============
+// Lint Globals
+// ============
 /* global Circles */
 
-Template.navigation.helpers( {
-  circles : function () {
-    'use strict';
++function () {
+  'use strict';
 
-    return Circles.find()
-  },
-  meteorLoggedIn : function () {
-    'use strict';
-    return ! ! Meteor.user()
-  }
-} );
+  // =======
+  // Helpers
+  // =======
+  Template.navigation.helpers( {
+    circles : function () {
+      return Circles.find()
+    },
+    meteorLoggedIn : function () {
+      return ! ! Meteor.user()
+    }
+  } )
 
-Template.navigation.events( {
-  /**
-   * Close the navigation
-   */
-  'click .left-off-canvas-menu li a' : function () {
-    'use strict';
+  // ======
+  // Events
+  // ======
+  Template.navigation.events( {
+    /**
+     * Close the navigation
+     */
+    'click .left-off-canvas-menu li a' : function () {
+      $( '.off-canvas-wrap' ).removeClass( 'move-right' )
+    },
+    'click #logout, click .logout' : function ( e ) {
+      e.preventDefault()
 
-    $('.off-canvas-wrap').removeClass('move-right')
-  },
-  'click #logout, click .logout' : function ( e ) {
-    'use strict';
+      Meteor.logout()
 
-    e.preventDefault()
+      Router.go( '/' )
+    },
+    'click .session-alert-box-close' : function ( e ) {
+      e.preventDefault()
 
-    Meteor.logout()
+      var alerts = Session.get( 'alerts' )
+      var index  = alerts.indexOf( this )
+      alerts.splice( index, 1 )
 
-    Router.go( '/' )
-  },
-  'click .session-alert-box-close' : function ( e ) {
-    'use strict';
+      Session.set( 'alerts', alerts )
+    }
+  } )
+}();
 
-    e.preventDefault()
-
-    var alerts = Session.get( 'alerts' )
-    var index  = alerts.indexOf( this )
-    alerts.splice( index, 1 )
-
-    Session.set( 'alerts', alerts )
-  }
-} );

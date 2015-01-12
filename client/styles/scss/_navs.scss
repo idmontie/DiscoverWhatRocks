@@ -1,13 +1,14 @@
 // ==========================
-// Icon Bars: v0.0.1
+// Navs: v0.0.1
 // ==========================
 // Copyright 2014 Mantaray AR
 // Licensed under BSD
 // ==========================
 
-// =======
-// Box Bar
-// =======
-.box-bar {
-  border-top: 1px solid #1a1a1a;
+.tab-bar {
+  h1 {
+    @media(max-width: $screen-xs-min) {
+      font-size: 0.8rem !important;
+    }
+  }  
 }

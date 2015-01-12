@@ -77,40 +77,4 @@
       </div>
     </div>
   </div>
-  
-  {{!
-   Page scripts
-  }}
-
-  <script>
-  var _$ = this;
-
-  // Data Defaults
-  // =============
-  _$.data = window.Template.currentData($('#map-canvas')[0]);
-  _$.voteMarker = false;
-  _$.meetupCircle = null;
-  _$.previewMarkers = [];
-  _$.infowindow = new google.maps.InfoWindow();
-  // Hack to make sure no infinite map refreshes happen
-  _$.selfInterval = _$.selfInterval || -1;
-  clearInterval( _$.selfInterval );
-
-  /**
-   * Wait for circle and meetup context to be ready
-   */
-  _$.selfInterval = setInterval( function () {
-    if ( _$.data !== null &&
-         _$.data.circle !== null &&
-         _$.data.meetup !== null) {
-      clearInterval( selfInterval );
-
-      run();
-    } else {
-      // Try again
-      _$.data = window.Template.currentData( $('#map-canvas')[0] );
-    }
-  }, 100 );
-
-  </script>
 </template>
