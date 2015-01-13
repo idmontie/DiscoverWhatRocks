@@ -86,7 +86,6 @@
       e.stopPropagation();
 
       // Delete you own vote
-      $( e.target ).closest( '.inner-badge' ).hide()
       Meteor.call( 'meetupDeleteVote', this.meetupId, addToAlerts() )
     }
   } )
