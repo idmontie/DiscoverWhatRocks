@@ -52,7 +52,8 @@ Meteor.methods( {
 
       structuredVotesObject[placeName].push( {
         email : email,
-        gravatar : gravatar
+        gravatar : gravatar,
+        meetupId : meetup._id
       } )
 
       places[placeName]           = vote.placeDetails
@@ -204,5 +205,33 @@ Meteor.methods( {
         text : Meetups.emailTemplate.inviteEmail.text( email, url )
       } )
     }
+  },
+  meetupDeleteVote : function ( meetupId ) {
+    'use strict';
+
+    check ( meetupId, String )
+
+    if ( ! this.userId ) {
+      throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
+    }
+
+    var meetup = Meetups.findOne( {
+      _id : meetupId
+    } )
+
+    Meetups.update( {
+      _id : meetup._id
+    }, {
+      $pull : {
+        votes : {
+          userId : Meteor.userId()
+        }
+      }
+    }, {
+      validate: false,
+      getAutoValues: false
+    } )
+
+    return 'Deleted your vote.'
   }
 } );

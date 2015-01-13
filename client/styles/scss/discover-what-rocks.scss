@@ -14,7 +14,10 @@
 // ====
 // Core
 // ====
+@import 'mixins';
 @import 'scaffolding';
+@import 'typography';
+
 @import 'accounts';
 @import 'alert';
 @import 'calendars';
@@ -23,7 +26,7 @@
 @import 'overlays';
 @import 'panels';
 @import 'tables';
-@import 'typography';
+
 
 // ==========
 // Navigation
@@ -44,3 +47,8 @@
 // Pages
 // =====
 @import 'home-portal';
+
+// =======
+// Widgets
+// =======
+@import 'gravatar';

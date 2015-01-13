@@ -8,16 +8,40 @@
 .votes {
   .vote-badge {
     
-
     .inner-badge {
       float: left;
+      position: relative;
 
       img {
-        -moz-border-radius: 50%;
-        -ms-border-radius: 50%;
-        -o-border-radius: 50%;
-        -webkit-border-radius: 50%;
-        border-radius: 50%;
+        @include circle-radius();
+      }
+
+      .delete-vote {
+        @include border-radius(5px);
+        background-color: #fff;
+        color: $danger-red;
+        font-size: .8em;
+        padding: 5px;
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        .additional-info {
+          @include animate-hidden();
+          display: inline-block;
+          height: 0;
+          overflow: hidden;
+          width: 0;
+        }
+
+        &:hover {
+          .additional-info {
+            @include animate-hidden-show();
+            display: inline;
+            height: auto;
+            width: auto;
+          }
+        }
       }
     }
   }

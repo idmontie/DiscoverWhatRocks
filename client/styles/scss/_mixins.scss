@@ -1,0 +1,30 @@
+// ==========================
+// Mixins: v0.0.1
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licensed under BSD
+// ==========================
+
+@mixin border-radius($radius) {
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin circle-radius() {
+  @include border-radius(50%);
+}
+
+@mixin animate-hidden() {
+  opacity: 0;
+  transition: visibility 0s linear .5s, opacity .5s linear;
+  visibility: hidden;
+}
+
+@mixin animate-hidden-show() {
+  opacity: 1;
+  transition-delay: 0s;
+  visibility: visible;
+}

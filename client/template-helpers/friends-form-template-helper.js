@@ -10,6 +10,7 @@
 // Lint Globals
 // ============
 /* global check */
+/* global addToAlerts */
 
 +function () {
   'use strict';
@@ -237,17 +238,9 @@
       var email = this.email
       $( e.target ).hide()
 
-      Meteor.call( 'friendsUninvite', email, this.circleId, function ( error, data ) {
-        var alerts = Session.get( 'alerts' )
-        if ( error ) {
-          $( e.target ).show()
-          alerts.push( error.reason )
-        } else {
-          alerts.push ( data )
-        }
-
-        Session.set( 'alerts', alerts )
-      } )
+      Meteor.call( 'friendsUninvite', email, this.circleId, addToAlerts( function () {
+        $( e.target ).show()
+      } ) )
     }
   } )
 }();

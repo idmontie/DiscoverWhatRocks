@@ -2,7 +2,6 @@
  * Meetup Template Helper
  */
 
-/* global _$ */
 /* global google */
 /* global RichMarker */
 /* global Meetups */
@@ -22,6 +21,8 @@ Session.setDefault( 'voteData', null );
 var _$ = this;
 
 +function () {
+  'use strict';
+
   Template.meetup.rendered = function () {
     _$.data = window.Template.currentData($('#map-canvas')[0]);
     _$.voteMarker = false;
@@ -39,9 +40,9 @@ var _$ = this;
       if ( _$.data !== null &&
            _$.data.circle !== null &&
            _$.data.meetup !== null) {
-        clearInterval( selfInterval );
+        clearInterval( _$.selfInterval );
 
-        run();
+        _$.run();
       } else {
         // Try again
         _$.data = window.Template.currentData( $('#map-canvas')[0] );
@@ -131,8 +132,6 @@ var _$ = this;
       return ! votedForThis
     },
     hasVotes : function () {
-      'use strict';
-
       if ( this.meetup !== null &&
            typeof this.meetup !== 'undefined' &&
            this.meetup.votes !== null &&
@@ -143,7 +142,6 @@ var _$ = this;
       }
     },
     structuredVotes : function () {
-      'use strict';
       var self = this
 
       Meteor.autorun( function () {
@@ -161,8 +159,6 @@ var _$ = this;
       return Session.get( 'structuredVotes' )
     },
     invitees : function () {
-      'use strict';
-
       var self = this
       var isSet = ReactivityHelper.reliesOn( this.meetup )
 
@@ -189,8 +185,6 @@ var _$ = this;
 
   Template.meetup.events( {
     'click #email-friends-about-meetup' : function ( e ) {
-      'use strict';
-
       $( e.target ).hide()
       var meetup = this.meetup;
 
@@ -216,8 +210,6 @@ var _$ = this;
       } )
     },
     'click .vote-premade' : function ( e ) {
-      'use strict';
-
       e.preventDefault()
       e.stopPropagation()
 
@@ -252,6 +244,7 @@ var _$ = this;
       }
 
       // Update meetup
+      // TODO  use add to set!
       newMeetup = Schema.meetups.clean( newMeetup )
       Meetups.update( parent.meetup._id, {
         $set : {
@@ -262,8 +255,6 @@ var _$ = this;
       _$.markersDirty = true
     },
     'click #vote:not(.disabled)' : function ( e ) {
-      'use strict';
-
       e.preventDefault()
       e.stopPropagation()
 
@@ -288,6 +279,7 @@ var _$ = this;
       }
 
       // Update meetup
+      // TODO use add to set
       newMeetup = Schema.meetups.clean( newMeetup )
       Meetups.update( this.meetup._id, {
         $set : {
@@ -304,7 +296,6 @@ var _$ = this;
   // ============
 
   _$.getPreviouslyCastVote = function ( meetup, userId ) {
-    'use strict';
     var index = -1
 
     for ( var i = 0; i < meetup.votes.length; i++ ) {
@@ -318,8 +309,6 @@ var _$ = this;
   }
 
   _$.createVote = function ( userId ) {
-    'use strict';
-
     var lat          = Session.get( 'voteLat' )
     var lng          = Session.get( 'voteLong' )
     var placeDetails = Session.get( 'voteData' )
@@ -398,7 +387,6 @@ var _$ = this;
   }
 
   _$.setVoteMarker = function ( lat, lon, placeData ) {
-    'use strict';
     var location = lat + ', ' + lon
     var latLng = new google.maps.LatLng( lat, lon )
 
@@ -429,8 +417,6 @@ var _$ = this;
   }
 
   _$.setPlaceMarkers = function ( placeType ) {
-    'use strict';
-
     // set markers
     var service   = new google.maps.places.PlacesService( _$.map )
     var placeRequest = {
@@ -442,14 +428,10 @@ var _$ = this;
   }
 
   _$.currentPositionCallback = function ( position ) {
-    'use strict';
-
     _$.setCenter( position.coords.latitude,  position.coords.longitude );
   }
 
   _$.createMarker = function ( place ) {
-    'use strict';
-
     var marker = new google.maps.Marker( {
       map: _$.map,
       position: place.geometry.location
@@ -465,8 +447,6 @@ var _$ = this;
   }
 
   _$.updateMarkers = function ( votes ) {
-    'use strict';
-
     if ( ! _.isEqual( votes, _$.votes ) ) {
       _$.markersDirty = true
       _$.votes = votes
@@ -474,8 +454,6 @@ var _$ = this;
   }
 
   _$.listenForMarkers = function () {
-    'use strict';
-
     setInterval( function () {
       if ( _$.markersDirty && _$.map ) {
         _$.markersDirty = false
@@ -542,7 +520,4 @@ var _$ = this;
       }
     }, 2000 )
   }
-
-
-
 }();

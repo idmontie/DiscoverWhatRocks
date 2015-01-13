@@ -14,6 +14,8 @@
 /* global Tracker */
 
 +function ( _$ ) {
+  'use strict';
+
   // ===============
   // Local Variables
   // ===============
@@ -191,8 +193,6 @@
   };
 
   _$.signup = function () {
-    'use strict';
-
     loginButtonsSession.resetMessages()
 
     // to be passed to Accounts.createUser
@@ -234,8 +234,6 @@
   };
 
   _$.forgotPassword = function () {
-    'use strict';
-
     loginButtonsSession.resetMessages();
 
     var email = _$.trimmedElementValueById( 'forgot-password-email' );
@@ -252,8 +250,6 @@
   };
 
   _$.changePassword = function () {
-    'use strict';
-
     loginButtonsSession.resetMessages()
 
     // notably not trimmed. a password could (?) start or end with a space
@@ -279,8 +275,6 @@
   };
 
   _$.matchPasswordAgainIfPresent = function () {
-    'use strict';
-
     // notably not trimmed. a password could (?) start or end with a space
     var passwordAgain = _$.elementValueById('login-password-again');
     if ( passwordAgain !== null ) {
@@ -295,8 +289,6 @@
   };
 
   _$.correctDropdownZIndexes = function () {
-    'use strict';
-
     // IE <= 7 has a z-index bug that means we can't just give the
     // dropdown a z-index and expect it to stack above the rest of
     // the page even if nothing else has a z-index.  The nature of
@@ -318,8 +310,6 @@
   // ===========
 
   _$.validateEmail = function (email) {
-    'use strict';
-
     if (email.indexOf('@') !== -1) {
       return true;
     } else {
@@ -329,8 +319,6 @@
   };
 
   _$.validatePassword = function (password) {
-    'use strict';
-
     if (password.length >= 6) {
       return true;
     } else {

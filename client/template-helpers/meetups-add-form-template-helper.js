@@ -43,12 +43,12 @@
   Template.meetupsAddForm.rendered = function () {
     // TODO better starting coords
     var Coords = {
-      latitude: 33, 
+      latitude: 33,
       longitude: -112
     }
     _$.scaleFactor = 1600;
     _$.meetupCircle = false;
-    _$.scale = 1 * scaleFactor;
+    _$.scale = 1 * _$.scaleFactor;
     _$.previewMarkers = [];
     _$.infowindow = new google.maps.InfoWindow();
 
@@ -72,6 +72,8 @@
       _$.setCenter( np.latLng.lat(), np.latLng.lng() );
     } );
 
+    /*jshint camelcase: false */
+    // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
     $( document ).foundation( {
       slider: {
         on_change: throttle( function () {
@@ -79,9 +81,11 @@
         }, 1000 )
       }
     } );
+    // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+    /*jshint camelcase: true */
 
     // Initialize scale
-    $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale / scaleFactor);
+    $( '#meetup_slider_foundation' ).foundation( 'slider', 'set_value', _$.scale / _$.scaleFactor);
 
     _$.updateMarker = function ( markerReference, placeId ) {
       var service = new google.maps.places.PlacesService( _$.map )
@@ -290,8 +294,6 @@
   // Map Helpers
   // ===========
   _$.setScale = function ( scale ) {
-    'use strict';
-
     _$.scale = scale * _$.scaleFactor;
 
     if ( _$.meetupCircle ) {
@@ -302,8 +304,6 @@
   }
 
   _$.setCenter = function ( lat, lon ) {
-    'use strict';
-
     var location = lat + ', ' + lon
     var center   = new google.maps.LatLng( lat, lon )
     $( '#map_center' ).val( location )
@@ -332,8 +332,6 @@
   }
 
   _$.nearbyCallback = function  ( results, status ) {
-    'use strict';
-
     var i = 0
 
     // Place the markers on the map
@@ -355,8 +353,6 @@
   }
 
   _$.currentPositionCallback = function ( position ) {
-    'use strict';
-
     _$.setCenter( position.coords.latitude,  position.coords.longitude );
   }
 }(this);
