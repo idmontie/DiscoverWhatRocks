@@ -43,7 +43,9 @@ Meteor.methods( {
 
       var email = user.emails[0].address
 
-      var gravatar = Gravatar.imageUrlFromEmail( email )
+      var gravatar = Gravatar.imageUrlFromEmail( email, {
+        secure : true
+      } )
 
       if ( structuredVotesObject[placeName]  == null ) {
         // Add it
