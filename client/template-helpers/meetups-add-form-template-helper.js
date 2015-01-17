@@ -331,7 +331,7 @@
     _$.setPlaceMarkers( $( 'select[name="meetupType"]' ).find( ':selected' ).val() )
   }
 
-  _$.nearbyCallback = function  ( results, status ) {
+  _$.nearbyCallback = function ( results, status ) {
     var i = 0
 
     // Place the markers on the map
@@ -350,6 +350,8 @@
           _$.createMarker( results[i] )
       }
     }
+
+    // TODO alert if failed or no places found!
   }
 
   _$.currentPositionCallback = function ( position ) {

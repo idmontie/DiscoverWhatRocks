@@ -73,3 +73,10 @@ $vote-badge-background-color: fade-out(black, .2);
 // ======
 $footer-color: darken($font-color, 80%);
 $footer-background-color: $panel-background-color;
+
+// =======
+// Buttons
+// =======
+
+$background-button-color: darken($font-color, 30%);
+$background-button-border: 1px solid $background-button-color;

@@ -184,6 +184,26 @@ var _$ = this;
   // ======
 
   Template.meetup.events( {
+    'click .search' : function ( e ) {
+      e.preventDefault()
+
+      $( e.currentTarget )
+        .addClass('open')
+        .find( 'input.closed' )
+          .removeClass( 'closed' )
+          .focus()
+    },
+    'click .search.open i' : function ( e ) {
+      e.preventDefault()
+
+      var searchTerm = $( e.currentTarget ).parent().find( 'input' ).val()
+
+      // TODO decide whether to provide a placeTypeSlug
+      _$.setPlaceMarkers( _$.data.meetup.placeTypeSlug, searchTerm )
+    },
+    'keypress .search.open input' : function ( e ) {
+      // TODO same as aboe  (submit search)
+    },
     'click #email-friends-about-meetup' : function ( e ) {
       $( e.target ).hide()
       var meetup = this.meetup;
@@ -416,7 +436,7 @@ var _$ = this;
     Session.set( 'voteData', placeData )
   }
 
-  _$.setPlaceMarkers = function ( placeType ) {
+  _$.setPlaceMarkers = function ( placeType, keywords ) {
     // set markers
     var service   = new google.maps.places.PlacesService( _$.map )
     var placeRequest = {
@@ -424,6 +444,11 @@ var _$ = this;
       radius : _$.scale,
       types  : [placeType]
     }
+
+    if ( keywords ) {
+      placeRequest['keyword'] = keywords
+    }
+
     service.radarSearch( placeRequest, _$.nearbyCallback )
   }
 

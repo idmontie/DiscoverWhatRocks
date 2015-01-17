@@ -19,3 +19,72 @@
   position: absolute;
   width: 1px;
 }
+
+.top-offset-lg {
+  margin-top: 10px;
+}
+
+.background-button {
+  border: $background-button-border;
+  border-radius: 2px;
+  color: $background-button-color;
+  padding: 3px 10px;
+
+  -moz-transition:    all 0.2s ease;
+  -ms-transition:     all 0.2s ease;
+  -o-transition:      all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  transition:         all 0.2s ease;
+
+  &.open {
+    border: 0;
+    border-radius: 0;
+    display: inline-block;
+    padding: 0;
+
+    i {
+      border: $background-button-border;
+      border-radius: 0 2px 2px 0;
+      display: inline-block;
+      padding: 3px 10px;
+      margin-left: -5px;
+      vertical-align: middle;
+    }
+
+    input[type=text] {
+      border: $background-button-border;
+      border-right: 0;
+      border-radius: 2px 0 0 2px;
+      display: inline-block;
+      height: auto;
+      line-height: 20px;
+      margin-bottom: 0px;
+      padding: 3px 10px;
+      width: 80%;
+    }
+  }
+
+  input[type=text] {
+    -moz-transition:    all 0.2s ease;
+    -ms-transition:     all 0.2s ease;
+    -o-transition:      all 0.2s ease;
+    -webkit-transition: all 0.2s ease;
+    transition:         all 0.2s ease;
+    
+    &.closed {
+      border: 0;
+      clip: rect(0, 0, 0, 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+  }
+}
+
+span.background-button {
+  display: inline-block;
+  vertical-align: middle;
+}
