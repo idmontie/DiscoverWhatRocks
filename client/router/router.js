@@ -23,6 +23,8 @@
     window.defaults = {}
   }
 
+  window.defaults.breadcrumbs = []
+
   window.defaults.router = {
     layoutTemplate : 'applicationLayout',
     exceptionPages : [
@@ -31,6 +33,8 @@
       'privacyPolicy'
     ]
   }
+
+  Router.hierarchy = []
 
   /**
    * Set a base layout template.
@@ -61,30 +65,53 @@
    * '/' => 'home'
    */
   Router.route( '/', function () {
+    Session.set( 'breadcrumbs', [
+      window.defaults.breadcrumbs['home']
+    ] )
     this.render( 'home' )
   }, {
     name : 'home'
   } )
+  window.defaults.breadcrumbs['home'] = {
+    name : 'Home',
+    route : Router.path( 'home' )
+  }
 
   /*
    * About
    * '/about' => 'about'
    */
   Router.route( '/about', function () {
+    Session.set( 'breadcrumbs', [
+      window.defaults.breadcrumbs['home'],
+      window.defaults.breadcrumbs['about']
+    ] )
     this.render( 'about' );
   }, {
     name : 'about'
   } )
+  window.defaults.breadcrumbs['about'] = {
+    name : 'About',
+    route : Router.path( 'about' )
+  }
 
   /*
    * Privacy Policy
    * '/privacy-policy' => 'privacyPolicy'
    */
   Router.route( '/privacy-policy', function () {
+    Session.set( 'breadcrumbs', [
+      window.defaults.breadcrumbs['home'],
+      window.defaults.breadcrumbs['privacyPolicy']
+    ] )
     this.render( 'privacyPolicy' );
   }, {
     name : 'privacyPolicy'
   } )
+  window.defaults.breadcrumbs['privacyPolicy'] = {
+    name : 'Privacy Policy',
+    route : Router.path( 'privacyPolicy' )
+  }
 
   /*
    * Meetups Add
@@ -95,9 +122,27 @@
       slug : this.params.slug
     } )
 
-    this.render( 'meetupsAddForm', {
-      data : circle
-    } )
+    if ( this.ready() ) {
+      Session.set( 'breadcrumbs', [
+        window.defaults.breadcrumbs['home'],
+        {
+          name : circle.name,
+          route : Router.path( 'circle', {
+            slug : this.params.slug
+          } )
+        },
+        {
+          name : 'Add Meetup',
+          route : Router.path( 'meetupsAddForm', {
+            slug : this.params.slug
+          } )
+        }
+      ] )
+
+      this.render( 'meetupsAddForm', {
+        data : circle
+      } )
+    }
   }, {
     name : 'meetupsAddForm'
   } )
@@ -111,9 +156,36 @@
       slug : this.params.slug
     } )
 
-    this.render( 'meetupsUpdateForm', {
-      data : meetup
-    } )
+    if ( this.ready() ) {
+      var circle = Circles.findOne( {
+        _id : meetup.circleId
+      } )
+      Session.set( 'breadcrumbs', [
+        window.defaults.breadcrumbs['home'],
+        {
+          name : circle.name,
+          route : Router.path( 'circle', {
+            slug : circle.slug
+          } )
+        },
+        {
+          name : meetup.name,
+          route : Router.path( 'meetups', {
+            slug : this.params.slug
+          } )
+        },
+        {
+          name : 'Update',
+          route : Router.path( 'meetupsUpdateForm', {
+            slug : this.params.slug
+          } )
+        }
+      ] )
+
+      this.render( 'meetupsUpdateForm', {
+        data : meetup
+      } )
+    }
   }, {
     name : 'meetupsUpdateForm'
   } )
@@ -135,6 +207,22 @@
             _id : meetup.circleId
           } )
         }
+
+        Session.set( 'breadcrumbs', [
+          window.defaults.breadcrumbs['home'],
+          {
+            name : circle.name,
+            route : Router.path( 'circle', {
+              slug : circle.slug
+            } )
+          },
+          {
+            name : meetup.name,
+            route : Router.path( 'meetups', {
+              slug : this.params.slug
+            } )
+          }
+        ] )
 
         return {
           circle : circle,
@@ -158,6 +246,14 @@
    * '/circles/add' => 'circlesAddForm'
    */
   Router.route( '/circles/add', function () {
+    Session.set( 'breadcrumbs', [
+      window.defaults.breadcrumbs['home'],
+      {
+        name : 'Create A Circle',
+        route : Router.path( 'circlesAddForm' )
+      }
+    ] )
+
     this.render( 'circlesAddForm' )
   }, {
     name : 'circlesAddForm'
@@ -171,6 +267,22 @@
     var circle = Circles.findOne( {
       slug : this.params.slug
     } )
+
+    Session.set( 'breadcrumbs', [
+      window.defaults.breadcrumbs['home'],
+      {
+        name : circle.name,
+        route : Router.path( 'circle', {
+          slug : this.params.slug
+        } )
+      },
+      {
+        name : 'Update',
+        route : Router.path( 'circlesUpdateForm', {
+          slug : this.params.slug
+        } )
+      }
+    ] )
 
     this.render( 'circlesUpdateForm', {
       data : circle
@@ -197,6 +309,16 @@
           } )
         }
 
+        Session.set( 'breadcrumbs', [
+          window.defaults.breadcrumbs['home'],
+          {
+            name : circle.name,
+            route : Router.path( 'circle', {
+              slug : circle.slug
+            } )
+          }
+        ] )
+
         return {
           circle : circle,
           meetups : meetups
@@ -217,6 +339,22 @@
     var circle = Circles.findOne( {
       slug : this.params.slug
     } )
+
+    Session.set( 'breadcrumbs', [
+      window.defaults.breadcrumbs['home'],
+      {
+        name : circle.name,
+        route : Router.path( 'circle', {
+          slug : this.params.slug
+        } )
+      },
+      {
+        name : 'Add Friends',
+        route : Router.path( 'friendsForm', {
+          slug : this.params.slug
+        } )
+      }
+    ] )
 
     this.render( 'friendsForm', {
       data : circle
