@@ -45,9 +45,9 @@
   Router.onBeforeAction( function () {
     if ( ! Meteor.userId() ) {
       this.render( 'home' )
+    } else {
+      this.next();
     }
-
-    this.next();
   }, {
     except: window.defaults.router.exceptionPages
   } )
