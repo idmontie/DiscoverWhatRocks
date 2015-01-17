@@ -170,13 +170,18 @@ Meteor.methods( {
     } )
 
     // TODO check that the user is the owner
+    if ( meetup.ownerId !== this.userId ) {
+      throw new Meteor.Error( 'cannot-ping', 'You cannot ping since you did not create this meetup!' )
+    }
 
     if ( meetup.pinged === true ) {
       throw new Meteor.Error( 'already-pinged', 'You have already pinged!' )
     } else {
       meetup.pinged = true
 
-      Meetups.update( meetup._id, {
+      Meetups.update( {
+        _id : meetup._id
+      }, {
         $set : {
           pinged : true
         }
