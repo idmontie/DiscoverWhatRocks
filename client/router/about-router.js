@@ -9,8 +9,6 @@
 // ============
 // Lint Globals
 // ============
-/* global Circles */
-/* global Meetups */
 /* global Router */
 
 +function () {
