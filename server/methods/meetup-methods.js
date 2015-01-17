@@ -131,7 +131,7 @@ Meteor.methods( {
       hasVoted : hasVoted( Meteor.userId() )
     } )
 
-    for ( var i = 0; i < circle.users.length; i++ ) {
+    for ( var i = 0; circle.users != null && i < circle.users.length; i++ ) {
       var user = Meteor.users.findOne( {
         emails : {
           $elemMatch : {
