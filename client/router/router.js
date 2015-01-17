@@ -66,13 +66,13 @@
    */
   Router.route( '/', function () {
     Session.set( 'breadcrumbs', [
-      window.defaults.breadcrumbs['home']
+      window.defaults.breadcrumbs.home
     ] )
     this.render( 'home' )
   }, {
     name : 'home'
   } )
-  window.defaults.breadcrumbs['home'] = {
+  window.defaults.breadcrumbs.home = {
     name : 'Home',
     route : Router.path( 'home' )
   }
@@ -83,14 +83,14 @@
    */
   Router.route( '/about', function () {
     Session.set( 'breadcrumbs', [
-      window.defaults.breadcrumbs['home'],
-      window.defaults.breadcrumbs['about']
+      window.defaults.breadcrumbs.home,
+      window.defaults.breadcrumbs.about
     ] )
     this.render( 'about' );
   }, {
     name : 'about'
   } )
-  window.defaults.breadcrumbs['about'] = {
+  window.defaults.breadcrumbs.about = {
     name : 'About',
     route : Router.path( 'about' )
   }
@@ -101,14 +101,14 @@
    */
   Router.route( '/privacy-policy', function () {
     Session.set( 'breadcrumbs', [
-      window.defaults.breadcrumbs['home'],
-      window.defaults.breadcrumbs['privacyPolicy']
+      window.defaults.breadcrumbs.home,
+      window.defaults.breadcrumbs.privacyPolicy
     ] )
     this.render( 'privacyPolicy' );
   }, {
     name : 'privacyPolicy'
   } )
-  window.defaults.breadcrumbs['privacyPolicy'] = {
+  window.defaults.breadcrumbs.privacyPolicy = {
     name : 'Privacy Policy',
     route : Router.path( 'privacyPolicy' )
   }
@@ -124,7 +124,7 @@
 
     if ( this.ready() ) {
       Session.set( 'breadcrumbs', [
-        window.defaults.breadcrumbs['home'],
+        window.defaults.breadcrumbs.home,
         {
           name : circle.name,
           route : Router.path( 'circle', {
@@ -161,7 +161,7 @@
         _id : meetup.circleId
       } )
       Session.set( 'breadcrumbs', [
-        window.defaults.breadcrumbs['home'],
+        window.defaults.breadcrumbs.home,
         {
           name : circle.name,
           route : Router.path( 'circle', {
@@ -209,7 +209,7 @@
         }
 
         Session.set( 'breadcrumbs', [
-          window.defaults.breadcrumbs['home'],
+          window.defaults.breadcrumbs.home,
           {
             name : circle.name,
             route : Router.path( 'circle', {
@@ -247,7 +247,7 @@
    */
   Router.route( '/circles/add', function () {
     Session.set( 'breadcrumbs', [
-      window.defaults.breadcrumbs['home'],
+      window.defaults.breadcrumbs.home,
       {
         name : 'Create A Circle',
         route : Router.path( 'circlesAddForm' )
@@ -269,7 +269,7 @@
     } )
 
     Session.set( 'breadcrumbs', [
-      window.defaults.breadcrumbs['home'],
+      window.defaults.breadcrumbs.home,
       {
         name : circle.name,
         route : Router.path( 'circle', {
@@ -310,7 +310,7 @@
         }
 
         Session.set( 'breadcrumbs', [
-          window.defaults.breadcrumbs['home'],
+          window.defaults.breadcrumbs.home,
           {
             name : circle.name,
             route : Router.path( 'circle', {
@@ -341,7 +341,7 @@
     } )
 
     Session.set( 'breadcrumbs', [
-      window.defaults.breadcrumbs['home'],
+      window.defaults.breadcrumbs.home,
       {
         name : circle.name,
         route : Router.path( 'circle', {

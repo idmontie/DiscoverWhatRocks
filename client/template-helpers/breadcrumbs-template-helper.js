@@ -30,7 +30,7 @@
         } else {
           stringified += breadcrumbs[i].name
         }
-        
+
         stringified += '</span>'
       }
 
