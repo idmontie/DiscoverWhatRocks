@@ -6,6 +6,11 @@
 // ==========================
 // Contains Template Helper and Events for the Profile Template
 
+// ============
+// Lint Globals
+// ============
+/* global addToAlerts */
+
 +function () {
   'use strict';
 

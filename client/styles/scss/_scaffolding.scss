@@ -30,13 +30,13 @@
   color: $background-button-color;
   padding: 3px 10px;
 
-  -moz-transition:    all 0.2s ease;
-  -ms-transition:     all 0.2s ease;
-  -o-transition:      all 0.2s ease;
-  -webkit-transition: all 0.2s ease;
-  transition:         all 0.2s ease;
+  -moz-transition: all .2s ease;
+  -ms-transition: all .2s ease;
+  -o-transition: all .2s ease;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
 
-  &.open {
+  &.open-dwr {
     border: 0;
     border-radius: 0;
     display: inline-block;
@@ -46,30 +46,30 @@
       border: $background-button-border;
       border-radius: 0 2px 2px 0;
       display: inline-block;
-      padding: 3px 10px;
       margin-left: -5px;
+      padding: 3px 10px;
       vertical-align: middle;
     }
 
     input[type=text] {
       border: $background-button-border;
-      border-right: 0;
       border-radius: 2px 0 0 2px;
+      border-right: 0;
       display: inline-block;
       height: auto;
       line-height: 20px;
-      margin-bottom: 0px;
+      margin-bottom: 0;
       padding: 3px 10px;
       width: 80%;
     }
   }
 
   input[type=text] {
-    -moz-transition:    all 0.2s ease;
-    -ms-transition:     all 0.2s ease;
-    -o-transition:      all 0.2s ease;
-    -webkit-transition: all 0.2s ease;
-    transition:         all 0.2s ease;
+    -moz-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
     
     &.closed {
       border: 0;

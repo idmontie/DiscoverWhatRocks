@@ -188,12 +188,12 @@ var _$ = this;
       e.preventDefault()
 
       $( e.currentTarget )
-        .addClass('open')
+        .addClass('open-dwr')
         .find( 'input.closed' )
           .removeClass( 'closed' )
           .focus()
     },
-    'click .search.open i' : function ( e ) {
+    'click .search.open-dwr i' : function ( e ) {
       e.preventDefault()
 
       var searchTerm = $( e.currentTarget ).parent().find( 'input' ).val()
@@ -201,8 +201,16 @@ var _$ = this;
       // TODO decide whether to provide a placeTypeSlug
       _$.setPlaceMarkers( _$.data.meetup.placeTypeSlug, searchTerm )
     },
-    'keypress .search.open input' : function ( e ) {
-      // TODO same as aboe  (submit search)
+    'keypress .search.open-dwr input' : function ( e ) {
+      if ( e.which == 13 ) {
+        e.preventDefault()
+
+        // TODO refactor with above event
+        var searchTerm = $( e.currentTarget ).parent().find( 'input' ).val()
+
+        // TODO decide whether to provide a placeTypeSlug
+        _$.setPlaceMarkers( _$.data.meetup.placeTypeSlug, searchTerm )
+      }
     },
     'click #email-friends-about-meetup' : function ( e ) {
       $( e.target ).hide()
@@ -446,7 +454,7 @@ var _$ = this;
     }
 
     if ( keywords ) {
-      placeRequest['keyword'] = keywords
+      placeRequest.keyword = keywords
     }
 
     service.radarSearch( placeRequest, _$.nearbyCallback )
