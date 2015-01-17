@@ -28,7 +28,7 @@
     exceptionPages : [
       'home',
       'about',
-      'privacy'
+      'privacyPolicy'
     ]
   }
 
@@ -74,6 +74,16 @@
     this.render( 'about' );
   }, {
     name : 'about'
+  } )
+
+  /*
+   * Privacy Policy
+   * '/privacy-policy' => 'privacyPolicy'
+   */
+  Router.route( '/privacy-policy', function () {
+    this.render( 'privacyPolicy' );
+  }, {
+    name : 'privacyPolicy'
   } )
 
   /*

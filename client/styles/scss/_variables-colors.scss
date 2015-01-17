@@ -68,3 +68,8 @@ $heading-lead-color:            $font-color;
 // ===========
 $vote-badge-background-color: fade-out(black, .2);
 
+// ======
+// Footer
+// ======
+$footer-color: darken($font-color, .2);
+$footer-background-color: $panel-background-color;
