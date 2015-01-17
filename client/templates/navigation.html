@@ -13,19 +13,19 @@
           <ul class="right">
             {{#if session "meteorLoggedIn"}}
               <li class="divider"></li>
-                <li class="has-dropdown not-click">
-                  <a>Circles</a>
-                  <ul class="dropdown">
+              <li class="has-dropdown not-click">
+                <a>Circles</a>
+                <ul class="dropdown">
+                  <li>
+                    <a href="/">All Circles</a>
+                  </li>
+                  <li class="divider"></li>
+                  {{#each circles}}
                     <li>
-                      <a href="/">All Circles</a>
+                      <a href="/circles/{{slug}}">{{name}}</a>
                     </li>
-                    <li class="divider"></li>
-                    {{#each circles}}
-                      <li>
-                        <a href="/circles/{{slug}}">{{name}}</a>
-                      </li>
-                    {{/each}}
-                  </ul>
+                  {{/each}}
+                </ul>
               </li>
             {{/if}}
             <li class="divider"></li>
@@ -33,8 +33,18 @@
               <a href='/about'>About</a>
             </li>
             {{#if session "meteorLoggedIn"}}
-              <li>
-                <a href="#" id="logout">Logout</a>
+              <li class="divider"></li>
+              <li class="has-dropdown not-click">
+                <a><i class="fa fa-user"></i></a>
+                <ul class="dropdown">
+                  <li>
+                    <a href="/me/">Settings</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#" id="logout">Logout</a>
+                  </li>
+                </ul>
               </li>
             {{/if}}
           </ul>

@@ -1,0 +1,9 @@
+<template name="profile">
+  <div class="row">
+    <h1>Your Profile</h1>
+
+    {{#if hasNotVerified}}
+      <button class="resend-verification-email">Resend verification email</button>
+    {{/if}}
+  </div>
+</template>
