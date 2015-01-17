@@ -17,7 +17,7 @@
       var breadcrumbs = Session.get( 'breadcrumbs' );
       var stringified = '';
 
-      for ( var i = 0; i < breadcrumbs.length; i++ ) {
+      for ( var i = 0; breadcrumbs != null && i < breadcrumbs.length; i++ ) {
 
         stringified += '<span class="crumb">'
 

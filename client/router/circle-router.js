@@ -86,17 +86,17 @@
           meetups = Meetups.find( {
             circleId : circle._id
           } )
-        }
 
-        Session.set( 'breadcrumbs', [
-          window.defaults.breadcrumbs.home,
-          {
-            name : circle.name,
-            route : Router.path( 'circle', {
-              slug : circle.slug
-            } )
-          }
-        ] )
+          Session.set( 'breadcrumbs', [
+            window.defaults.breadcrumbs.home,
+            {
+              name : circle.name,
+              route : Router.path( 'circle', {
+                slug : circle.slug
+              } )
+            }
+          ] )
+        }
 
         return {
           circle : circle,

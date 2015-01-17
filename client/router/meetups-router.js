@@ -113,23 +113,23 @@
           circle = Circles.findOne( {
             _id : meetup.circleId
           } )
-        }
 
-        Session.set( 'breadcrumbs', [
-          window.defaults.breadcrumbs.home,
-          {
-            name : circle.name,
-            route : Router.path( 'circle', {
-              slug : circle.slug
-            } )
-          },
-          {
-            name : meetup.name,
-            route : Router.path( 'meetup', {
-              slug : this.params.slug
-            } )
-          }
-        ] )
+          Session.set( 'breadcrumbs', [
+            window.defaults.breadcrumbs.home,
+            {
+              name : circle.name,
+              route : Router.path( 'circle', {
+                slug : circle.slug
+              } )
+            },
+            {
+              name : meetup.name,
+              route : Router.path( 'meetup', {
+                slug : this.params.slug
+              } )
+            }
+          ] )
+        }
 
         return {
           circle : circle,
