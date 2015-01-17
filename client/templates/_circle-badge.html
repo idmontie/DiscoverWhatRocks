@@ -7,11 +7,11 @@
   <li>
     <a href="/circles/{{slug}}">
       <div class="row panel">
-        <div class="column medium-10 small-6">
+        <div class="column medium-9 small-6">
           {{name}}
         </div>
-        <div class="column medium-1 small-3 center">
-          {{numberOfUpcomingMeetupsForCircle this}}&nbsp;<i class="fa fa-calendar"></i><span class="sr-only">Meetups</span>
+        <div class="column medium-2 small-3 center">
+          <span class="label" title="Upcoming">{{numberOfUpcomingMeetupsForCircle this}}</span>&nbsp;/&nbsp;{{numberOfMeetupsForCircle this}}&nbsp;<i class="fa fa-calendar"></i><span class="sr-only">Meetups</span>
         </div>
         <div class="column medium-1 small-3 center">
           {{numberOfFriendsForCircle this}}&nbsp;<i class="fa fa-users"></i><span class="sr-only">Friends</span>

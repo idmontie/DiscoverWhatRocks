@@ -33,6 +33,16 @@
   } )
 
   Template.registerHelper( 'numberOfUpcomingMeetupsForCircle', function ( circle ) {
+    // TODO this is the same date as used in meetups-add-form-template-helper.js. REFACTOR!
+    return Meetups.find( {
+      circleId : circle._id,
+      dateToMeet : {
+        $gt : (new Date()).dateFormat('Y/m/d h:i a')
+      }
+    } ).count()
+  } )
+
+  Template.registerHelper( 'numberOfMeetupsForCircle', function ( circle ) {
     return Meetups.find( {
       circleId : circle._id
     } ).count()
