@@ -201,17 +201,19 @@ var _$ = this;
     structuredVotes : function () {
       var self = this
 
-      Meteor.autorun( function () {
-        Meteor.call(
-          'meetupStructuredVotes',
-          self.meetup._id,
-          function ( error, result ) {
-            Session.set( 'structuredVotes', result )
-
-            window.updateMarkers( result )
-          }
-        )
-      } )
+      ReactivityHelper.reliesOn( Meetups.findOne( {
+        _id : self.meetup._id
+      } ) )
+      
+      Meteor.call(
+        'meetupStructuredVotes',
+        self.meetup._id,
+        function ( error, result ) {
+          Session.set( 'structuredVotes', result )
+          _$.markersDirty = true
+          window.updateMarkers( result )
+        }
+      )
 
       return Session.get( 'structuredVotes' )
     },
@@ -330,6 +332,7 @@ var _$ = this;
 
       // Update meetup
       // TODO  use add to set!
+      // TODO use a meteor call
       newMeetup = Schema.meetups.clean( newMeetup )
       Meetups.update( parent.meetup._id, {
         $set : {
@@ -365,6 +368,7 @@ var _$ = this;
 
       // Update meetup
       // TODO use add to set
+      // TODO use a meteor call
       newMeetup = Schema.meetups.clean( newMeetup )
       Meetups.update( this.meetup._id, {
         $set : {
@@ -563,12 +567,12 @@ var _$ = this;
 
         var votes = _$.votes
         var i     = 0
+        // TODO theres not need to redo ALL of the votes
         // remove old votes
         for ( i = 0; i < _$.oldMarkers.length; i++ ) {
           _$.oldMarkers[i].setMap( null )
         }
         _$.oldMarkers = []
-
 
         // mark votes
         for ( i = 0; i < votes.length; i++ ) {

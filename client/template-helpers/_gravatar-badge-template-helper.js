@@ -86,7 +86,11 @@
       e.stopPropagation();
 
       // Delete you own vote
-      Meteor.call( 'meetupDeleteVote', this.meetupId, addToAlerts() )
+      Meteor.call( 'meetupDeleteVote', this.meetupId, addToAlerts( null, function () {
+        if ( window.voteMarker ) {
+          window.voteMarker.setMap( null )
+        }
+      } ) )
     }
   } )
 }();
