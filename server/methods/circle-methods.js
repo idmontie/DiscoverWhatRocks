@@ -13,6 +13,7 @@
 // ============
 /* global Circles */
 /* global Schema */
+/* global check */
 
 +function () {
   'use strict';

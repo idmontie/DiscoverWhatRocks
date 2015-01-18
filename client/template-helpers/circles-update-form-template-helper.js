@@ -9,6 +9,7 @@
 // ============
 // Lint Globals
 // ============
+/* global addToAlerts */
 
 +function () {
   'use strict';
