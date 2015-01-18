@@ -124,7 +124,7 @@
         }
       }
 
-      if ( name.trim() === '' ) {
+      if ( $.trim( name ) === '' ) {
         return {
           valid : false,
           message : 'Please enter a name'
@@ -138,7 +138,7 @@
     date : function () {
       var dateToMeet = $( 'input[name=dateToMeet]' ).val()
 
-      if ( ( ! dateToMeet ) || dateToMeet.trim() === '' ||
+      if ( ( ! dateToMeet ) || $.trim( dateToMeet ) === '' ||
            dateToMeet === '____/__/__ __:__ __') {
         return {
           valid : false,
@@ -262,8 +262,8 @@
       var meetupDate        = $( 'input[name="dateToMeet"]' ).val()
       var meetupType        = $( 'select[name="meetupType"]' ).find( ':selected' ).val()
       var tempLocationParts = $( '#map_center' ).val().split( ',' )
-      var meetupLatitude    = tempLocationParts[0].trim()
-      var meetupLongitude   = tempLocationParts[1].trim()
+      var meetupLatitude    = $.trim( tempLocationParts[0] )
+      var meetupLongitude   = $.trim( tempLocationParts[1] )
       var meetupRadius      = _$.scale
 
       var meetup = Schema.meetups.clean( {

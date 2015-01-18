@@ -94,7 +94,7 @@
         }
       }
 
-      if ( email.trim() === '' && worry === true ) {
+      if ( $.trim( email ) === '' && worry === true ) {
         return {
           valid : false,
           message : 'Please enter an email'

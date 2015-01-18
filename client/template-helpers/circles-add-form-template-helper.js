@@ -46,7 +46,7 @@
         }
       }
 
-      if ( name.trim() === '' ) {
+      if ( $.trim( name ) === '' ) {
         return {
           valid : false,
           message : 'Please enter a name'
