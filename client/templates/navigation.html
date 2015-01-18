@@ -73,7 +73,7 @@
           <li>
             <a href='/about'>About</a>
           </li>
-          {{#if session meteorLoggedIn}}
+          {{#if session "meteorLoggedIn"}}
             <li><label>Your Circles</label></li>
             {{#each circles}}
               <li>
