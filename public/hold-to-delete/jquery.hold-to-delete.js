@@ -6,6 +6,7 @@
 // ===================================
 // Add Hold to Delete functionality
 // TODO handle touches
+// TODO make a seperate repo!
 
 /*
  * Example
@@ -114,6 +115,7 @@
       }
       return false
     },
+    // TODO "slow", "fast"
     speed : 7
   }
 

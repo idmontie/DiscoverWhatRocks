@@ -1,7 +1,14 @@
-/**
- * Meetup Template Helper
- */
+// ==========================
+// meetup-template-helper.js
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
+// Contains Template Helper and Events for the Meetups View
 
+// ============
+// Lint Globals
+// ============
 /* global google */
 /* global RichMarker */
 /* global Meetups */
@@ -9,7 +16,7 @@
 /* global Schema */
 /* global ReactivityHelper */
 /* global Gravatar */
-
+/* global addToAlerts */
 
 // ================
 // Session Defaults
@@ -23,7 +30,57 @@ var _$ = this;
 +function () {
   'use strict';
 
+  // =================
+  // Template Rendered
+  // =================
   Template.meetup.rendered = function () {
+    $('.delete-meetup').holdToDelete( {
+      cleanup : function () {
+        if ( $( this ).data( 'original-background-color' ) &&
+             ! ( this ).data( 'to-be-deleted' ) ) {
+          var originalColor = $( this ).data( 'original-background-color' )
+          $( this ).css( 'background', originalColor )
+        }
+      },
+      increment : function ( count ) {
+        var originalColor;
+
+
+        if ( $( this ).data( 'original-background-color' ) ) {
+          originalColor = $( this ).data( 'original-background-color' )
+        } else {
+          originalColor = $( this ).css( 'background-color' )
+          $( this ).data( 'original-background-color', originalColor )
+        }
+
+        $( this ).css(
+          'background',
+          'linear-gradient(to right, ' +
+          '#f00 0%, ' +
+          '#f00 ' + count + '%, ' +
+          originalColor + ' ' + count + '%, ' +
+          originalColor + ' 100%)')
+      },
+      success : function () {
+        $( this ).data( 'to-be-deleted', true )
+        $( this ).css( 'background', '#f00' )
+
+        /*
+         * Hack to force Meteor to react to our
+         * custom event.  Normally you would use:
+         *
+         * ```js
+         * $(elem).on('htdsuccess')
+         * ```
+         */
+        var event = document.createEvent('Event');
+        event.initEvent('htdsuccess', true, true)
+
+        $( this )[0].dispatchEvent( event )
+      },
+      speed : 15
+    } )
+
     _$.data = window.Template.currentData($('#map-canvas')[0]);
     _$.voteMarker = false;
     _$.meetupCircle = null;
@@ -316,6 +373,19 @@ var _$ = this;
       } )
 
       _$.markersDirty = true
+    },
+    'htdsuccess .delete-meetup' : function ( e ) {
+      e.preventDefault()
+      e.stopPropagation()
+
+      $( e.target ).hide()
+
+      Meteor.call( 'meetupDelete', this.meetup._id, addToAlerts( function () {
+        $( e.target ).show()
+      }, function () {
+        // TODO redirect to circle
+        Router.go( '/' )
+      } ) )
     }
   } )
 

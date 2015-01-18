@@ -216,7 +216,7 @@ Meteor.methods( {
   meetupDeleteVote : function ( meetupId ) {
     'use strict';
 
-    check ( meetupId, String )
+    check( meetupId, String )
 
     if ( ! this.userId ) {
       throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
@@ -240,5 +240,28 @@ Meteor.methods( {
     } )
 
     return 'Deleted your vote.'
+  },
+  meetupDelete : function ( meetupId ) {
+    'use strict';
+
+    check( meetupId, String )
+
+    if ( ! this.userId ) {
+      throw new Meteor.Error( 'not-logged-in', 'You must be logged in to invite users.' )
+    }
+
+    var meetup = Meetups.findOne( {
+      _id : meetupId
+    } )
+
+    if ( this.userId !== meetup.ownerId ) {
+      throw new Meteor.Error( 'not-owner', 'You must be the owner of this meetup to delete it.' )
+    }
+
+    Meetups.remove( {
+      _id : meetupId
+    } )
+
+    return 'Meetup ' + meetup.name + ' deleted!'
   }
 } );

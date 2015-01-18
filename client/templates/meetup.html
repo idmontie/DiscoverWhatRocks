@@ -21,7 +21,14 @@
             <a class="background-button search" title="search">
               <input class="closed" type="text" name="search" />
               <i class="fa fa-search"></i> 
+            </a>&nbsp;
+            <a href="#" class="dropdown background-button" ref="#" data-dropdown="drop2" aria-controls="drop2" aria-expanded="false" data-options="align:bottom"><i class="fa fa-gears"></i> <i class="fa fa-angle-down"></i>
             </a>
+            <ul id="drop2" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
+              {{#if isOwner}}
+                <li class="delete-meetup">Hold to Delete</li>
+              {{/if}}
+            </ul>
           </p>
         </div>
         <div class="small-5 columns">

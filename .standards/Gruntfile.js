@@ -33,7 +33,8 @@ module.exports = function (grunt) {
         lib: {
           src: [
             '../lib/**/*.js',
-            '../lib/*.js'
+            '../lib/*.js',
+            '!../lib/utils/date-format.js'
           ]
         }
       },

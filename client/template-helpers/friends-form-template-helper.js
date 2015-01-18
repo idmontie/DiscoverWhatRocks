@@ -230,6 +230,10 @@
     }
   } )
 
+  // ======
+  // Events
+  // ======
+
   Template.friendsFormEach.events( {
     'htdsuccess .delete-email' : function ( e ) {
       e.preventDefault()
