@@ -204,7 +204,7 @@ var _$ = this;
       ReactivityHelper.reliesOn( Meetups.findOne( {
         _id : self.meetup._id
       } ) )
-      
+
       Meteor.call(
         'meetupStructuredVotes',
         self.meetup._id,
