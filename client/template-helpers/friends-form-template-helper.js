@@ -61,19 +61,6 @@
       success : function () {
         $( this ).data( 'to-be-deleted', true )
         $( this ).css( 'background', '#f00' )
-
-        /*
-         * Hack to force Meteor to react to our
-         * custom event.  Normally you would use:
-         *
-         * ```js
-         * $(elem).on('htdsuccess')
-         * ```
-         */
-        // var event = document.createEvent('Event');
-        // event.initEvent('htdsuccess', true, true)
-
-        // $( this )[0].dispatchEvent( event )
       }
     } )
   }

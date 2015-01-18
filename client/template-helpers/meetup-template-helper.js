@@ -34,8 +34,8 @@ var _$ = this;
   // Template Rendered
   // =================
   Template.meetup.rendered = function () {
-    $(document).foundation('dropdown', 'reflow');
-    
+    $(document).foundation('dropdown', 'reflow')
+
     $('.delete-meetup').holdToDelete( {
       cleanup : function () {
         if ( $( this ).data( 'original-background-color' ) &&

@@ -22,6 +22,9 @@
   // =======
   Meteor.methods( {
     circlesAdd : function ( name ) {
+      check( name, String )
+
+      // TODO validation!
       var circle = Schema.circles.clean( {
         name : name
       } )
@@ -33,6 +36,27 @@
       } )
 
       return realCircle.slug
+    },
+    circlesDelete : function ( circleId ) {
+      check( circleId, String )
+
+      if ( ! this.userId ) {
+        throw new Meteor.Error( 'not-logged-in', 'You must be logged in to delete circles.' )
+      }
+
+      var circle = Circles.findOne( {
+        _id : circleId
+      } )
+
+      if ( this.userId !== circle.ownerId ) {
+        throw new Meteor.Error( 'not-owner', 'You must be the owner of this circle to delete it.' )
+      }
+
+      Circles.remove( {
+        _id : circleId
+      } )
+
+      return 'Circle ' + circle.name + ' deleted!'
     }
   } )
 }();

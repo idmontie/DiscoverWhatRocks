@@ -1,9 +1,11 @@
 <template name="circle">
   <div class="icon-bar three-up box-bar">
+    {{! TODO use pathFor}}
     <a class="item" href="/circles/meetups/add/{{circle.slug}}">
       <i class="fa fa-plus"></i>
       <label>Create a Meetup</label>
     </a>
+    {{! TODO use pathFor}}
     <a class="item" href="/circles/friends/add/{{circle.slug}}">
       <div class="overlay">
         <span class="label round overlay-up overlay-right">{{numberOfFriendsForCircle circle}}</span>
@@ -11,7 +13,8 @@
       <i class="fa fa-group"></i>
       <label>Add Friends</label>
     </a>
-    <a class="item">
+    {{! TODO use pathFor}}
+    <a class="item" href="/circles/update/{{circle.slug}}">
       <i class="fa fa-cogs"></i>
       <label>Update Settings</label>
     </a>

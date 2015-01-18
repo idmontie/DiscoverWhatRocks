@@ -47,21 +47,23 @@
       slug : this.params.slug
     } )
 
-    Session.set( 'breadcrumbs', [
-      window.defaults.breadcrumbs.home,
-      {
-        name : circle.name,
-        route : Router.path( 'circle', {
-          slug : this.params.slug
-        } )
-      },
-      {
-        name : 'Update',
-        route : Router.path( 'circlesUpdateForm', {
-          slug : this.params.slug
-        } )
-      }
-    ] )
+    if ( circle ) {
+      Session.set( 'breadcrumbs', [
+        window.defaults.breadcrumbs.home,
+        {
+          name : circle.name,
+          route : Router.path( 'circle', {
+            slug : this.params.slug
+          } )
+        },
+        {
+          name : 'Update',
+          route : Router.path( 'circlesUpdateForm', {
+            slug : this.params.slug
+          } )
+        }
+      ] )
+    }
 
     this.render( 'circlesUpdateForm', {
       data : circle
