@@ -57,10 +57,10 @@
          * $(elem).on('htdsuccess')
          * ```
          */
-        var event = document.createEvent('Event');
-        event.initEvent('htdsuccess', true, true)
+        // var event = document.createEvent('Event');
+        // event.initEvent('htdsuccess', true, true)
 
-        $( this )[0].dispatchEvent( event )
+        //$( this )[0].dispatchEvent( event )
       }
     } )
   }

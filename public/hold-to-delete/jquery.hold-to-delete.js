@@ -48,7 +48,8 @@
     var $this = $(element)
 
     var triggerLeave = function (success) {
-      clearInterval( $this.data('htd.interval'))
+      clearInterval( $this.data('htd.interval') )
+      clearInterval( $this.data('htd.touch-interval') )
       options.cleanup.call($this)
 
       if (success !== true) {
@@ -71,24 +72,40 @@
         if (count > 100) {
           count = 0
           triggerLeave()
-          triggerSuccess(true)
+          triggerSuccess( true )
         }
 
       }, options.speed))
     }
 
-    $this.mousedown(function(e) {
-      e.preventDefault()
-      if (e.which != 1) {
-        // not a left click
+    if ( $.event.special.tap && $.event.special.tap.tapholdThreshold ) {
+      $.event.special.tap.tapholdThreshold = options.speed * 100
+    }
+
+    $this.bind( 'mousedown touchstart', function( e ) {
+      if ( e.which != 1 && e.originalEvent.touches == null ) {
+        // not a left click or touch
         return
       }
-      attach()
-    })
+
+      if ( e.originalEvent.touches == null ) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        attach()
+      } else {
+        var timeout = setTimeout( function () {
+          attach()
+        }, 300 )
+
+        $this.data( 'htd.touch-interval', timeout )
+      }
+    } )
     $this.focusout( triggerLeave )
          .mouseleave( triggerLeave )
          .mouseout( triggerLeave )
          .mouseup( triggerLeave )
+         .bind( 'touchend touchcancel', triggerLeave )
     // accessibility fallback
     $this.keydown(function(e) {
       if (e.keyCode == 13) {
