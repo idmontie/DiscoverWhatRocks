@@ -1,55 +1,6 @@
-/*!===========================
- * Discover What Rocks: v0.0.1
- * ===========================
- * Copyright 2014 Mantaray AR
- * Licensed under BSD
- * ===========================*/
+@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionic-sass/ionic';
+@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/ionicons';
 
-// =========
-// Variables
-// =========
-@import 'variables-colors';
-@import 'variables-media';
-
-// ====
-// Core
-// ====
-@import 'mixins';
-@import 'scaffolding';
-@import 'typography';
-
-@import 'accounts';
-@import 'alert';
-@import 'calendars';
-@import 'icon-bar';
-@import 'maps';
-@import 'overlays';
-@import 'panels';
-@import 'tables';
-@import 'footer';
-
-
-// ==========
-// Navigation
-// ==========
-@import 'navs';
-
-// ========
-// Accounts
-// ========
-@import 'login';
-
-// =====
-// Votes
-// =====
-@import 'votes';
-
-// =====
-// Pages
-// =====
-@import 'home-portal';
-
-// =======
-// Widgets
-// =======
-@import 'gravatar';
+.contact-detail {
+  background: $stable;
+}

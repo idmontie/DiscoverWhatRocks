@@ -1,0 +1,29 @@
+<template name="home">
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Discover What Rocks</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#if currentUser}}
+      {{>homeLoggedIn}}
+    {{else}}
+      {{#ionContent}}
+        <h1>Discover what rocks</h1>
+        
+        <p>Want to hang out with your friends but don't know where to go? </p>
+        <p>Search, invite, and vote.</p>
+
+        {{> atForm state='signUp'}}
+      {{/ionContent}}
+    {{/if}}
+  {{/ionView}}
+</template>
+
+<template name="homeLoggedIn">
+{{#ionContent}}
+  Logged in
+{{/ionContent}}
+</template>
