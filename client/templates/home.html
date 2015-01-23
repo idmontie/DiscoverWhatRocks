@@ -1,59 +1,83 @@
 <template name="home">
-  {{#contentFor "headerTitle"}}
-    <h1 class="title">Discover What Rocks</h1>
-  {{/contentFor}}
+  {{#if currentUser}}
+    {{#contentFor "headerTitle"}}
+      <h1 class="title">Discover What Rocks</h1>
+    {{/contentFor}}
 
-  {{#ionView}}
-    {{#ionContent}}
-      <div class="home">
-        <div class="hero">
-          {{!<img src="http://placehold.it/1000x300" />}}
-          <img src="/images/balloons-hero.png" />
+    {{#ionView}}
+      {{#ionContent}}
+        {{>loggedIn}}
+      {{/ionContent}}
+    {{/ionView}}
+  {{else}}
+    {{#contentFor "headerTitle"}}
+      <h1 class="title">Discover What Rocks</h1>
+    {{/contentFor}}
 
-          <div class="container">
-            <div class="inner">
-              <h1>meetup with your friends</h1>
+    {{#ionView}}
+      {{#ionContent}}
+        {{>loggedOut}}
+      {{/ionContent}}
+    {{/ionView}}
+  {{/if}}
 
-              <button class="btn btn-lg btn-success">Login with Facebook</button>
-            </div>
-          </div>
+  
+
+  
+</template>
+
+<template name="loggedIn">
+  Logged In
+</template>
+
+<template name="loggedOut">
+<div class="home">
+  <div class="hero">
+    {{!<img src="http://placehold.it/1000x300" />}}
+    <img src="/images/balloons-hero.png" />
+
+    <div class="container">
+      <div class="inner">
+        <h1>meetup with your friends</h1>
+
+        <button id="facebook-signin" class="btn btn-lg btn-success">Login with Facebook</button>
+      </div>
+    </div>
+  </div>
+  <div class="show-off"> 
+    <div class="container">
+      <div class="row-fluid"> 
+        <div class="col-sm-4 col-sm-offset-1 col-xs-12 text-center image">
+          <img src="/images/devices.png" title="app on tablets" alt="app on tablets" class="img-responsive" />
         </div>
-        <div class="show-off"> 
-          <div class="container">
-            <div class="row-fluid"> 
-              <div class="col-sm-4 col-sm-offset-1 col-xs-12 text-center image">
-                <img src="/images/devices.png" title="app on tablets" alt="app on tablets" class="img-responsive" />
-              </div>
-              <div class="col-sm-6 col-sm-offset-1 col-xs-12">
-                <h3>Vote on where to meetup</h3>
-                <p>Get your friends together and vote on a cool place to grab
-                lunch, get a coffee, or just hang out!</p>
-                <p>It's easy. Something something something.</p>
-              </div>
-            </div>
-          </div>
-        </div><!--/show-off-->
-        <div class="features">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-4 col-sm-12">
-                <div class="circle">
-                </div>
-              </div>
-              <div class="col-md-4 col-sm-12">
-                <div class="circle">
-                </div>
-              </div>
-              <div class="col-md-4 col-sm-12">
-                <div class="circle">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="footer">
+        <div class="col-sm-6 col-sm-offset-1 col-xs-12">
+          <h3>Vote on where to meetup</h3>
+          <p>Get your friends together and vote on a cool place to grab
+          lunch, get a coffee, or just hang out!</p>
+          <p>It's easy. Something something something.</p>
         </div>
       </div>
-    {{/ionContent}}
-  {{/ionView}}
+    </div>
+  </div><!--/show-off-->
+  <div class="features">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-sm-12">
+          <div class="circle">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="circle">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="circle">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+  </div>
+</div>
 </template>
