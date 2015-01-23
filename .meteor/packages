@@ -1,0 +1,19 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-platform
+iron:router
+zimme:iron-router-active
+accounts-facebook
+jquery
+fourseven:scss@1.0.0
+matb33:collection-hooks
+aldeed:collection2
+meteoric:ionic
+meteoric:ionic-sass
+meteoric:ionicons-sass
+useraccounts:ionic
+reywood:bootstrap3-sass

@@ -1,0 +1,34 @@
+// ============
+// Custom Theme
+// ============
+
+// Theme Base Template
+$theme-dark: #2c1f13;
+$theme-primary: #60c3ab;
+$theme-accent: #dee13a;
+$theme-pop: #d36827;
+$theme-aggro: #b02b24;
+
+// ===============
+// Ionic Variables
+// ===============
+
+$light:     #fff !default;
+$stable:    #f8f8f8 !default;
+$positive:  $theme-dark;
+$calm:      #43cee6 !default;
+$balanced:  #66cc33 !default;
+$energized: #f0b840 !default;
+$assertive: #ef4e3a !default;
+$royal:     #8a6de9 !default;
+$dark:      #444 !default;
+
+// ===================
+// Bootstrap Variables
+// ===================
+
+$brand-primary:         $theme-primary;
+$brand-success:         $theme-aggro;
+$brand-info:            $theme-pop;
+$brand-warning:         #f0ad4e !default;
+$brand-danger:          #d9534f !default;
