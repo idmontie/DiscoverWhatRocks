@@ -4,6 +4,10 @@
       <h1 class="title">Discover What Rocks</h1>
     {{/contentFor}}
 
+    {{#contentFor "headerButtonRight"}}
+      <a class="button button-icon icon ion-plus" href="{{pathFor 'meetupsNew'}}"></a>
+    {{/contentFor}}
+
     {{#ionView}}
       {{#ionContent}}
         {{>loggedIn}}
@@ -27,7 +31,9 @@
 </template>
 
 <template name="loggedIn">
-  Logged In
+  {{#each meetups}}
+    {{> _meetupItem}}
+  {{/each}}
 </template>
 
 <template name="loggedOut">

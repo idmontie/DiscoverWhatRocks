@@ -5,3 +5,7 @@ Router.configure( {
 Router.route( '/', {
   name : 'home'
 } )
+
+Router.route( '/meetups/new', {
+  name : 'meetupsNew'
+} )

@@ -1,0 +1,48 @@
+<template name="meetupsNew">
+  {{#contentFor "headerTitle"}}
+      <h1 class="title">Create A Meetup</h1>
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonLeft"}}
+      {{#contentFor "headerButtonLeft"}}
+        {{>ionNavBackButton path="home" text="Home"}}
+      {{/contentFor}}
+    {{/contentFor}}
+
+    {{#ionView}}
+      {{#ionContent}}
+        <div class="list">
+          <div class="item item-divider">
+            Meetup Details
+          </div>
+          <label class="item item-input item-floating-label"> 
+            <span class="input-label has-input">Name It!</span>
+            <input type="text" placeholder="My Cool Meetup" />
+          </label>
+          <label class="item item-input item-floating-label">
+            <span class="input-label has-input">What day?</span>
+            <input class="datetime-picker" type="date" placeholder="mm/dd/yyyy" />
+          </label>
+          <label class="item item-input item-floating-label">
+            <span class="input-label has-input">What time?</span>
+            <input class="datetime-picker" type="time" placeholder="--:-- --" />
+          </label>
+          <label class="item item-input item-select item-floating-label">
+            <span class="input-label has-input">What for?</span>
+            <select>
+              <option>Food</option>
+            </select>
+          </label>
+          <div class="item item-divider">
+            Where at?
+          </div>
+          <div class="map-container">
+            <div class="map-action-button">
+              <i class="ion-icon ion-android-locate"></i>
+            </div>
+            <div id="map-canvas" class="map-canvas"></div>
+          </div>
+        </div>
+      {{/ionContent}}
+    {{/ionView}}
+</template>

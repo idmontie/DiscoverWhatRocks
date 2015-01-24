@@ -1,0 +1,56 @@
+// ==========================
+// Maps: v0.0.1
+// ==========================
+// Copyright 2014 Mantaray AR
+// Licenced under BSD
+// ==========================
+
+.map-canvas {
+  height: 350px;
+  height: 80vh;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  /*
+   * Hack
+   * @see https://github.com/zurb/foundation/issues/2462
+   */
+  *,
+  *:before,
+  *:after {
+    -moz-box-sizing: content-box !important;
+    -webkit-box-sizing: content-box !important;
+    box-sizing: content-box !important;  
+  }
+
+  img {
+    max-width: none;
+  }
+
+  label {
+    display: inline;
+    width: auto;
+  }
+}
+
+.map-container {
+  position: relative;
+
+  .map-action-button {
+    background-color: $theme-primary;
+    border-radius: 50%;
+    color: white;
+    font-size: 4em;
+    padding: 8px 10px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 99999;
+
+    &:hover {
+      background-color: darken($theme-primary, 20%);
+    }
+  }
+}
