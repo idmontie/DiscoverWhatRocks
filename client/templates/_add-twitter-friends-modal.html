@@ -1,0 +1,30 @@
+<template name="_addTwitterFriendsModal">
+  {{#ionModal title="Add Twitter Friends"}}
+    <div class="padding">
+      <div class="list">
+        <label class="item item-input"> 
+          <input class="twitter-friends-search" type="text" placeholder="Search" />
+        </label>
+      </div>
+    </div>
+    {{! TODO loading screen}}
+    <div id="loader" class="loader" style="display: none">
+      Loading...
+    </div>
+    <ul class="twitter-badges">
+      {{#each twitterFriends}}
+        {{#if twitterFriendIsSelected}}
+          <li class="selected">
+            <img src="{{profile_image_url_https}}" alt="{{screen_name}}" /><br/>
+            <p>{{name}}</p>
+          </li>
+         {{else}}
+          <li>
+            <img src="{{profile_image_url_https}}" alt="{{screen_name}}" /><br/>
+            <p>{{name}}</p>
+          </li>
+        {{/if}}
+      {{/each}}
+    </ul>
+  {{/ionModal}}
+</template>

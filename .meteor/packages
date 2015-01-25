@@ -7,7 +7,7 @@
 meteor-platform
 iron:router
 zimme:iron-router-active
-accounts-facebook
+accounts-twitter
 jquery
 fourseven:scss@1.0.0
 matb33:collection-hooks
@@ -19,3 +19,4 @@ useraccounts:ionic
 reywood:bootstrap3-sass
 service-configuration
 mdg:geolocation
+http

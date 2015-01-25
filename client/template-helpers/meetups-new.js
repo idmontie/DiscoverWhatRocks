@@ -1,3 +1,7 @@
+Template.meetupsNew.created = function () {
+  Session.set( 'twitterInvites', null );
+};
+
 Template.meetupsNew.rendered = function () {
   var labelsOff = [{
       featureType: "administrative",
@@ -123,6 +127,14 @@ Template.meetupsNew.rendered = function () {
     // TODO rezoom the map according to the radius
   }
 }
+
+// TODO validate
+
+Template.meetupsNew.helpers( {
+  twitterInvites : function () {
+    return Session.get( 'twitterInvites' );
+  }
+} )
 
 Template.meetupsNew.events( {
   'click .map-action-button' : function ( e ) {

@@ -1,0 +1,41 @@
+.twitter-badges {
+  li {
+    cursor: pointer;
+    display: inline;
+    float: left;
+    height: 65px;
+    overflow: hidden;
+    text-align: center;
+    zoom: 1;
+
+    width: 20%;
+
+    @media(max-width: $screen-xs-max) {
+      width: 25%;
+    }
+
+
+    &:after {
+      visibility: hidden;
+      display: block;
+      font-size: 0;
+      content: " ";
+      clear: both;
+      height: 0;
+    }
+
+    &.selected {
+      border: 1px solid $calm;
+    }
+
+    img {
+      border-radius: 2px;
+      max-height: 40px;
+      max-width: 40px;
+    }
+
+    p {
+      display: inline;
+    }
+  }
+}
