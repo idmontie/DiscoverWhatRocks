@@ -3,65 +3,15 @@ Template.meetupsNew.created = function () {
 };
 
 Template.meetupsNew.rendered = function () {
-  var labelsOff = [{
-      featureType: "administrative",
-      elementType: "labels",
-      stylers: [{
-          visibility: "off"
-      }]
-  }, {
-      featureType: "poi",
-      elementType: "labels",
-      stylers: [{
-          visibility: "off"
-      }]
-  }, {
-      featureType: "water",
-      elementType: "labels",
-      stylers: [{
-          visibility: "off"
-      }]
-  }, {
-      featureType: "road",
-      elementType: "labels",
-      stylers: [{
-          visibility: "off"
-      }]
-  }];
-  var labelsOn = [{
-      featureType: "administrative",
-      elementType: "labels",
-      stylers: [{
-          visibility: "off"
-      }]
-  }, {
-      featureType: "poi",
-      elementType: "labels",
-      stylers: [{
-          visibility: "off"
-      }]
-  }, {
-      featureType: "water",
-      elementType: "labels",
-      stylers: [{
-          visibility: "off"
-      }]
-  }, {
-      featureType: "road",
-      elementType: "labels",
-      stylers: [{
-          visibility: "on"
-      }]
-  }];
+  var labelsOff   = window._map_utils.labelsOff;
+  var labelsOn    = window._map_utils.labelsOn;
+  var geolocation = Geolocation.currentLocation();
+  var coords      = null;
+  window._map_utils.reset();
 
-  window.previewMarkers = [];
-  window.markersDirty   = false;
-  window.scaleFactor    = 1600;
-  window.scale          = window.scaleFactor;
-  window.infowindow     = new google.maps.InfoWindow();
-  var geolocation       = Geolocation.currentLocation();
-  var coords            = null;
-
+  // ==========
+  // Set up Map
+  // ==========
   if ( geolocation === null ) {
     coords = {
       latitude : 33,
@@ -74,17 +24,12 @@ Template.meetupsNew.rendered = function () {
     }
   }
 
-  var mapSettings = {
-    center : new google.maps.LatLng( coords.latitude, coords.longitude ),
-    zoom : 13,
-    zoomControl : true,
-    mapTypeControl : false,
-    scaleControl : true,
-    scrollwheel: false,
-    streetViewControl : false,
-    disableDoubleClickZoom: true
-  };
-  window.currentMap = new google.maps.Map( document.getElementById( 'map-canvas' ), mapSettings );
+  var center = new google.maps.LatLng( coords.latitude, coords.longitude );
+
+  window.currentMap = window._map_utils.setup(
+    document.getElementById( 'map-canvas' ),
+    center
+  );
 
   // ======
   // Events
@@ -99,21 +44,11 @@ Template.meetupsNew.rendered = function () {
   /**
    * Listen for Map Zoom Change
    */
-  google.maps.event.addListener( window.currentMap, 'zoom_changed', function () {
-    google.maps.event.addListenerOnce( window.currentMap, 'tilesloaded', function () {
-      if ( window.currentMap.getZoom() >= 10 ) {
-        // A little more detailed
-        window.currentMap.setOptions( {
-          styles: labelsOn
-        } );
-      } else {
-        // a little less detailed
-        window.currentMap.setOptions( {
-          styles: labelsOff
-        } );
-      }
-    } );
-  } );
+  window._map_utils.listenForZoom(
+      window.currentMap,
+      labelsOn,
+      labelsOff
+  );
 
   $( '[name=meetupType]' ).change( function () {
     var placeType = $( this ).val();
@@ -123,9 +58,9 @@ Template.meetupsNew.rendered = function () {
   $( '[name=radius]' ).change( function () {
     window.scale = window.scaleFactor * $( this ).val();
 
-    if ( window.meetupCircle ) { 
-      var lat = window.meetupCircle.center.lat();
-      var lng = window.meetupCircle.center.lng();
+    if ( window.currentCircle ) { 
+      var lat = window.currentCircle.center.lat();
+      var lng = window.currentCircle.center.lng();
 
       window.setCenter( lat, lng );
     }
@@ -134,83 +69,28 @@ Template.meetupsNew.rendered = function () {
   // ============
   // Page Helpers
   // ============
+  window.createMarker = window._map_utils.createMarker(
+      'currentMap',
+      'previewMarkers',
+      'updateMarker'
+  );
 
-  window.createMarker = function ( place ) {
-    var marker = new google.maps.Marker( {
-      map: window.currentMap,
-      position: place.geometry.location
-    } )
+  window.updateMarker = window._map_utils.updateMarker(
+      'currentMap',
+      'infowindow'
+  );
 
-    window.previewMarkers.push( marker )
+  window.nearbyCallback = window._map_utils.nearbyCallback(
+      window.createMarker,
+      'previewMarkers'
+  );
 
-    /*jshint camelcase: false */
-    // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-    window.updateMarker( marker, place.place_id )
-    /*jshint camelcase: true */
-    // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-  }
-
-  window.updateMarker = function ( markerReference, placeId ) {
-    var service = new google.maps.places.PlacesService( window.currentMap )
-
-    var request = {
-      placeId : placeId
-    }
-
-    google.maps.event.addListener( markerReference, 'click', function () {
-      var self = this
-
-      // anonymous because we need scoping
-      service.getDetails( request, function ( place, status ) {
-
-        if ( status == google.maps.places.PlacesServiceStatus.OK ) {
-          window.infowindow.setContent( place.name )
-          window.infowindow.open( window.currentMap, self )
-        }
-      } )
-    } )
-  }
-
-  window.nearbyCallback = function ( results, status ) {
-    var i = 0
-
-    // Place the markers on the map
-    if ( status == google.maps.places.PlacesServiceStatus.OK ) {
-      // Destroy old markers
-      if ( window.previewMarkers ) {
-        for ( i = 0; i < window.previewMarkers.length; i++ ) {
-          window.previewMarkers[i].setMap( null )
-        }
-        window.previewMarkers = []
-      }
-
-      for ( i = 0; i < results.length; i++ ) {
-        if ( results[i] !== null &&
-            typeof results[i] !== 'undefined' )
-          window.createMarker( results[i] )
-      }
-    }
-
-    // TODO alert if failed or no places found!
-  }
-
-  window.setPlaceMarkers = function ( placeType, keywords ) {
-    // set markers
-    var service   = new google.maps.places.PlacesService( window.currentMap )
-    var placeRequest = {
-      location : window.meetupCircle.getCenter(),
-      radius : window.scale,
-      types  : [placeType]
-    }
-
-    if ( keywords ) {
-      placeRequest.keyword = keywords
-    }
-
-    service.radarSearch( placeRequest, window.nearbyCallback )
-  }
-
-  // TODO setPlaceMarkers when "[name=meetupType]" changes
+  window.setPlaceMarkers = window._map_utils.setPlaceMarkers(
+      window.nearbyCallback,
+      'currentMap',
+      'currentCircle',
+      window.scale
+  );
 
   /**
    * Set the center of the user's meetup circle
@@ -228,12 +108,12 @@ Template.meetupsNew.rendered = function () {
       radius: window.scale
     };
 
-    if ( window.meetupCircle ) {
-      window.meetupCircle.setMap( null );
+    if ( window.currentCircle ) {
+      window.currentCircle.setMap( null );
     }
 
-    window.meetupCircle = new google.maps.Circle( meetupLocation )
-    window.currentMap.panTo( window.meetupCircle.getCenter() )
+    window.currentCircle = new google.maps.Circle( meetupLocation )
+    window.currentMap.panTo( window.currentCircle.getCenter() )
     // TODO rezoom the map according to the radius
 
     var placeType = $( '[name=meetupType]' ).val();
@@ -266,21 +146,27 @@ Template.meetupsNew.events( {
   'click #submit' : function ( e ) {
     e.preventDefault();
 
+    if ( window.currentCircle === null ) {
+      // TODO display error
+      return
+    }
+
     var name           = $('[name=name]').val();
     var day            = $('[name=date]').val();
     var time           = $('[name=time]').val();
     var placeType      = $('[name=meetupType]').val();
-    var lat            = window.meetupCircle.center.lat();
-    var lng            = window.meetupCircle.center.lng();
+    var lat            = window.currentCircle.center.lat();
+    var lng            = window.currentCircle.center.lng();
     var radius         = window.scale;
     var twitterInvites = Session.get( 'twitterInvites' );
 
     // TODO validation
+
     var meetup = {
       name : name,
-      day : day,
-      time : time,
-      placeType : placeType,
+      dayToMeet : day,
+      timeToMeet : time,
+      placeTypeSlug : placeType,
       location : {
         latitude : lat,
         longitude : lng,
@@ -290,7 +176,13 @@ Template.meetupsNew.events( {
     };
 
     Meteor.call( 'meetupInsert', meetup, function ( error, data ) {
-
+      if ( error ) {
+        // TODO show error
+      } else {
+        Router.go( 'meetupsShow', {
+          slug: data 
+        } );
+      }
     } );
 
   }

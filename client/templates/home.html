@@ -10,7 +10,7 @@
 
     {{#ionView}}
       {{#ionContent}}
-        {{>loggedIn}}
+        {{>homeLoggedIn}}
       {{/ionContent}}
     {{/ionView}}
   {{else}}
@@ -20,23 +20,21 @@
 
     {{#ionView}}
       {{#ionContent}}
-        {{>loggedOut}}
+        {{>homeLoggedOut}}
       {{/ionContent}}
     {{/ionView}}
   {{/if}}
-
-  
-
-  
 </template>
 
-<template name="loggedIn">
-  {{#each meetups}}
-    {{> _meetupItem}}
-  {{/each}}
+<template name="homeLoggedIn">
+  {{#ionList}}
+    {{#each meetups}}
+      {{> _meetupItem}}
+    {{/each}}
+  {{/ionList}}
 </template>
 
-<template name="loggedOut">
+<template name="homeLoggedOut">
 <div class="home">
   <div class="hero">
     {{!<img src="http://placehold.it/1000x300" />}}

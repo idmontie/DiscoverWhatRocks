@@ -1,3 +1,8 @@
 <template name="_meetupItem">
-  Test
+  {{#ionItem path="meetupsShow" buttonRight=true class="item-icon-right"}}
+    <img src="{{avatarUrl}}" />
+    <h2>{{name}}</h2>
+    <p>{{dayToMeet}} @ {{timeToMeet}}</p>
+    {{> ionIcon icon="ios-arrow-forward" class="positive"}}
+  {{/ionItem}}
 </template>

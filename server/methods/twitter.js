@@ -63,39 +63,92 @@ function getBearer () {
 }
 
 
-
 Meteor.methods( {
   twitterFriends : function () {
-    'use strict';
-
+    console.log( '===== start =====');
     if ( ! this.userId ) {
       throw new Meteor.Error( 'not-logged-in', 'You must be logged in to resend your verification email.' )
     }
 
-    // TODO throttle
-    // if it's only been 15 minutes since the last request, just return the old
-    // set of twitter friends.
-    // TODO store friends
+    var user = Meteor.users.findOne( {
+      _id : this.userId
+    } )
+    var userTwitterId = user.services.twitter.id
+
+    // See if there are past twitter friends saved in TwitterDetails
+    var pastFriends = TwitterDetails.findOne( {
+      twitterId : userTwitterId
+    } );
+
+    // If there is an entry in the past 30 minutes, use that.
+    if ( pastFriends && 
+         parseInt( pastFriends.dateCreated ) > Date.now() - 1800000 /* 30 seconds */ ) {
+      console.log( '=========== already ==========' );
+      return [];
+    }
+
+    console.log( '===== start call =====');
+
+    // Else, request
+    var bearer = getBearer();
+    var count  = 50;
+    var result = HTTP.call(
+      'GET',
+      'https://api.twitter.com/1.1/friends/list.json?user_id=' + userTwitterId + '&count=' + count,
+      {
+        'headers' : {
+          'Authorization' : 'Bearer ' + bearer.access_token
+        }
+      }, function ( error, result ) {
+        console.log( '===== end call =====');
+
+        // TODO page through and get all of the friends
+        // Store
+        var users = JSON.parse( result.content ).users
+
+        for ( var i = 0; i < users.length; i++ ) {
+          TwitterDetails.insert( {
+            twitterId : userTwitterId,
+            friend : users[i],
+            dateCreated: Date.now()
+          }, {
+            validate: false
+          }, function () {
+            // Do nothing, just dont be synchonous!
+          } );
+        }
+
+        console.log( '=========== data ==========' );
+      }
+    );
+
+    return [];
+  },
+  twitterSearch : function ( term ) {
+    if ( ! this.userId ) {
+      throw new Meteor.Error( 'not-logged-in', 'You must be logged in to resend your verification email.' )
+    }
 
     var user = Meteor.users.findOne( {
       _id : this.userId
     } )
 
-    var bearer = getBearer();
-    var result = HTTP.call(
-      'GET',
-      'https://api.twitter.com/1.1/friends/list.json?user_id=' + user.services.twitter.id + '&count=200',
-      {
-        'headers' : {
-          'Authorization' : 'Bearer ' + bearer.access_token
-        }
-      } 
-    );
+    var regex       = new RegExp( '.*' + term + '.*', 'i' )
 
-    // TODO store f
-    // TODO page through and get all of the friends
+    // TODO only grab the ones from the latest 30 minutes
+    var pastFriends = TwitterDetails.find( {
+      twitterId : user.services.twitter.id,
+      'friend.screen_name' : regex,
+    });
 
-    return JSON.parse( result.content ).users;
+    console.log( '=========== return ==========' );
+    pastFriends = pastFriends.fetch()
+    
+    pastFriends = _.map( pastFriends, function ( item ) {
+      return item.friend
+    } );
+
+    return pastFriends
   }
 } )
 

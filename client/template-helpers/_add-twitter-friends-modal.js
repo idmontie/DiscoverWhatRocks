@@ -39,21 +39,24 @@ Template._addTwitterFriendsModal.helpers( {
 Template._addTwitterFriendsModal.events( {
   'keyup .twitter-friends-search, change .twitter-friends-search' : function ( e ) {
     // TODO throttle
-
     var search = $( e.target ).val();
-    var friends = Session.get( 'twitterFriends' );
+    
+    // Ignore 1 or less characters
+    if ( search.length < 2 ) {
+      return
+    }
 
-    filtered = _.filter( friends, function ( item ) {
-      var con = item.description + item.name + item.screen_name;
-      con = con.toLowerCase();
-      if ( con.indexOf( search ) != -1 ) {
-        return item;
+    // Call for search results
+    $('#loader').show();
+    Meteor.call( 'twitterSearch', search, function ( error, result ) {
+      $('#loader').hide();
+
+      if ( error ) {
+        // TODO error message
+      } else {
+        Session.set( 'twitterFriendsSearch', result );
       }
-
-      return null;
     } );
-
-    Session.set( 'twitterFriendsSearch', filtered );
   },
   'click .twitter-badges li:not(.selected)' : function ( e ) {
     var friends = Session.get( 'twitterInvites' );
