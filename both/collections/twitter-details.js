@@ -21,21 +21,21 @@ this.TwitterDetails = new Mongo.Collection( 'twitter_details' );
 // =================
 Schema.twitterDetails = new SimpleSchema( {
   dateCreated : {
-    type : String,
+    type : Number,
     autoValue : function () {
       if ( this.isInsert ) {
-        return Date.now() + '';
+        return Date.now();
       } else if ( this.isUpsert ) {
-        return { $setOnInsert: ( Date.now() + '' ) }
+        return { $setOnInsert: ( Date.now() ) }
       } else {
         this.unset();
       }
     }
   },
   dateUpdated : {
-    type : String,
+    type : Number,
     autoValue : function () {
-      return Date.now() + '';
+      return Date.now();
     }
   },
   twitterId : {

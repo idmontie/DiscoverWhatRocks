@@ -38,8 +38,8 @@ function credentials () {
   var accessToken = response.access_token
 
   TwitterTokens.insert( {
-    access_token : accessToken,
-    date_created : Date.now ()
+    accessToken : accessToken,
+    dateCreated : Date.now()
   } )
 }
 
@@ -52,16 +52,50 @@ function getBearer () {
   'use strict';
 
   return TwitterTokens.findOne( { 
-    date_created : { 
+    dateCreated : { 
       $exists : true 
     } 
   },  { 
     sort: { 
-      date_created : 1 
+      dateCreated : 1 
     } 
   } )
 }
 
+function getFriends( userTwitterId, bearer, count, cursor ) {
+  var url = 'https://api.twitter.com/1.1/friends/list.json?cursor=' + cursor + 
+      '&user_id=' + userTwitterId + '&count=' + count;
+  HTTP.call(
+    'GET',
+    url,
+    {
+      'headers' : {
+        'Authorization' : 'Bearer ' + bearer.accessToken
+      }
+    }, function ( error, result ) {
+      if ( result && result.content ) {
+        console.log( result.content );
+        var response = JSON.parse( result.content );
+        for ( var i = 0; i < response.users.length; i++ ) {
+         TwitterDetails.insert( {
+            twitterId : userTwitterId,
+            friend : response.users[i],
+            dateCreated: Date.now()
+          }, {
+            validate: false
+          }, function () {
+            // Do nothing, just dont be synchonous!
+          } );
+        }
+
+        if ( response.next_cursor > 0 ) {
+          // run the HTTP Call again with the cursor=next_cursor
+          getFriends( userTwitter, bearer, count, response.next_cursor );
+        }
+      }
+    }
+  );
+}
 
 Meteor.methods( {
   twitterFriends : function () {
@@ -78,11 +112,15 @@ Meteor.methods( {
     // See if there are past twitter friends saved in TwitterDetails
     var pastFriends = TwitterDetails.findOne( {
       twitterId : userTwitterId
+    }, {
+      sort : {
+        dateCreated : -1
+      }
     } );
 
     // If there is an entry in the past 30 minutes, use that.
     if ( pastFriends && 
-         parseInt( pastFriends.dateCreated ) > Date.now() - 1800000 /* 30 seconds */ ) {
+         parseInt( pastFriends.dateCreated ) > Date.now() - 1000 * 60 * 30 ) {
       console.log( '=========== already ==========' );
       return [];
     }
@@ -92,36 +130,9 @@ Meteor.methods( {
     // Else, request
     var bearer = getBearer();
     var count  = 50;
-    var result = HTTP.call(
-      'GET',
-      'https://api.twitter.com/1.1/friends/list.json?user_id=' + userTwitterId + '&count=' + count,
-      {
-        'headers' : {
-          'Authorization' : 'Bearer ' + bearer.access_token
-        }
-      }, function ( error, result ) {
-        console.log( '===== end call =====');
 
-        // TODO page through and get all of the friends
-        // Store
-        var users = JSON.parse( result.content ).users
-
-        for ( var i = 0; i < users.length; i++ ) {
-          TwitterDetails.insert( {
-            twitterId : userTwitterId,
-            friend : users[i],
-            dateCreated: Date.now()
-          }, {
-            validate: false
-          }, function () {
-            // Do nothing, just dont be synchonous!
-          } );
-        }
-
-        console.log( '=========== data ==========' );
-      }
-    );
-
+    getFriends( userTwitterId, bearer, count, -1 );
+    
     return [];
   },
   twitterSearch : function ( term ) {
@@ -133,12 +144,15 @@ Meteor.methods( {
       _id : this.userId
     } )
 
-    var regex       = new RegExp( '.*' + term + '.*', 'i' )
+    var regex = new RegExp( '.*' + term + '.*', 'i' )
 
     // TODO only grab the ones from the latest 30 minutes
     var pastFriends = TwitterDetails.find( {
       twitterId : user.services.twitter.id,
       'friend.screen_name' : regex,
+      dateCreated: {
+        $gt : Date.now() - 1000 * 60 * 30
+      }
     });
 
     console.log( '=========== return ==========' );

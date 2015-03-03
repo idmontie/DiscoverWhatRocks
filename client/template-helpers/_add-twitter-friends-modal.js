@@ -1,6 +1,20 @@
 Template._addTwitterFriendsModal.created = function () {
   Session.set( 'twitterFriends', null );
   Session.set( 'twitterFriendsSearch', null );
+
+  Template._addTwitterFriendsModal.search = throttle( function ( search ) {
+    // Call for search results
+    $('#loader').show();
+    Meteor.call( 'twitterSearch', search, function ( error, result ) {
+      $('#loader').hide();
+
+      if ( error ) {
+        // TODO error message
+      } else {
+        Session.set( 'twitterFriendsSearch', result );
+      }
+    } );
+  }, 1000 ); 
 }
 
 Template._addTwitterFriendsModal.rendered = function () {
@@ -38,7 +52,6 @@ Template._addTwitterFriendsModal.helpers( {
 
 Template._addTwitterFriendsModal.events( {
   'keyup .twitter-friends-search, change .twitter-friends-search' : function ( e ) {
-    // TODO throttle
     var search = $( e.target ).val();
     
     // Ignore 1 or less characters
@@ -46,17 +59,7 @@ Template._addTwitterFriendsModal.events( {
       return
     }
 
-    // Call for search results
-    $('#loader').show();
-    Meteor.call( 'twitterSearch', search, function ( error, result ) {
-      $('#loader').hide();
-
-      if ( error ) {
-        // TODO error message
-      } else {
-        Session.set( 'twitterFriendsSearch', result );
-      }
-    } );
+    Template._addTwitterFriendsModal.search( search );
   },
   'click .twitter-badges li:not(.selected)' : function ( e ) {
     var friends = Session.get( 'twitterInvites' );

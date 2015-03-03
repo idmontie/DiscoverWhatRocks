@@ -89,7 +89,7 @@ Template.meetupsNew.rendered = function () {
       window.nearbyCallback,
       'currentMap',
       'currentCircle',
-      window.scale
+      'scale'
   );
 
   /**

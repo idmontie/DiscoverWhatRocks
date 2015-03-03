@@ -46,10 +46,10 @@ Template.meetupsShow.rendered = function () {
 
     var circleSettings = {
       center : center,
-      strokeColor: '#d36827',
+      strokeColor: '#60C3AB',
       strokeOpacity : 0.8,
       strokeWeight: 2,
-      fillColor: '#d36827',
+      fillColor: '#60C3AB',
       fillOpacity: 0.20,
       map : window.currentMap,
       radius: window.scale
@@ -66,6 +66,15 @@ Template.meetupsShow.rendered = function () {
     // Events
     // ======
     /**
+     * Listen for Map Zoom Change
+     */
+    window._map_utils.listenForZoom(
+        window.currentMap,
+        labelsOn,
+        labelsOff
+    );
+
+    /**
      * Listen for Map Clicks
      */
     google.maps.event.addListener( window.currentMap, 'click', function ( np ) { 
@@ -74,15 +83,6 @@ Template.meetupsShow.rendered = function () {
           np.latLng.lng()
       );
     } );
-
-    /**
-     * Listen for Map Zoom Change
-     */
-    window._map_utils.listenForZoom(
-        window.currentMap,
-        labelsOn,
-        labelsOff
-    );
 
     /**
      * Listen for Circle Clicks
@@ -111,8 +111,10 @@ Template.meetupsShow.rendered = function () {
   window.setVoteMarker = function ( lat, lng, placeData ) {
     var latLng = new google.maps.LatLng( lat, lng );
 
-    // TODO include the user's twitter icon
-    var content = '<div class="pin"><img src="http://placehold.it/64x64"/></div>';
+    // include the user's twitter icon
+    var image = Meteor.user().services.twitter.profile_image_url_https;
+
+    var content = '<div class="pin"><img src="' + image + '"/></div>';
 
     var voteLocation = {
       position : latLng,
@@ -169,7 +171,8 @@ Template.meetupsShow.rendered = function () {
 
   window.updateMarker = window._map_utils.updateMarker(
       'currentMap',
-      'infowindow'
+      'infowindow',
+      window.setVoteMarker
   );
 
   window.nearbyCallback = window._map_utils.nearbyCallback(
@@ -181,7 +184,7 @@ Template.meetupsShow.rendered = function () {
       window.nearbyCallback,
       'currentMap',
       'currentCircle',
-      window.scale
+      'scale'
   );
 }
 

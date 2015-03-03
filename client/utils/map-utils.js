@@ -120,7 +120,7 @@ window._map_utils.createMarker = function ( mapReference, previewReference, upda
   }
 };
 
-window._map_utils.updateMarker = function ( mapReference, infoWindowReference ) {
+window._map_utils.updateMarker = function ( mapReference, infoWindowReference, voteMarkerCallback ) {
   return function ( markerReference, placeId ) {
     var service = new google.maps.places.PlacesService( window[mapReference] );
 
@@ -136,6 +136,14 @@ window._map_utils.updateMarker = function ( mapReference, infoWindowReference ) 
         if ( status === google.maps.places.PlacesServiceStatus.OK ) {
           window[infoWindowReference].setContent( place.name );
           window[infoWindowReference].open( window[mapReference], self );
+
+          if ( voteMarkerCallback ) {
+            voteMarkerCallback(
+              markerReference.position.lat(),
+              markerReference.position.lng(),
+              place
+            );  
+          }
         }
       } );
     } );
@@ -170,12 +178,12 @@ window._map_utils.nearbyCallback = function ( createMarkerCallback, previewMarke
   };
 };
 
-window._map_utils.setPlaceMarkers = function ( nearbyCallback, currentMapReference, currentCircleReference, scale ) {
+window._map_utils.setPlaceMarkers = function ( nearbyCallback, currentMapReference, currentCircleReference, scaleReference ) {
   return function ( placeTypeSlug, keywords ) {
     var service = new google.maps.places.PlacesService( window[currentMapReference] );
     var placeRequestSettings = {
       location : window[currentCircleReference].getCenter(),
-      radius : scale,
+      radius : window[scaleReference],
       types : [placeTypeSlug]
     };
 

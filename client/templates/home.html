@@ -37,7 +37,6 @@
 <template name="homeLoggedOut">
 <div class="home">
   <div class="hero">
-    {{!<img src="http://placehold.it/1000x300" />}}
     <img src="/images/balloons-hero.png" />
 
     <div class="container">
@@ -65,23 +64,36 @@
   </div><!--/show-off-->
   <div class="features">
     <div class="container">
-      <div class="row">
-        <div class="col-md-4 col-sm-12">
-          <div class="circle">
+      <div class="row-fluid">
+        <div class="col-xs-4">
+          <div class="circle-container">
+            <div class="circle">
+              {{> ionIcon icon="ios-calendar-outline"}}
+            </div>
           </div>
+          <p>Set a time</p>
         </div>
-        <div class="col-md-4 col-sm-12">
-          <div class="circle">
+        <div class="col-xs-4">
+          <div class="circle-container">
+            <div class="circle">
+              {{> ionIcon icon="ios-location"}}
+            </div>
           </div>
+          <p>Set a general location</p>
         </div>
-        <div class="col-md-4 col-sm-12">
-          <div class="circle">
+        <div class="col-xs-4">
+          <div class="circle-container">
+            <div class="circle">
+              {{> ionIcon icon="android-checkbox-outline"}}
+            </div>
           </div>
+          <p>Vote on new places</p>
         </div>
       </div>
     </div>
   </div>
   <div class="footer">
+    <p>&copy; 2015 Mantaray AR</p>
   </div>
 </div>
 </template>

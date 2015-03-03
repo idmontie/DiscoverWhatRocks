@@ -15,12 +15,12 @@
       {{#each twitterFriends}}
         {{#if twitterFriendIsSelected}}
           <li class="selected">
-            <img src="{{profile_image_url_https}}" alt="{{screen_name}}" /><br/>
+            <img src="{{profile_image_url_https}}" alt="{{name}}" /><br/>
             <p>{{screen_name}}</p>
           </li>
          {{else}}
           <li>
-            <img src="{{profile_image_url_https}}" alt="{{screen_name}}" /><br/>
+            <img src="{{profile_image_url_https}}" alt="{{name}}" /><br/>
             <p>{{screen_name}}</p>
           </li>
         {{/if}}

@@ -64,6 +64,13 @@ $hero-ratio: 30%;
       color: white;
     }
 
+    p,
+    h3 {
+      @media (max-width: $screen-xs-max) {
+        text-align: center;
+      }
+    }
+
     .image {
       @media (max-width: $screen-xs-max) {
         float: none;
@@ -72,6 +79,50 @@ $hero-ratio: 30%;
         margin-right: auto;
         width: 50%;
       }
+    }
+  }
+
+  .features {
+    background-image: url(/images/callout-1.jpg);
+    background-size: cover;
+    color: white;
+    font-size: 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+
+    p {
+      text-shadow: 0px 0px 10px darken($theme-dark, 30%);  
+    }
+  
+    .circle-container {
+      display: table;
+      height: 80px;
+      margin: 0px auto 10px;
+      width: 80px;
+
+      .circle {
+        border-radius: 50%;
+        background-color: white;
+        background-color: rgba(255, 255, 255, .7);
+        color: black;
+        display: table-cell;
+        font-size: 30px;
+        text-align: center;
+        vertical-align: middle;
+      }  
+    } 
+  }
+
+  .footer {
+    background-color: $theme-primary;
+    padding-bottom: 20px;
+    padding-top: 20px;
+
+    p {
+      color: white;
+      font-size: 14px;
+      text-align: center;
     }
   }
 }
