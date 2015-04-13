@@ -1,0 +1,37 @@
+<template name="home">
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Discover What Rocks</h1>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+      {{>homeLoggedOut}}
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+<template name="homeLoggedOut">
+<div class="home">
+  <div class="home__callout">
+    <div class="home__callout--fluid"> 
+      <div class="home__callout--left">
+        <img src="/images/devices.png" title="app on tablets" alt="app on tablets" class="img-responsive" />
+      </div>
+      <div class="home__callout--right">
+        <div class="home__callout-text">
+          <h3>Vote with Your Friends</h3>
+          <h4>Looking for a new place to <em>eat</em>, <em>hangout</em>, or <em>shop</em>?</h4>
+          <p>Make a <em>meetup</em></p>
+          <p>Invite your <em>friends</em></p>
+          <p>Vote on <em>new places</em></p>
+
+          <button data-action="newMeetup">Create a Meetup</button>
+        </div>
+      </div>
+    </div>
+  </div><!--/show-off-->
+  <div class="footer">
+    <p>&copy; 2015 Mantaray AR</p>
+  </div>
+</div>
+</template>

@@ -1,0 +1,84 @@
+.home {
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+}
+
+.home__callout {
+  @extend .container;
+
+  background-color: $theme-primary;
+  color: white;
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+.home__callout--fluid {
+  @extend .row-fluid;
+}
+
+.home__callout--left {
+  @extend .col-sm-4;
+  @extend .col-sm-offset-1;
+  @extend .col-xs-12;
+  @extend .text-center;
+
+  @media (max-width: $screen-xs-max) {
+    float: none;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+  }
+}
+
+.home__callout--right {
+  @extend .col-sm-6;
+  @extend .col-sm-offset-1;
+  @extend .col-xs-12;
+}
+
+.home__callout-text {
+  color: white;
+  text-align: center;
+
+  p,
+  h3,
+  h4 {
+    @media (max-width: $screen-xs-max) {
+      text-align: center;
+    }
+  }
+
+  h3,
+  h4 {
+    color: white;
+  }
+
+  em {
+    border-bottom: 3px solid darken($theme-dark, 10%);
+    box-shadow: inset 0 -5px 0 darken($theme-dark, 10%);
+    color: inherit;
+    font-weight: bold;
+    transition: background .15s cubic-bezier( .33, .66, .66, 1);
+  }
+
+  [data-action="newMeetup"] {
+    @include button-3d($theme-pop)
+  }
+}
+
+// TODO migrate to BEM
+.home {
+  .footer {
+    background-color: $theme-primary;
+    padding-bottom: 20px;
+    padding-top: 20px;
+
+    p {
+      color: white;
+      font-size: 14px;
+      text-align: center;
+    }
+  }
+}

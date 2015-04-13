@@ -1,0 +1,86 @@
+<template name="newMeetup">
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Create A Meetup</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonLeft"}}
+    {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="home" text="Home"}}
+    {{/contentFor}}
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+      <div class="list">
+        <div class="item item-divider">
+          Meetup Details
+        </div>
+        <label class="item item-input item-floating-label">
+          <span class="input-label has-input">Your email</span>
+          <input type="email" placeholder="example@web.io" name="email" autofocus="true" />
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label has-input">What day?</span>
+          <input class="datetime-picker" type="date" placeholder="mm/dd/yyyy" name="date" />
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label has-input">What time?</span>
+          <input class="datetime-picker" type="time" placeholder="--:-- --" name="time" />
+        </label>
+        <label class="item item-input item-select item-floating-label">
+          <span class="input-label has-input">What for?</span>
+          <select name="meetupType">
+            {{#each placeTypes}}
+              <option value="{{slug}}">{{readibleName}}</option>
+            {{/each}}
+          </select>
+        </label>
+        <div class="item item-divider">
+          Where at?
+        </div>
+        
+        <div class="map-container">
+          <div class="map-action-button">
+            <i class="ion-icon ion-android-locate"></i>
+          </div>
+          <div id="map-canvas" class="map-canvas"></div>
+        </div>
+        <div class="item item-divider">
+          How far?
+        </div>
+        <div class="list">
+          <div class="item range range-positive">
+            <i class="ion-icon ion-android-walk"></i>
+            <input type="range" name="radius" min="0.5" max="5" step="0.5" value="2">
+            <i class="ion-icon ion-android-car"></i>
+          </div>
+        </div>
+
+        <div class="item item-divider">
+          Emails
+        </div>
+        <div class="list email-list">
+          {{#each emails}}
+            {{> newMeetupEmail}}
+          {{/each}}
+          <button data-action="add-email" class="btn btn-default pull-right"><i class="ion-icon ion-plus"></i></button>
+        </div>
+
+        <div class="new-meetup__create">
+          <button id="submit" class="new-meetup__create--button">
+            <i class="ion-icon ion-plus"></i> CREATE
+          </button>
+        </div>
+      </div>
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+<template name="newMeetupEmail">
+  <div class="input-group email-list__item">
+    <input class="form-control" type="text" name="email[]" value="{{email}}" placeholder="friend@gmail.com" />
+    <span class="input-group-btn">
+      <button data-action="remove-email" class="btn btn-default" type="button"><i class="ion-icon ion-minus"></i></button>
+    </span>
+  </div>
+</template>

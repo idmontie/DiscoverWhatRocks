@@ -1,0 +1,84 @@
+<template name="showMeetup">
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">{{meetup.name}}</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonLeft"}}
+    {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="home" text="Home"}}
+    {{/contentFor}}
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+      {{#with meetup}}
+        <div class="list card">
+          <div class="item">
+            <p>{{dateToMeet}} @ {{timeToMeet}}</p>
+            <p>{{placeType}}</p>
+          </div>
+          <div class="item item-body">
+            <h3>
+            {{#if isAndroid}}
+              Tap
+            {{else}}
+              {{#if isIOS}}
+                Tap
+              {{else}}
+                Click
+              {{/if}}
+            {{/if}}
+            on the map to vote where you'd like to go!</h3>
+
+            <div id="map-canvas" class="map-canvas"></div>
+
+            <button aria-label="submit form" tabindex="0" type="submit" class="button success large expand {{#if voteNotCast}}disabled{{/if}}" id="vote">
+            {{#if voteNotCast}}
+              Click on the Map to Vote Where You'd Like to Meet
+            {{else}}
+              {{#if voteAlreadyCast}}
+                Change Your Vote!
+              {{else}}
+                Cast Your Vote!
+              {{/if}}
+            {{/if}}
+            </button>
+          </div>
+          <div class="item">
+            {{#if hasVotes}} 
+              <h3>Votes</h3>
+
+              <ul class="stack button-group votes">
+                {{#each structuredVotes}}
+                  <li class="vote-badge panel">
+                    <h3 class="lead">{{placeName}}</h3>
+                    <div class="right">
+                      {{#if notOwnVote}}
+                        <button class="button success vote-premade">
+                          {{#with .. }}
+                            {{#if voteAlreadyCast}}
+                              Change Your Vote
+                            {{else}}
+                              Vote
+                            {{/if}}
+                          {{/with}}
+                        </button>
+                      {{/if}}
+                    </div>
+                    <div class="voters">
+                      {{#each voters}}
+                        {{> gravatarBadge}}
+                      {{/each}}
+                    </div>
+                    <div class="clearfix"></div>
+                  </li>
+                {{/each}}
+              </ul>
+            {{/if}}
+          </div>
+        </div>
+
+      {{/with}}
+    {{/ionContent}}
+  {{/ionView}}
+</template>

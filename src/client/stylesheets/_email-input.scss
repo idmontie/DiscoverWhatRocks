@@ -1,0 +1,9 @@
+.email-list {
+  @extend .clearfix;
+
+  margin-bottom: 20px;
+}
+
+.email-list__item {
+  border-bottom: 1px solid #ddd;
+}
