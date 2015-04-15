@@ -22,3 +22,7 @@ mdg:geolocation
 http
 idmontie:migrations
 mantarayar:shortid
+
+email
+yogiben:pretty-email
+idmontie:gravatar

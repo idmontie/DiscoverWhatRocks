@@ -1,4 +1,18 @@
 Template.showMeetup.onRendered(function () {
+  // Set the current email as the session
+  var invitees = Blaze.getData($('#map-canvas')[0]).invitees;
+  var email = '';
+  var shortcode = Router.current().params.userShortcode;
+
+  for (var i = 0; i < invitees.length; i++) {
+    if (invitees[i].shortcode === shortcode) {
+      email = invitees[i].email;
+    }
+  }
+
+  Session.set('currentEmail', email);
+
+
   var labelsOff   = window._map_utils.labelsOff;
   var labelsOn    = window._map_utils.labelsOn;
   var geolocation = Geolocation.currentLocation();
@@ -108,7 +122,12 @@ Template.showMeetup.onRendered(function () {
     var latLng = new google.maps.LatLng( lat, lng );
 
     // include the user's twitter icon
-    var image = Meteor.user().services.twitter.profile_image_url_https;
+    var image = Gravatar.imageUrlFromEmail(
+      Session.get('currentEmail'),
+      {
+        secure : true
+      }
+    );
 
     var content = '<div class="pin"><img src="' + image + '"/></div>';
 
@@ -194,5 +213,36 @@ Template.showMeetup.helpers( {
     } );
 
     return place.readibleName;
+  },
+  readibleDate : function () {
+    // TODO make a readible date from the meetup
+    console.log( this.dateToMeet );
+    return new Date(Date.parse(this.dateToMeet)).toDateString();
+  },
+  voteNotCast : function () {
+    // TODO
+    return false;
+  }
+} );
+
+Template.showMeetup.events( {
+  'click #vote:not(.disabled)' : function ( e ) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var shortcode = Router.current().params.shortcode;
+    var update = {
+      email : Session.get('email'),
+      shortcode : Router.current().params.userShortcode,
+      vote : Session.get('vote')
+    }
+
+    Meteor.call( 'meetupVote', shortcode, update, function ( error, data ) {
+      if ( error ) {
+        // TODO show error
+      } else {
+        // TODO something should happen
+      }
+    } );
   }
 } );

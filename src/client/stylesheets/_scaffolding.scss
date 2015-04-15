@@ -5,14 +5,32 @@
   box-shadow: darken($color, 10%) 0 5px 0;
   font-family: $font-family-sans-serif;
   font-size: 20px;
+  font-weight: bold;
   margin-top: 10px;
   padding: 5px 10px;
-  transition: margin .1s, box-shadow .1s, transform .1s;
+  transition: margin .08s, box-shadow .08s, transform .08s;
 
   &:focus,
   &:active {
-    box-shadow: darken($color, 20%) 0 -2px 0;
+    box-shadow: darken($color, 20%) 0 -2px 0 !important;
     margin-bottom: -4px;
     margin-top: 14px;
+
+    background: darken($color, 1%); /* Old browsers */
+    background: -moz-linear-gradient(top,  darken($color, 1%) 0%, $color 54%, $color 98%, darken($color, 1%) 98%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,darken($color, 1%)), color-stop(54%,$color), color-stop(98%,$color), color-stop(98%,darken($color, 1%))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  darken($color, 1%) 0%,$color 54%,$color 98%,darken($color, 1%) 98%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  darken($color, 1%) 0%,$color 54%,$color 98%,darken($color, 1%) 98%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  darken($color, 1%) 0%,$color 54%,$color 98%,darken($color, 1%) 98%); /* IE10+ */
+    background: linear-gradient(to bottom,  darken($color, 1%) 0%,$color 54%,$color 98%,darken($color, 1%) 98%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='darken($color, 1%)', endColorstr='darken($color, 1%)',GradientType=0 ); /* IE6-9 */
+    //d15c1d
+  }
+
+  &:hover {
+    box-shadow: darken($color, 10%) 0 5px 0, 
+                lighten($color, 40%) 0 0 20px,
+                lighten($color, 40%) 0 5px 20px,
+                lighten($color, 40%) 0 0 10px;
   }
 }

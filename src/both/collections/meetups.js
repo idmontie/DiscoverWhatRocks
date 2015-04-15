@@ -56,6 +56,20 @@ Schema.meetups = new SimpleSchema( {
   'invitees.$.owner' : {
     type : Boolean,
     optional : true
+  },
+  'invitees.$.vote' : {
+    type : Object,
+    optional : true
+  },
+  'invitees.$.vote.latitude' : {
+    type : Number
+  },
+  'invitees.$.vote.longitude' : {
+    type : Number
+  },
+  'invitees.$.vote.placeData' : {
+    type : Object,
+    optional : true
   }
 } );
 
@@ -71,6 +85,7 @@ this.meetups.allow( {
 if ( Meteor.isServer ) {
   Meteor.publish( 'meetups', function ( shortcode ) {
     check( shortcode, String );
+    // TODO do not return other email shortcodes!
 
     return meetups.find( {
       shortcode : shortcode

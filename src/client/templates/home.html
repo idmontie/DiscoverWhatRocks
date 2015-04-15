@@ -15,17 +15,23 @@
   <div class="home__callout">
     <div class="home__callout--fluid"> 
       <div class="home__callout--left">
-        <img src="/images/devices.png" title="app on tablets" alt="app on tablets" class="img-responsive" />
+        <img src="/images/devices.png" title="app on tablets" alt="app on tablets" class="home__callout--image" />
       </div>
       <div class="home__callout--right">
         <div class="home__callout-text">
           <h3>Vote with Your Friends</h3>
           <h4>Looking for a new place to <em>eat</em>, <em>hangout</em>, or <em>shop</em>?</h4>
-          <p>Make a <em>meetup</em></p>
-          <p>Invite your <em>friends</em></p>
-          <p>Vote on <em>new places</em></p>
+          {{#if isAndroid}}
+            <p>{{> ionIcon icon='android-star'}} Make a <em>meetup</em></p>
+            <p>{{> ionIcon icon='android-star'}} Invite your <em>friends</em></p>
+            <p>{{> ionIcon icon='android-star'}} Vote on <em>new places</em></p>
+          {{else}}
+            <p>{{> ionIcon icon='ios-star'}} Make a <em>meetup</em></p>
+            <p>{{> ionIcon icon='ios-star'}} Invite your <em>friends</em></p>
+            <p>{{> ionIcon icon='ios-star'}} Vote on <em>new places</em></p>
+          {{/if}}
 
-          <button data-action="newMeetup">Create a Meetup</button>
+          <button data-action="newMeetup">CREATE A MEETUP</button>
         </div>
       </div>
     </div>

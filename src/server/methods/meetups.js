@@ -14,11 +14,35 @@ Meteor.methods( {
       }
     }
 
+    console.log( meetup );
+
     meetups.insert( meetup );
+
+    // TODO Send out emails
+    for (var i = 0; i < meetup.invitees.length; i++) {
+      PrettyEmail.send(
+        'call-to-action',
+        {
+          to: 'myuser@myuser.com',
+          subject: 'You got new message',
+          heading: 'Your friend sent you a message',
+          message: 'Click the button below to read the message',
+          buttonText: 'Read message',
+          buttonUrl: 'http://mycompany.com/messages/2314'
+        }
+      );
+    }
 
     return {
       shortcode: meetup.shortcode,
       userShortcode : userShortcode
     };
+  },
+  'meetupVote': function ( shortcode, update ) {
+    // TODO validate
+
+    // TODO check that the shortcode+email+userShortcode combination exists
+
+    // TODO if it does, add the vote data to the object in the database
   }
 } )

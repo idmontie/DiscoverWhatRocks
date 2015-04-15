@@ -1,0 +1,9 @@
+.show-meetup__vote {
+  text-align: center;
+}
+
+.show-meetup__vote--button {
+  @include button-3d($theme-pop);
+
+  color: white;
+}

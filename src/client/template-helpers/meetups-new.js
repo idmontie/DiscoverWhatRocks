@@ -228,12 +228,19 @@ Template.newMeetup.events( {
 
     // TODO validation
 
+    // TODO strip out extra blank emails
+    emails = emails.filter(function (e) {
+      return e.email.trim() != '';
+    })
+
     // strip extra data from emails
     emails = _.map(emails, function (e) {
       return {
         email : e.email
       }
     });
+
+    // add the current user email as the owner
     emails.push({
       email : ownerEmail,
       owner : true

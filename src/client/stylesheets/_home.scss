@@ -1,4 +1,5 @@
 .home {
+  background-color: $theme-primary;
   min-height: 100vh;
   position: relative;
   width: 100%;
@@ -7,7 +8,6 @@
 .home__callout {
   @extend .container;
 
-  background-color: $theme-primary;
   color: white;
   padding-bottom: 40px;
   padding-top: 40px;
@@ -36,6 +36,13 @@
   @extend .col-sm-6;
   @extend .col-sm-offset-1;
   @extend .col-xs-12;
+}
+
+.home__callout--image {
+  @extend .img-responsive;
+
+  margin: auto;
+  max-width: 300px;
 }
 
 .home__callout-text {
