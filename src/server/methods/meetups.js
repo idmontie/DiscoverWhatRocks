@@ -41,8 +41,19 @@ Meteor.methods( {
   'meetupVote': function ( shortcode, update ) {
     // TODO validate
 
-    // TODO check that the shortcode+email+userShortcode combination exists
+    // check that the shortcode+email+userShortcode combination exists
+    var meetup = meetups.findOne( { 
+      shortcode : shortcode,
+      invitees : { 
+        $elemMatch : { 
+          email : update.email, 
+          shortcode : update.shortcode
+        } 
+      } 
+    } );
 
-    // TODO if it does, add the vote data to the object in the database
+    if ( meetup ) {
+      // TODO if it does, add the vote data to the object in the database  
+    }
   }
 } )

@@ -27,6 +27,13 @@ Template.newMeetup.onRendered(function () {
   // Default Time is 12:00 pm
   $('input[name="time"]').val('12:00');
 
+  // Set up calendar
+  $('#datetimepicker').datetimepicker({
+      inline: true,
+      sideBySide: true,
+      showTodayButton: true
+  });
+
   // ==========
   // Maps Setup
   // ==========

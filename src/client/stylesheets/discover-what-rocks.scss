@@ -6,16 +6,17 @@
 @import 'variables-colors';
 @import 'variables-typography';
 
-// =========
-// Bootstrap
-// =========
-@import '.meteor/local/build/programs/server/assets/packages/reywood_bootstrap3-sass/bootstrap';
 
 // ============
 // Ionic Styles
 // ============
 @import '.meteor/local/build/programs/server/assets/packages/meteoric_ionic-sass/ionic';
 @import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/ionicons';
+
+// =========
+// Bootstrap
+// =========
+@import '.meteor/local/build/programs/server/assets/packages/reywood_bootstrap3-sass/bootstrap';
 
 
 // ====
@@ -33,3 +34,4 @@
 @import 'show-meetup';
 @import 'map';
 @import 'email-input';
+@import 'datetimepicker';
