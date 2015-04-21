@@ -29,10 +29,7 @@ Schema.meetups = new SimpleSchema( {
   placeTypeSlug : {
     type : String
   },
-  dateToMeet : {
-    type : String
-  },
-  timeToMeet : {
+  datetime : {
     type : String
   },
   location : {

@@ -6,29 +6,8 @@ Template.newMeetup.onCreated(function () {
 });
 
 Template.newMeetup.onRendered(function () {
-  // Default Date is now
-  var now = new Date();
-  var month = now.getMonth() + 1;
-  if (month < 10) {
-    month = '0' + month;
-  }
-
-  var day = now.getDate();
-  if (day < 10) {
-    day = '0' + day;
-  }
-
-  $('input[name="date"]').val(
-    (now.getYear() + 1900) + '-' +
-    month + '-' +
-    day
-  );
-
-  // Default Time is 12:00 pm
-  $('input[name="time"]').val('12:00');
-
   // Set up calendar
-  $('#datetimepicker').datetimepicker({
+  Template.newMeetup.datetime = $('#datetimepicker').datetimepicker({
       inline: true,
       sideBySide: true,
       showTodayButton: true
@@ -225,8 +204,8 @@ Template.newMeetup.events( {
     }
 
     var ownerEmail     = $('[name=email]').val();
-    var day            = $('[name=date]').val();
-    var time           = $('[name=time]').val();
+    var datetime       = Template.newMeetup.datetime.data('DateTimePicker');
+    datetime           = datetime.date().toDate();
     var placeType      = $('[name=meetupType]').val();
     var lat            = window.currentCircle.center.lat();
     var lng            = window.currentCircle.center.lng();
@@ -255,8 +234,7 @@ Template.newMeetup.events( {
 
     var meetup = {
       name : name,
-      dateToMeet : day,
-      timeToMeet : time,
+      datetime : datetime,
       placeTypeSlug : placeType,
       location : {
         latitude : lat,

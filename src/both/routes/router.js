@@ -14,5 +14,8 @@ Router.route( '/meetups/:shortcode/:userShortcode', {
   name : 'showMeetup',
   waitOn : function () {
     return Meteor.subscribe( 'meetups', this.params.shortcode )
+  },
+  data : function () {
+    return meetups.findOne();
   }
 } );

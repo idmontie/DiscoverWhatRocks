@@ -1,17 +1,16 @@
 Template.showMeetup.onRendered(function () {
   // Set the current email as the session
-  var invitees = Blaze.getData($('#map-canvas')[0]).invitees;
+  var invitees = this.data.invitees;
   var email = '';
   var shortcode = Router.current().params.userShortcode;
 
-  for (var i = 0; i < invitees.length; i++) {
+  for (var i = 0; invitees && i < invitees.length; i++) {
     if (invitees[i].shortcode === shortcode) {
       email = invitees[i].email;
     }
   }
 
   Session.set('currentEmail', email);
-
 
   var labelsOff   = window._map_utils.labelsOff;
   var labelsOn    = window._map_utils.labelsOn;
@@ -216,8 +215,10 @@ Template.showMeetup.helpers( {
   },
   readibleDate : function () {
     // TODO make a readible date from the meetup
-    console.log( this.dateToMeet );
-    return new Date(Date.parse(this.dateToMeet)).toDateString();
+    return new Date(Date.parse(this.datetime)).toDateString();
+  },
+  readibleTime : function () {
+    return new Date(Date.parse(this.datetime)).toLocaleTimeString();
   },
   voteNotCast : function () {
     // TODO

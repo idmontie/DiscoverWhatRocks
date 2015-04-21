@@ -53,6 +53,7 @@ Meteor.methods( {
     } );
 
     if ( meetup ) {
+      console.log( meetup );
       // TODO if it does, add the vote data to the object in the database  
     }
   }
