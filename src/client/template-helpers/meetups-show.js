@@ -1,5 +1,48 @@
 Template.showMeetup.onRendered(function () {
+  // ===========================
+  // Set up the Structured Votes
+  // ===========================
+  var that = this;
+  this.autorun(function () {
+    var invitees        = Router.current().data().invitees;
+    var structuredVotes = {};
+    var locations       = {};
+
+    // TODO for each invitee, if they have a vote,
+    // and the vote does not exist in structued votes,
+    // add the vote.  If they have a vote, add them
+    // to that vote in structured votes.
+
+    _.each(invitees, function (e, i) {
+      if ( e.vote ) {
+        var hash = e.vote.latitude + '' + e.vote.longitude;
+        if (structuredVotes[hash]) {
+          // Just add it
+          structuredVotes[hash].push(e.email);
+        } else {
+          structuredVotes[hash] = [e.email];
+          locations[hash]       = e.vote;
+        }
+      }
+    });
+
+    // convert from object to array
+    var structuredVotes = $.map(structuredVotes, function(e, i) {
+      return [{
+        votes : e,
+        location : locations[i]
+      }];
+    });
+
+    // TODO sort by most votes to least votes
+
+    Session.set('structuredVotes', structuredVotes);
+
+  });
+
+  // ====================================
   // Set the current email as the session
+  // ====================================
   var invitees = this.data.invitees;
   var email = '';
   var shortcode = Router.current().params.userShortcode;
@@ -12,6 +55,9 @@ Template.showMeetup.onRendered(function () {
 
   Session.set('currentEmail', email);
 
+  // ========================
+  // Set up Map Functionality
+  // ========================
   var labelsOff   = window._map_utils.labelsOff;
   var labelsOn    = window._map_utils.labelsOn;
   var geolocation = Geolocation.currentLocation();
@@ -223,6 +269,26 @@ Template.showMeetup.helpers( {
   voteNotCast : function () {
     // TODO
     return false;
+  },
+  voteAlreadyCast : function () {
+    // TODO
+    return false;
+  },
+  hasVotes : function () {
+    var votes = Session.get('structuredVotes');
+
+    return votes && votes.length > 0;
+  },
+  structuredVotes : function () {
+    return Session.get('structuredVotes');
+  },
+  didNotVoteForThisLocation : function () {
+    // is this users name in this structured vote?
+    if ( this.votes.indexOf( Session.get( 'currentEmail' ) ) !== -1 ) {
+      return false;
+    } else {
+      return true;
+    }
   }
 } );
 
@@ -233,7 +299,7 @@ Template.showMeetup.events( {
 
     var shortcode = Router.current().params.shortcode;
     var update = {
-      email : Session.get('email'),
+      email : Session.get('currentEmail'),
       shortcode : Router.current().params.userShortcode,
       vote : Session.get('vote')
     }
@@ -241,8 +307,12 @@ Template.showMeetup.events( {
     Meteor.call( 'meetupVote', shortcode, update, function ( error, data ) {
       if ( error ) {
         // TODO show error
+        alert( error );
       } else {
         // TODO something should happen
+        alert( 'success' );
+
+        // TODO scroll down to their vote
       }
     } );
   }

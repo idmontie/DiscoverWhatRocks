@@ -53,8 +53,27 @@ Meteor.methods( {
     } );
 
     if ( meetup ) {
-      console.log( meetup );
-      // TODO if it does, add the vote data to the object in the database  
+      // TODO if it does, add the vote data to the object in the database
+      var index = -1;
+      _.each( meetup.invitees, function (e, i) {
+        if ( e.email == update.email && e.shortcode == update.shortcode ) {
+          index = i;
+        }
+      });
+      console.log( update );
+      if ( index != -1 ) {
+        // need to make an update object because of JavaScript
+        // limitations with named properties with variables in
+        // them
+        var updateObject = {};
+        updateObject['invitees.' + index + '.vote'] = update.vote;
+
+        meetups.update( {
+          _id : meetup._id
+        }, {
+          $set: updateObject
+        } );
+      }
     }
   }
 } )

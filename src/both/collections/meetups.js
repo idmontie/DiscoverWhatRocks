@@ -59,13 +59,16 @@ Schema.meetups = new SimpleSchema( {
     optional : true
   },
   'invitees.$.vote.latitude' : {
-    type : Number
+    type : Number,
+    decimal : true
   },
   'invitees.$.vote.longitude' : {
-    type : Number
+    type : Number,
+    decimal : true
   },
   'invitees.$.vote.placeData' : {
     type : Object,
+    blackbox : true,
     optional : true
   }
 } );
