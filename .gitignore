@@ -1,6 +1,6 @@
 node_modules/*
 .standards/node_modules/*
 npm-debug.log
-private/*
+private/*password*
 .DS_Store
 */.DS_Store

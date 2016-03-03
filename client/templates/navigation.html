@@ -1,4 +1,5 @@
 <template name="navigation">
+  {{#if session "meteorLoggedIn"}}
   <div class="off-canvas-wrap" data-offcanvas>
     <div class="inner-wrap">
       <!-- Navigation -->
@@ -11,28 +12,25 @@
         
         <section class="top-bar-section">
           <ul class="right">
-            {{#if session "meteorLoggedIn"}}
-              <li class="divider"></li>
-              <li class="has-dropdown not-click">
-                <a href="#">Circles</a>
-                <ul class="dropdown">
+            <li class="divider"></li>
+            <li class="has-dropdown not-click">
+              <a href="#">Circles</a>
+              <ul class="dropdown">
+                <li>
+                  <a href="/">All Circles</a>
+                </li>
+                <li class="divider"></li>
+                {{#each circles}}
                   <li>
-                    <a href="/">All Circles</a>
+                    <a href="/circles/{{slug}}">{{name}}</a>
                   </li>
-                  <li class="divider"></li>
-                  {{#each circles}}
-                    <li>
-                      <a href="/circles/{{slug}}">{{name}}</a>
-                    </li>
-                  {{/each}}
-                </ul>
-              </li>
-            {{/if}}
+                {{/each}}
+              </ul>
+            </li>
             <li class="divider"></li>
             <li>
               <a href='/about'>About</a>
             </li>
-            {{#if session "meteorLoggedIn"}}
               <li class="divider"></li>
               <li class="has-dropdown not-click">
                 <a href="#"><i class="fa fa-user"></i></a>
@@ -46,7 +44,6 @@
                   </li>
                 </ul>
               </li>
-            {{/if}}
           </ul>
         </section>
       </nav>
@@ -73,23 +70,19 @@
           <li>
             <a href='/about'>About</a>
           </li>
-          {{#if session "meteorLoggedIn"}}
-            <li><label>Your Circles</label></li>
-            {{#each circles}}
-              <li>
-                <a href="/circles/{{slug}}">{{name}}</a>
-              </li>
-            {{/each}}
-            <li><label>Your Account</label></li>
-            <li><a href="#" class="logout">Logout</a></li>
-          {{/if}}
+          <li><label>Your Circles</label></li>
+          {{#each circles}}
+            <li>
+              <a href="/circles/{{slug}}">{{name}}</a>
+            </li>
+          {{/each}}
+          <li><label>Your Account</label></li>
+          <li><a href="#" class="logout">Logout</a></li>
         </ul>
       </aside>
 
       {{> breadcrumbs}}
-
       {{> alerts}}
-
       <section class="main-section {{currentRouteName}}-page">
         {{> yield}}
       </section>
@@ -100,6 +93,10 @@
 
     </div>
   </div>
+  {{else}}
+    {{> yield}}
+    {{> footer}}
+  {{/if}}
 </template>
 
 <template name="alerts">
