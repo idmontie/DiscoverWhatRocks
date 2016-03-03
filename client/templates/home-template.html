@@ -11,12 +11,17 @@
       {{>homeLoggedIn}}
     {{else}}
       {{#ionContent}}
-        <h1>Discover what rocks</h1>
-        
-        <p>Want to hang out with your friends but don't know where to go? </p>
-        <p>Search, invite, and vote.</p>
+        <div class="hero">
+          <h1>Discover what rocks</h1>
+          
+          <p>Want to hang out with your friends but don't know where to go? </p>
+          <p>Search, invite, and vote.</p>
 
-        {{> atForm state='signUp'}}
+          {{> atForm state='signUp'}}
+        </div>
+        <div class="features">
+
+        </div>
       {{/ionContent}}
     {{/if}}
   {{/ionView}}
